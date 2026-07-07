@@ -1,0 +1,1284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Scholarship Assignment Interface: Matthew Barton</title>
+  <meta content="width=device-width, initial-scale=1" name="viewport">
+  <link href="images/favicon.png" rel="shortcut icon" type="image/x-icon">
+  <link href="images/webclip.png" rel="apple-touch-icon">
+  <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+  <script>WebFont.load({ google: { families: ["Open Sans:300,400,700", "Bitter:400,700"] } });</script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    a { text-decoration: none; }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: #f5f6f7;
+      font-family: 'Open Sans', sans-serif;
+    }
+
+    .page {
+      display: flex;
+      flex-wrap: wrap;
+      width: 100%;
+      max-width: 1440px;
+    }
+
+    /* ─── App topbar (SKY-style product chrome) ─────────────── */
+    .app-topbar {
+      width: 100%;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      background: #fff;
+      border-bottom: 1px solid #e2e4e7;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .app-topbar__left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .app-topbar__hamburger {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 4px;
+      width: 20px;
+    }
+
+    .app-topbar__hamburger span {
+      display: block;
+      width: 100%;
+      height: 2px;
+      background: #111111;
+      border-radius: 1px;
+    }
+
+    .app-topbar__title {
+      font-size: 15px;
+      font-weight: 700;
+      color: #111111;
+      letter-spacing: 0.2px;
+    }
+
+    .app-topbar__right {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .app-topbar__avatar {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: #111111;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    /* ─── Page header ────────────────────────────────────────── */
+    .case-hero {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 32px 40px 24px;
+      background: #fff;
+      border-bottom: 1px solid #eceef0;
+    }
+
+    .case-hero__title {
+      font-size: 26px;
+      font-weight: 700;
+      color: #111111;
+    }
+
+    /* ─── App shell ──────────────────────────────────────────── */
+    .app-shell {
+      width: 100%;
+      background: #f7f7f7;
+      padding: 0 64px 64px;
+    }
+
+    /* ─── Cycle bar ──────────────────────────────────────────── */
+    .cycle-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+      padding: 24px 0 8px;
+    }
+
+    .cycle-select-wrap {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .cycle-select-wrap label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: #0e0c0c;
+      opacity: 0.5;
+    }
+
+    .cycle-select {
+      font-family: 'Open Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      color: #0e0c0c;
+      background: #fff;
+      border: 1px solid #e0e0e0;
+      border-radius: 6px;
+      padding: 9px 14px;
+      cursor: pointer;
+    }
+
+    .cycle-days {
+      font-size: 13px;
+      font-weight: 700;
+      color: #0e0c0c;
+      background: #fff;
+      border-radius: 20px;
+      padding: 7px 16px;
+    }
+
+    .cycle-days.is-ended { color: #7a1f1f; }
+    .cycle-days.is-active { color: #4338CA; }
+
+    /* ─── Budget summary ─────────────────────────────────────── */
+    .budget-summary {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 16px;
+      margin: 16px 0 24px;
+    }
+
+    .budget-card {
+      background: #fff;
+      border-radius: 8px;
+      padding: 18px 20px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    }
+
+    .budget-card__value {
+      font-size: 22px;
+      font-weight: 700;
+      color: #0e0c0c;
+    }
+
+    .budget-card__label {
+      font-size: 11.5px;
+      color: #0e0c0c;
+      opacity: 0.55;
+      margin-top: 4px;
+    }
+
+    .budget-card--accent .budget-card__value { color: #4338CA; }
+    .budget-card--warn .budget-card__value { color: #7a1f1f; }
+
+    @media (max-width: 900px) {
+      .budget-summary { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    /* ─── Awarded section ────────────────────────────────────── */
+    .awarded-section {
+      margin-top: 24px;
+    }
+
+    .awarded-section__title {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: #0e0c0c;
+      opacity: 0.5;
+      margin-bottom: 12px;
+    }
+
+    .awarded-panel {
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+      overflow: hidden;
+    }
+
+    .awarded-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 16px 24px;
+      border-bottom: 1px solid #f2f2f2;
+    }
+
+    .awarded-row:last-child { border-bottom: none; }
+
+    .awarded-row__name {
+      font-size: 14.5px;
+      font-weight: 700;
+      color: #0e0c0c;
+    }
+
+    .awarded-row__meta {
+      font-size: 12.5px;
+      color: #0e0c0c;
+      opacity: 0.6;
+      margin-top: 3px;
+    }
+
+    .badge--awarded {
+      background: #111111;
+      color: #fff;
+    }
+
+    .app-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 0;
+    }
+
+    .app-toolbar__status {
+      font-size: 13px;
+      color: #0e0c0c;
+      opacity: 0.6;
+    }
+
+    .app-toolbar__status strong {
+      color: #0e0c0c;
+      opacity: 1;
+    }
+
+    .btn-reset {
+      display: none;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: #111111;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 8px 0;
+    }
+
+    .btn-reset.is-visible { display: inline-flex; }
+
+    .app-columns {
+      display: flex;
+      gap: 24px;
+      align-items: flex-start;
+    }
+
+    .app-panel {
+      flex: 1;
+      min-width: 0;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+      overflow: hidden;
+    }
+
+    .app-panel__header {
+      min-height: 68px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 16px 24px;
+      background: #fafbfb;
+      border-bottom: 1px solid #e2e4e7;
+    }
+
+    .app-panel__title {
+      font-family: 'Bitter', serif;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: #4338CA;
+    }
+
+    .app-panel__subtitle {
+      font-size: 12px;
+      font-style: italic;
+      color: #9ca3af;
+      margin-top: 5px;
+    }
+
+    /* ─── Inverse panel (applicants column) ─────────────────── */
+    .app-panel--inverse {
+      background: #111111;
+    }
+
+    .app-panel--inverse .app-panel__header {
+      background: #000000;
+      border-bottom-color: #2a2a2e;
+    }
+
+    .app-panel--inverse .app-panel__title {
+      color: #a5b4fc;
+    }
+
+    .app-panel--inverse .app-panel__subtitle {
+      color: #8b8f96;
+    }
+
+    .app-panel--inverse .app-list__item,
+    .app-panel--inverse .applicant-card {
+      border-bottom-color: #242428;
+    }
+
+    .app-panel--inverse .app-list__item:hover,
+    .app-panel--inverse .applicant-card:hover {
+      background: #1c1c1f;
+    }
+
+    .app-panel--inverse .app-list__item.is-selected,
+    .app-panel--inverse .applicant-card.is-selected {
+      background: rgba(129,140,248,0.16);
+      box-shadow: inset 3px 0 0 #818cf8;
+    }
+
+    .app-panel--inverse .app-list__name {
+      color: #fff;
+    }
+
+    .app-panel--inverse .app-list__meta,
+    .app-panel--inverse .qual-score__label {
+      color: #9ca3af;
+    }
+
+    .app-panel--inverse .funding-amount {
+      color: #fff;
+    }
+
+    .app-panel--inverse .qual-score {
+      color: #a5b4fc;
+    }
+
+    .app-panel--inverse .app-empty {
+      color: #8b8f96;
+    }
+
+    .app-panel--inverse .btn-action--edit {
+      background: #2a2a2e;
+      color: #fff;
+    }
+
+    .app-list {
+      list-style: none;
+      max-height: 560px;
+      overflow-y: auto;
+    }
+
+    .app-list__item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 16px 24px;
+      border-bottom: 1px solid #f2f2f2;
+      cursor: pointer;
+      transition: background 0.15s ease;
+    }
+
+    .app-list__item:last-child { border-bottom: none; }
+    .app-list__item:hover { background: #f5f5f7; }
+
+    .app-list__item.is-selected {
+      background: rgba(67,56,202,0.08);
+      box-shadow: inset 3px 0 0 #4338CA;
+    }
+
+    .app-list__item.is-faded {
+      opacity: 0.25;
+    }
+
+    .app-list__main {
+      min-width: 0;
+    }
+
+    .app-list__name {
+      font-size: 14.5px;
+      font-weight: 700;
+      color: #0e0c0c;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .app-list__meta {
+      font-size: 12.5px;
+      color: #0e0c0c;
+      opacity: 0.6;
+      margin-top: 3px;
+    }
+
+    .app-list__side {
+      flex-shrink: 0;
+      text-align: right;
+    }
+
+    .badge {
+      display: inline-block;
+      font-size: 10.5px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      padding: 4px 9px;
+      border-radius: 20px;
+      white-space: nowrap;
+    }
+
+    .badge--hard { background: #111111; color: #fff; }
+    .badge--medium { background: #6b7280; color: #fff; }
+    .badge--easy { background: #e5e7eb; color: #111111; }
+
+    .qual-score {
+      font-size: 15px;
+      font-weight: 700;
+      color: #4338CA;
+    }
+
+    .qual-score__label {
+      font-size: 10.5px;
+      color: #0e0c0c;
+      opacity: 0.5;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-top: 2px;
+    }
+
+    .funding-amount {
+      font-size: 15px;
+      font-weight: 700;
+      color: #0e0c0c;
+    }
+
+    .app-empty {
+      padding: 40px 24px;
+      text-align: center;
+      font-size: 13.5px;
+      color: #0e0c0c;
+      opacity: 0.5;
+    }
+
+    /* ─── Applicant card (qualified view) ───────────────────── */
+    .applicant-card {
+      padding: 16px 24px;
+      border-bottom: 1px solid #f2f2f2;
+      cursor: pointer;
+      transition: background 0.15s ease;
+    }
+
+    .applicant-card:last-child { border-bottom: none; }
+    .applicant-card:hover { background: #f5f5f7; }
+
+    .applicant-card.is-selected {
+      background: rgba(67,56,202,0.08);
+      box-shadow: inset 3px 0 0 #4338CA;
+    }
+
+    .applicant-card__top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .applicant-card__name-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .badge--recommended {
+      background: rgba(67,56,202,0.12);
+      color: #4338CA;
+    }
+
+    .applicant-card__actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .btn-action {
+      font-size: 11.5px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      padding: 7px 14px;
+      border-radius: 20px;
+      border: none;
+      cursor: pointer;
+      transition: opacity 0.15s ease, transform 0.15s ease;
+    }
+
+    .btn-action:hover { transform: translateY(-1px); }
+
+    .btn-action--accept {
+      background: #111111;
+      color: #fff;
+    }
+
+    .btn-action--edit {
+      background: #f0f0f0;
+      color: #0e0c0c;
+    }
+
+    .btn-action.is-accepted {
+      background: #4338CA;
+      color: #fff;
+      pointer-events: none;
+    }
+
+    /* ─── Qualifications table ──────────────────────────────── */
+    .qual-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12.5px;
+    }
+
+    .qual-table th {
+      text-align: left;
+      font-size: 10.5px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      color: #0e0c0c;
+      opacity: 0.5;
+      padding: 8px 10px;
+      border-bottom: 1px solid #ececec;
+    }
+
+    .qual-table td {
+      padding: 10px 10px;
+      border-bottom: 1px solid #f4f4f4;
+      color: #0e0c0c;
+    }
+
+    .qual-table tr:last-child td { border-bottom: none; }
+
+    .qual-table__name {
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .qual-table__overall {
+      font-weight: 700;
+      color: #4338CA;
+    }
+
+    .qual-table th.is-numeric,
+    .qual-table td.is-numeric { text-align: right; }
+
+    /* ─── Comparison chart ──────────────────────────────────── */
+    .compare-panel {
+      margin-top: 24px;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+      padding: 24px;
+      display: none;
+    }
+
+    .compare-panel.is-visible { display: block; }
+
+    .compare-panel__title {
+      font-size: 14px;
+      font-weight: 700;
+      color: #0e0c0c;
+      margin-bottom: 4px;
+    }
+
+    .compare-panel__subtitle {
+      font-size: 12.5px;
+      color: #0e0c0c;
+      opacity: 0.55;
+      margin-bottom: 20px;
+    }
+
+    @media (max-width: 800px) {
+      .app-shell { padding: 0 24px 48px; }
+      .section-full { padding: 40px 24px; }
+      .case-hero { padding: 40px 24px; }
+      .app-columns { flex-direction: column; }
+      .compare-row__name { width: 90px; font-size: 12px; }
+    }
+
+    /* ─── Footer ─────────────────────────────────────────────── */
+    .case-footer {
+      width: 100%;
+      height: 120px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #f7f7f7;
+    }
+
+    .btn-home {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 56px;
+      padding: 0 32px;
+      border-radius: 50px;
+      background: #111111;
+      color: #fff !important;
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      transition: background 0.3s ease, transform 0.3s ease;
+    }
+
+    .btn-home:hover {
+      background: #4338CA;
+      transform: scale(1.05);
+    }
+
+  </style>
+</head>
+<body>
+  <div class="page">
+
+    <!-- App chrome (mimics the Blackbaud SKY product header, not the portfolio nav) -->
+    <div class="app-topbar">
+      <div class="app-topbar__left">
+        <div class="app-topbar__hamburger"><span></span><span></span><span></span></div>
+        <div class="app-topbar__title">Award Management</div>
+      </div>
+      <div class="app-topbar__right">
+        <div class="app-topbar__avatar">MB</div>
+      </div>
+    </div>
+
+    <!-- Page header -->
+    <div class="case-hero">
+      <div class="case-hero__title">Awarding Scholarships</div>
+    </div>
+
+    <!-- Interactive App -->
+    <div class="app-shell">
+      <div class="cycle-bar">
+        <div class="cycle-select-wrap">
+          <label for="cycle-select">Awarding Cycle</label>
+          <select class="cycle-select" id="cycle-select"></select>
+        </div>
+        <div class="cycle-days" id="cycle-days"></div>
+      </div>
+
+      <div class="budget-summary" id="budget-summary"></div>
+
+      <div class="app-toolbar">
+        <div class="app-toolbar__status" id="app-status">Showing all scholarships and all applicants, in default sort.</div>
+        <button class="btn-reset" id="btn-reset">✕ Clear Selection</button>
+      </div>
+
+      <div class="app-columns">
+        <!-- Scholarships -->
+        <div class="app-panel">
+          <div class="app-panel__header">
+            <div class="app-panel__title" id="scholarships-title">Available Scholarships</div>
+            <div class="app-panel__subtitle" id="scholarships-subtitle">Sorted hardest-to-award first</div>
+          </div>
+          <ul class="app-list" id="scholarships-list"></ul>
+        </div>
+
+        <!-- Applicants -->
+        <div class="app-panel app-panel--inverse">
+          <div class="app-panel__header">
+            <div class="app-panel__title" id="applicants-title">Applicants</div>
+            <div class="app-panel__subtitle" id="applicants-subtitle">Sorted by highest committed funding, fewest applications</div>
+          </div>
+          <ul class="app-list" id="applicants-list"></ul>
+        </div>
+      </div>
+
+      <!-- Qualifications breakdown table (shown when a scholarship is selected) -->
+      <div class="compare-panel" id="compare-panel">
+        <div class="compare-panel__title" id="compare-title">Qualifications Breakdown</div>
+        <div class="compare-panel__subtitle" id="compare-subtitle">Criteria scores among applicants for this scholarship</div>
+        <div style="overflow-x:auto;">
+          <table class="qual-table">
+            <thead>
+              <tr>
+                <th>Applicant</th>
+                <th class="is-numeric">GPA</th>
+                <th class="is-numeric">Major Fit</th>
+                <th class="is-numeric">Financial Need</th>
+                <th class="is-numeric">Essay</th>
+                <th class="is-numeric">Overall</th>
+              </tr>
+            </thead>
+            <tbody id="compare-rows"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Awarded scholarships -->
+      <div class="awarded-section" id="awarded-section">
+        <div class="awarded-section__title">Awarded</div>
+        <div class="awarded-panel" id="awarded-panel"></div>
+      </div>
+    </div>
+
+    <div class="case-footer">
+      <a href="index.html#portfolio" class="btn-home">← Return Home</a>
+    </div>
+
+  </div>
+
+  <script>
+    // ─── Mock data ────────────────────────────────────────────
+    const scholarships = [
+      { id: 's1', name: 'Presidential STEM Award', amount: 10000 },
+      { id: 's9', name: 'Medical Sciences Pathway Award', amount: 8000 },
+      { id: 's5', name: 'Global Studies Fellowship', amount: 6000 },
+      { id: 's10', name: 'Women in Engineering Scholarship', amount: 7000 },
+      { id: 's3', name: 'Fine Arts Excellence Scholarship', amount: 5000 },
+      { id: 's7', name: 'Athletic Achievement Scholarship', amount: 3500 },
+      { id: 's8', name: 'Environmental Stewardship Award', amount: 4000 },
+      { id: 's4', name: 'First Generation Futures Fund', amount: 4500 },
+      { id: 's2', name: 'Community Leadership Grant', amount: 3000 },
+      { id: 's6', name: 'Local Merit Award', amount: 1500 },
+    ];
+
+    // Each applicant's qualifications map: scholarshipId -> { gpa, major, need, essay }
+    const applicants = [
+      { id: 'a1', name: 'Maria Chen', committed: 8000, apps: 2, qualifications: {
+        s1: { gpa: 92, major: 95, need: 80, essay: 90 },
+        s5: { gpa: 75, major: 70, need: 85, essay: 70 },
+      }},
+      { id: 'a2', name: 'Jordan Blake', committed: 2000, apps: 5, qualifications: {
+        s2: { gpa: 60, major: 55, need: 70, essay: 60 },
+        s3: { gpa: 55, major: 50, need: 60, essay: 55 },
+        s4: { gpa: 70, major: 75, need: 65, essay: 70 },
+        s6: { gpa: 80, major: 85, need: 75, essay: 80 },
+        s5: { gpa: 40, major: 35, need: 45, essay: 40 },
+      }},
+      { id: 'a3', name: 'Priya Patel', committed: 12000, apps: 1, qualifications: {
+        s1: { gpa: 88, major: 90, need: 85, essay: 88 },
+      }},
+      { id: 'a4', name: 'Sam Rivera', committed: 0, apps: 4, qualifications: {
+        s2: { gpa: 75, major: 70, need: 80, essay: 75 },
+        s3: { gpa: 65, major: 60, need: 70, essay: 65 },
+        s4: { gpa: 82, major: 85, need: 78, essay: 82 },
+        s6: { gpa: 90, major: 92, need: 88, essay: 90 },
+      }},
+      { id: 'a5', name: 'Aiden Brooks', committed: 5000, apps: 3, qualifications: {
+        s3: { gpa: 90, major: 92, need: 85, essay: 90 },
+        s5: { gpa: 60, major: 55, need: 65, essay: 60 },
+        s1: { gpa: 40, major: 35, need: 45, essay: 40 },
+      }},
+      { id: 'a6', name: 'Nina Volkov', committed: 9500, apps: 2, qualifications: {
+        s4: { gpa: 95, major: 96, need: 92, essay: 95 },
+        s6: { gpa: 70, major: 72, need: 68, essay: 70 },
+      }},
+      { id: 'a7', name: 'Marcus Webb', committed: 3000, apps: 6, qualifications: {
+        s2: { gpa: 50, major: 48, need: 55, essay: 50 },
+        s3: { gpa: 45, major: 42, need: 50, essay: 45 },
+        s4: { gpa: 55, major: 58, need: 52, essay: 55 },
+        s5: { gpa: 35, major: 32, need: 40, essay: 35 },
+        s6: { gpa: 65, major: 68, need: 62, essay: 65 },
+        s1: { gpa: 30, major: 28, need: 35, essay: 30 },
+      }},
+      { id: 'a8', name: 'Tasha Green', committed: 15000, apps: 1, qualifications: {
+        s5: { gpa: 88, major: 90, need: 85, essay: 88 },
+      }},
+      { id: 'a9', name: 'Devon Ali', committed: 6000, apps: 3, qualifications: {
+        s9: { gpa: 85, major: 88, need: 80, essay: 85 },
+        s1: { gpa: 55, major: 50, need: 60, essay: 55 },
+        s10: { gpa: 70, major: 72, need: 68, essay: 70 },
+      }},
+      { id: 'a10', name: 'Lena Kowalski', committed: 11000, apps: 2, qualifications: {
+        s10: { gpa: 93, major: 95, need: 90, essay: 93 },
+        s9: { gpa: 65, major: 60, need: 70, essay: 65 },
+      }},
+      { id: 'a11', name: 'Carlos Mendez', committed: 4000, apps: 4, qualifications: {
+        s7: { gpa: 88, major: 90, need: 85, essay: 88 },
+        s2: { gpa: 60, major: 58, need: 62, essay: 60 },
+        s8: { gpa: 72, major: 70, need: 74, essay: 72 },
+        s6: { gpa: 55, major: 50, need: 60, essay: 55 },
+      }},
+      { id: 'a12', name: 'Emma Foster', committed: 7500, apps: 2, qualifications: {
+        s8: { gpa: 90, major: 92, need: 88, essay: 90 },
+        s3: { gpa: 68, major: 65, need: 70, essay: 68 },
+      }},
+      { id: 'a13', name: 'Ryan Okafor', committed: 2500, apps: 5, qualifications: {
+        s7: { gpa: 80, major: 82, need: 78, essay: 80 },
+        s2: { gpa: 45, major: 42, need: 50, essay: 45 },
+        s9: { gpa: 50, major: 46, need: 55, essay: 50 },
+        s4: { gpa: 60, major: 58, need: 62, essay: 60 },
+        s6: { gpa: 75, major: 78, need: 72, essay: 75 },
+      }},
+      { id: 'a14', name: 'Sophia Nguyen', committed: 13000, apps: 1, qualifications: {
+        s9: { gpa: 92, major: 94, need: 88, essay: 92 },
+      }},
+    ];
+
+    function overallScore(q) {
+      return Math.round((q.gpa + q.major + q.need + q.essay) / 4);
+    }
+
+    const QUALIFIED_THRESHOLD = 50;
+    const TODAY = new Date('2026-07-04');
+
+    // ─── Awarding cycles ──────────────────────────────────────
+    // Each cycle shares the same scholarship/applicant pool but has its own
+    // budget, timeline, and record of which scholarships have been awarded.
+    const cycles = [
+      {
+        id: 'c1',
+        name: '2026–2027 Award Cycle',
+        budget: 60000,
+        endDate: new Date('2026-08-18'),
+        awarded: {},
+      },
+      {
+        id: 'c2',
+        name: '2025–2026 Award Cycle',
+        budget: 50000,
+        endDate: new Date('2026-06-01'),
+        awarded: { s6: 'a4', s2: 'a11', s8: 'a12' },
+      },
+      {
+        id: 'c3',
+        name: '2024–2025 Award Cycle',
+        budget: 45000,
+        endDate: new Date('2025-06-01'),
+        awarded: { s1: 'a3', s4: 'a6', s6: 'a2', s2: 'a7', s3: 'a5', s9: 'a14', s10: 'a10' },
+      },
+    ];
+
+    let currentCycleId = 'c1';
+    let selectedScholarshipId = null;
+    let selectedApplicantId = null;
+
+    function getCycle() {
+      return cycles.find(c => c.id === currentCycleId);
+    }
+
+    function daysLeftInCycle(cycle) {
+      return Math.ceil((cycle.endDate - TODAY) / 86400000);
+    }
+
+    function difficultyBadge(bucket) {
+      if (bucket === 'hard') return '<span class="badge badge--hard">Hard</span>';
+      if (bucket === 'moderate') return '<span class="badge badge--medium">Moderate</span>';
+      return '<span class="badge badge--easy">Easy</span>';
+    }
+
+    function fmtMoney(n) {
+      return '$' + n.toLocaleString();
+    }
+
+    function qualifiedApplicantsFor(scholarshipId) {
+      return applicants
+        .filter(a => a.qualifications.hasOwnProperty(scholarshipId))
+        .map(a => ({ ...a, score: overallScore(a.qualifications[scholarshipId]) }))
+        .filter(a => a.score >= QUALIFIED_THRESHOLD)
+        .sort((a, b) => b.score - a.score);
+    }
+
+    // Ranks currently-available (not-yet-awarded) scholarships by how hard
+    // they are to award: fewer qualified applicants + a bigger dollar amount
+    // makes a scholarship harder to place. Buckets the ranked list into
+    // Hard / Moderate / Easy thirds.
+    function rankScholarshipsByDifficulty(list) {
+      const scored = list.map(s => {
+        const qualifiedCount = qualifiedApplicantsFor(s.id).length;
+        const difficultyScore = (s.amount / 1000) - (qualifiedCount * 2);
+        return { ...s, qualifiedCount, difficultyScore };
+      });
+      scored.sort((a, b) => b.difficultyScore - a.difficultyScore);
+
+      const n = scored.length;
+      return scored.map((s, i) => {
+        let bucket = 'easy';
+        if (i < Math.ceil(n / 3)) bucket = 'hard';
+        else if (i < Math.ceil((2 * n) / 3)) bucket = 'moderate';
+        return { ...s, bucket };
+      });
+    }
+
+    function renderScholarships() {
+      const listEl = document.getElementById('scholarships-list');
+      const titleEl = document.getElementById('scholarships-title');
+      const subtitleEl = document.getElementById('scholarships-subtitle');
+      listEl.innerHTML = '';
+
+      const cycle = getCycle();
+      const available = scholarships.filter(s => !cycle.awarded[s.id]);
+
+      if (selectedApplicantId) {
+        const applicant = applicants.find(a => a.id === selectedApplicantId);
+        const applied = available
+          .filter(s => applicant.qualifications.hasOwnProperty(s.id))
+          .map(s => ({ ...s, likelihood: overallScore(applicant.qualifications[s.id]) }))
+          .sort((a, b) => b.likelihood - a.likelihood);
+
+        titleEl.textContent = `Scholarships ${applicant.name.split(' ')[0]} Applied For`;
+        subtitleEl.textContent = 'Ranked by qualification likelihood';
+
+        if (applied.length === 0) {
+          listEl.innerHTML = '<div class="app-empty">No open applications on file for this student.</div>';
+          return;
+        }
+
+        applied.forEach(s => {
+          const li = document.createElement('li');
+          li.className = 'app-list__item' + (s.id === selectedScholarshipId ? ' is-selected' : '');
+          li.innerHTML = `
+            <div class="app-list__main">
+              <div class="app-list__name">${s.name}</div>
+              <div class="app-list__meta">${fmtMoney(s.amount)} award</div>
+            </div>
+            <div class="app-list__side">
+              <div class="qual-score">${s.likelihood}%</div>
+              <div class="qual-score__label">likelihood</div>
+            </div>`;
+          li.addEventListener('click', () => selectScholarship(s.id));
+          listEl.appendChild(li);
+        });
+        return;
+      }
+
+      // Default state
+      titleEl.textContent = 'Available Scholarships';
+      subtitleEl.textContent = 'Sorted hardest-to-award first';
+
+      const ranked = rankScholarshipsByDifficulty(available);
+      ranked.forEach(s => {
+        const isSelected = s.id === selectedScholarshipId;
+        const isFaded = selectedScholarshipId && !isSelected;
+        const li = document.createElement('li');
+        li.className = 'app-list__item'
+          + (isSelected ? ' is-selected' : '')
+          + (isFaded ? ' is-faded' : '');
+        li.innerHTML = `
+          <div class="app-list__main">
+            <div class="app-list__name">${s.name}</div>
+            <div class="app-list__meta">${fmtMoney(s.amount)} · ${s.qualifiedCount} qualified applicant${s.qualifiedCount === 1 ? '' : 's'}</div>
+          </div>
+          <div class="app-list__side">${difficultyBadge(s.bucket)}</div>`;
+        li.addEventListener('click', () => selectScholarship(s.id));
+        listEl.appendChild(li);
+      });
+
+      if (ranked.length === 0) {
+        listEl.innerHTML = '<div class="app-empty">All scholarships have been awarded this cycle.</div>';
+      }
+    }
+
+    function renderApplicants() {
+      const listEl = document.getElementById('applicants-list');
+      const titleEl = document.getElementById('applicants-title');
+      const subtitleEl = document.getElementById('applicants-subtitle');
+      listEl.innerHTML = '';
+
+      const cycle = getCycle();
+
+      if (selectedScholarshipId) {
+        const scholarship = scholarships.find(s => s.id === selectedScholarshipId);
+        const qualified = qualifiedApplicantsFor(scholarship.id);
+
+        titleEl.textContent = `Qualified for ${scholarship.name}`;
+        subtitleEl.textContent = 'Sorted by qualification score';
+
+        if (qualified.length === 0) {
+          listEl.innerHTML = '<div class="app-empty">No qualified candidates for this scholarship yet.</div>';
+        } else {
+          qualified.forEach((a, index) => {
+            const isRecommended = index === 0;
+
+            const li = document.createElement('li');
+            li.className = 'applicant-card' + (a.id === selectedApplicantId ? ' is-selected' : '');
+            li.innerHTML = `
+              <div class="applicant-card__top">
+                <div class="app-list__main">
+                  <div class="applicant-card__name-row">
+                    <div class="app-list__name">${a.name}</div>
+                    ${isRecommended ? '<span class="badge badge--recommended">Recommended Applicant</span>' : ''}
+                  </div>
+                  <div class="app-list__meta">${fmtMoney(a.committed)} committed · ${a.apps} app${a.apps === 1 ? '' : 's'}</div>
+                </div>
+                <div class="app-list__side">
+                  <div class="qual-score">${a.score}%</div>
+                  <div class="qual-score__label">qualified</div>
+                </div>
+              </div>
+              ${isRecommended ? `
+              <div class="applicant-card__actions">
+                <button class="btn-action btn-action--accept" data-action="accept">Accept</button>
+                <button class="btn-action btn-action--edit" data-action="edit">Edit</button>
+              </div>` : ''}`;
+
+            li.querySelector('.app-list__main').addEventListener('click', () => selectApplicant(a.id));
+            const acceptBtn = li.querySelector('[data-action="accept"]');
+            const editBtn = li.querySelector('[data-action="edit"]');
+            if (acceptBtn) acceptBtn.addEventListener('click', (e) => {
+              e.stopPropagation();
+              awardScholarship(scholarship.id, a.id);
+            });
+            if (editBtn) editBtn.addEventListener('click', (e) => {
+              e.stopPropagation();
+              editApplicant(a, scholarship);
+            });
+            listEl.appendChild(li);
+          });
+        }
+
+        renderComparison(scholarship, qualified);
+        return;
+      }
+
+      // Default state
+      titleEl.textContent = 'Applicants';
+      subtitleEl.textContent = 'Sorted by highest committed funding, fewest applications';
+      hideComparison();
+
+      const sorted = [...applicants].sort((a, b) => {
+        if (b.committed !== a.committed) return b.committed - a.committed;
+        return a.apps - b.apps;
+      });
+
+      sorted.forEach(a => {
+        const li = document.createElement('li');
+        li.className = 'app-list__item' + (a.id === selectedApplicantId ? ' is-selected' : '');
+        li.innerHTML = `
+          <div class="app-list__main">
+            <div class="app-list__name">${a.name}</div>
+            <div class="app-list__meta">${a.apps} application${a.apps === 1 ? '' : 's'} submitted</div>
+          </div>
+          <div class="app-list__side">
+            <div class="funding-amount">${fmtMoney(a.committed)}</div>
+            <div class="qual-score__label">committed</div>
+          </div>`;
+        li.addEventListener('click', () => selectApplicant(a.id));
+        listEl.appendChild(li);
+      });
+    }
+
+    function awardScholarship(scholarshipId, applicantId) {
+      const cycle = getCycle();
+      cycle.awarded[scholarshipId] = applicantId;
+      if (selectedScholarshipId === scholarshipId) selectedScholarshipId = null;
+      selectedApplicantId = null;
+      renderAll();
+    }
+
+    function editApplicant(applicant, scholarship) {
+      alert(`Edit ${applicant.name}'s application for ${scholarship.name} (prototype only, no edit form wired up).`);
+    }
+
+    function renderComparison(scholarship, qualified) {
+      const panel = document.getElementById('compare-panel');
+      const title = document.getElementById('compare-title');
+      const subtitle = document.getElementById('compare-subtitle');
+      const rowsEl = document.getElementById('compare-rows');
+
+      if (qualified.length === 0) {
+        panel.classList.remove('is-visible');
+        return;
+      }
+
+      title.textContent = `Qualifications Breakdown: ${scholarship.name}`;
+      subtitle.textContent = 'Criteria scores among qualified applicants for this scholarship';
+      rowsEl.innerHTML = '';
+
+      qualified.forEach(a => {
+        const q = a.qualifications[scholarship.id];
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td class="qual-table__name">${a.name}</td>
+          <td class="is-numeric">${q.gpa}</td>
+          <td class="is-numeric">${q.major}</td>
+          <td class="is-numeric">${q.need}</td>
+          <td class="is-numeric">${q.essay}</td>
+          <td class="is-numeric qual-table__overall">${a.score}%</td>`;
+        rowsEl.appendChild(row);
+      });
+
+      panel.classList.add('is-visible');
+    }
+
+    function hideComparison() {
+      document.getElementById('compare-panel').classList.remove('is-visible');
+    }
+
+    function updateStatus() {
+      const statusEl = document.getElementById('app-status');
+      const resetBtn = document.getElementById('btn-reset');
+
+      if (selectedScholarshipId) {
+        const s = scholarships.find(x => x.id === selectedScholarshipId);
+        statusEl.innerHTML = `Filtering applicants qualified for <strong>${s.name}</strong>.`;
+      } else if (selectedApplicantId) {
+        const a = applicants.find(x => x.id === selectedApplicantId);
+        statusEl.innerHTML = `Filtering scholarships <strong>${a.name}</strong> applied for.`;
+      } else {
+        statusEl.textContent = 'Showing all scholarships and all applicants, in default sort.';
+      }
+
+      resetBtn.classList.toggle('is-visible', !!(selectedScholarshipId || selectedApplicantId));
+    }
+
+    function selectScholarship(id) {
+      selectedScholarshipId = (selectedScholarshipId === id) ? null : id;
+      selectedApplicantId = null;
+      renderAll();
+    }
+
+    function selectApplicant(id) {
+      selectedApplicantId = (selectedApplicantId === id) ? null : id;
+      selectedScholarshipId = null;
+      renderAll();
+    }
+
+    function resetSelection() {
+      selectedScholarshipId = null;
+      selectedApplicantId = null;
+      renderAll();
+    }
+
+    function renderCycleBar() {
+      const cycle = getCycle();
+      const daysEl = document.getElementById('cycle-days');
+      const days = daysLeftInCycle(cycle);
+
+      if (days < 0) {
+        daysEl.textContent = 'Cycle ended';
+        daysEl.className = 'cycle-days is-ended';
+      } else if (days === 0) {
+        daysEl.textContent = 'Last day of cycle';
+        daysEl.className = 'cycle-days is-ended';
+      } else {
+        daysEl.textContent = `${days} day${days === 1 ? '' : 's'} left in cycle`;
+        daysEl.className = 'cycle-days is-active';
+      }
+    }
+
+    function renderBudgetSummary() {
+      const cycle = getCycle();
+      const el = document.getElementById('budget-summary');
+
+      const awardedIds = Object.keys(cycle.awarded);
+      const amountAwarded = awardedIds.reduce((sum, id) => {
+        const s = scholarships.find(x => x.id === id);
+        return sum + (s ? s.amount : 0);
+      }, 0);
+      const totalCount = scholarships.length;
+      const awardedCount = awardedIds.length;
+      const remainingCount = totalCount - awardedCount;
+
+      el.innerHTML = `
+        <div class="budget-card">
+          <div class="budget-card__value">${fmtMoney(cycle.budget)}</div>
+          <div class="budget-card__label">Total awarding budget</div>
+        </div>
+        <div class="budget-card budget-card--accent">
+          <div class="budget-card__value">${fmtMoney(amountAwarded)}</div>
+          <div class="budget-card__label">Awarded so far</div>
+        </div>
+        <div class="budget-card">
+          <div class="budget-card__value">${totalCount}</div>
+          <div class="budget-card__label">Total scholarships</div>
+        </div>
+        <div class="budget-card budget-card--accent">
+          <div class="budget-card__value">${awardedCount}</div>
+          <div class="budget-card__label">Scholarships awarded</div>
+        </div>
+        <div class="budget-card ${remainingCount === 0 ? '' : 'budget-card--warn'}">
+          <div class="budget-card__value">${remainingCount}</div>
+          <div class="budget-card__label">Scholarships left</div>
+        </div>`;
+    }
+
+    function renderAwarded() {
+      const cycle = getCycle();
+      const sectionEl = document.getElementById('awarded-section');
+      const panelEl = document.getElementById('awarded-panel');
+      const entries = Object.entries(cycle.awarded);
+
+      if (entries.length === 0) {
+        sectionEl.style.display = 'none';
+        return;
+      }
+
+      sectionEl.style.display = 'block';
+      panelEl.innerHTML = '';
+
+      entries
+        .map(([scholarshipId, applicantId]) => ({
+          scholarship: scholarships.find(s => s.id === scholarshipId),
+          applicant: applicants.find(a => a.id === applicantId),
+        }))
+        .filter(e => e.scholarship && e.applicant)
+        .sort((a, b) => b.scholarship.amount - a.scholarship.amount)
+        .forEach(({ scholarship, applicant }) => {
+          const row = document.createElement('div');
+          row.className = 'awarded-row';
+          row.innerHTML = `
+            <div>
+              <div class="awarded-row__name">${scholarship.name}</div>
+              <div class="awarded-row__meta">Awarded to ${applicant.name}</div>
+            </div>
+            <div class="app-list__side">
+              <span class="badge badge--awarded">Awarded</span>
+              <div class="funding-amount" style="margin-top:6px;">${fmtMoney(scholarship.amount)}</div>
+            </div>`;
+          panelEl.appendChild(row);
+        });
+    }
+
+    function populateCycleSelect() {
+      const select = document.getElementById('cycle-select');
+      select.innerHTML = cycles.map(c => `<option value="${c.id}">${c.name}</option>`).join('');
+      select.value = currentCycleId;
+      select.addEventListener('change', () => {
+        currentCycleId = select.value;
+        selectedScholarshipId = null;
+        selectedApplicantId = null;
+        renderAll();
+      });
+    }
+
+    function renderAll() {
+      renderCycleBar();
+      renderBudgetSummary();
+      renderScholarships();
+      renderApplicants();
+      renderAwarded();
+      updateStatus();
+    }
+
+    document.getElementById('btn-reset').addEventListener('click', resetSelection);
+
+    populateCycleSelect();
+    renderAll();
+  </script>
+</body>
+</html>

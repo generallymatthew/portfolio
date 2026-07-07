@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Analog Project: Popsicle Stick Hexagons</title>
+  <meta content="width=device-width, initial-scale=1" name="viewport">
+  <link href="../images/favicon.png" rel="shortcut icon" type="image/x-icon">
+  <link href="../images/webclip.png" rel="apple-touch-icon">
+  <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+  <script>WebFont.load({ google: { families: ["Open Sans:400,700", "Bitter:400,700"] } });</script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    a { text-decoration: none; }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: #f7f7f7;
+      font-family: 'Open Sans', sans-serif;
+    }
+
+    .page {
+      display: flex;
+      flex-wrap: wrap;
+      width: 100%;
+      max-width: 1080px;
+    }
+
+    /* ─── Nav ─────────────────────────────────────── */
+    .site-nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      width: 100%;
+      height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 40px;
+      background: #fff;
+      border-bottom: 1px solid #e8e8e8;
+    }
+    .nav-logo {
+      font-family: 'Open Sans', sans-serif;
+      font-weight: 700;
+      font-size: 15px;
+      color: #0e0c0c;
+      letter-spacing: 1px;
+    }
+    .nav-links { display: flex; align-items: center; gap: 32px; }
+    .nav-link {
+      font-family: 'Open Sans', sans-serif;
+      font-weight: 700;
+      font-size: 13px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #0e0c0c;
+      transition: color 0.2s ease;
+    }
+    .nav-link:hover { color: #0cc4c6; }
+    .nav-hamburger {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+    }
+    .nav-hamburger span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: #0e0c0c;
+      border-radius: 2px;
+      transition: all 0.25s ease;
+    }
+    .nav-hamburger.is-open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .nav-hamburger.is-open span:nth-child(2) { opacity: 0; }
+    .nav-hamburger.is-open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* ─── Hero ─────────────────────────────────────── */
+    .case-hero {
+      width: 100%;
+      min-height: 220px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 56px 64px;
+      background: #98e5e6;
+    }
+    .case-hero__title {
+      font-size: 36px;
+      font-weight: 700;
+      color: #0e0c0c;
+      margin-bottom: 8px;
+    }
+    .case-hero__company {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #0e0c0c;
+      opacity: 0.6;
+    }
+
+    /* ─── Sections ──────────────────────────────────── */
+    .section-full {
+      width: 100%;
+      padding: 64px;
+      background: #fff;
+    }
+    .section-full--gray { background: #ebebeb; }
+    .section-full--columns {
+      display: flex;
+      gap: 64px;
+    }
+    .section-full--columns > div {
+      flex: 1;
+    }
+    .section-full--columns .content-list {
+      font-size: 13px;
+      line-height: 22px;
+    }
+    .section-full--columns .content-list li {
+      font-size: 13px;
+      line-height: 22px;
+    }
+
+    .section-half {
+      width: 50%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 64px;
+      background: #fff;
+    }
+    .section-half--gray { background: #fff; }
+
+    .section-image {
+      width: 50%;
+      background: rgba(152, 229, 230, 0.2);
+      min-height: auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      overflow: auto;
+      font-size: 14px;
+      color: #999;
+      text-align: center;
+      padding: 40px;
+      gap: 20px;
+    }
+    .section-image svg {
+      width: 100%;
+      max-width: 100%;
+      height: auto;
+    }
+    .section-image ul {
+      width: 100%;
+    }
+    .section-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .section-image--contain img { object-fit: contain; padding: 40px; }
+
+    .section-image-full {
+      width: 100%;
+      border-top: 1px solid #e8e8e8;
+      border-bottom: 1px solid #e8e8e8;
+      background: #fff;
+    }
+    .section-image-full img { width: 100%; display: block; }
+
+    .section-label {
+      font-size: 22px;
+      font-weight: 700;
+      color: #0e0c0c;
+      margin-bottom: 8px;
+    }
+    .section-sublabel {
+      font-size: 11px;
+      font-weight: 700;
+      color: #fe204a;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+    .section-body {
+      font-size: 16px;
+      line-height: 28px;
+      color: #0e0c0c;
+      margin-bottom: 16px;
+    }
+    .section-body:last-child { margin-bottom: 0; }
+
+    .content-list {
+      list-style: none;
+      margin-bottom: 16px;
+    }
+    .content-list li {
+      font-size: 16px;
+      line-height: 28px;
+      color: #0e0c0c;
+      padding-left: 24px;
+      margin-bottom: 8px;
+      position: relative;
+    }
+    .content-list li::before {
+      content: '—';
+      position: absolute;
+      left: 0;
+      color: #0cc4c6;
+      font-weight: 700;
+    }
+
+    .section-divider { width: 100%; height: 1px; background: #e8e8e8; }
+
+    /* ─── Responsive ────────────────────────────────── */
+    @media (max-width: 767px) {
+      .case-hero { padding: 40px 32px; }
+      .section-full { padding: 48px 32px; }
+      .section-half { width: 100%; padding: 48px 32px; }
+      .section-image { width: 100%; min-height: 260px; }
+    }
+
+    @media (max-width: 640px) {
+      .nav-hamburger { display: flex; }
+      .nav-links {
+        display: none;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0;
+        position: absolute;
+        top: 72px;
+        left: 0;
+        right: 0;
+        background: #fff;
+        border-bottom: 1px solid #e8e8e8;
+        padding: 16px 40px 24px;
+        z-index: 99;
+      }
+      .nav-links.is-open { display: flex; }
+      .nav-link { padding: 12px 0; font-size: 14px; width: 100%; border-bottom: 1px solid #f0f0f0; }
+      .nav-link:last-child { border-bottom: none; }
+    }
+    .case-footer { width: 100%; height: 120px; display: flex; align-items: center; justify-content: center; background: #fff; }
+    .btn-home { display: inline-flex; align-items: center; justify-content: center; height: 56px; padding: 0 32px; border-radius: 50px; background: #fe204a; color: #fff !important; font-family: 'Open Sans', sans-serif; font-size: 15px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; transition: background 0.3s ease, transform 0.3s ease; }
+    .btn-home:hover { background: #b5012f; transform: scale(1.05); }
+  </style>
+</head>
+<body>
+  <nav class="site-nav">
+    <a href="../index.html#portfolio" class="nav-logo">← Back</a>
+    <button class="nav-hamburger" id="nav-hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+    <div class="nav-links" id="nav-links">
+      <a href="../index.html#portfolio" class="nav-link">Portfolio</a>
+      <a href="../about-me.html" class="nav-link">About Me</a>
+    </div>
+  </nav>
+
+  <div class="page">
+
+    <div class="case-hero">
+      <div class="case-hero__title">Analog Project: Popsicle Stick Hexagons</div>
+      <div class="case-hero__company">Educational Initiative</div>
+    </div>
+
+    <div class="section-full">
+      <div class="section-label">Overview</div>
+    </div>
+
+    <div class="section-full section-full--columns">
+      <div>
+        <p class="section-body">The "Analog Project: Popsicle Stick Hexagons" is a 5-day engineering challenge designed for tweens to develop executive function skills through a structured manufacturing project. Over the course of 7.5 hours (1.5 hours per day), participants work to design and build a functional hexagonal structure, such as a display for socks or small ornaments.</p>
+      </div>
+      <div>
+        <p class="section-body" style="margin-bottom:24px;"><strong>The project progresses through the following phases:</strong></p>
+        <ul class="content-list">
+          <li><strong>Day 1: Planning</strong> — Define goals, brainstorm geometry, and create a resource list.</li>
+          <li><strong>Day 2: Tooling</strong> — Design and build a jig for precision drilling and cutting.</li>
+          <li><strong>Day 3: Production</strong> — Execute assembly-line production with quality control.</li>
+          <li><strong>Day 4: Assembly</strong> — Build the 3D hexagonal structure and manage joints.</li>
+          <li><strong>Day 5: Evaluation</strong> — Load test, present the process, and reflect on learnings.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="section-divider"></div>
+
+    <!-- Section 1: Day 1 - Project Introduction & Resource Planning -->
+    <div class="section-half">
+      <div class="section-label">Project Introduction & Resource Planning</div>
+      <div class="section-sublabel">Day 1</div>
+      <p class="section-body"><strong>Goal:</strong> Understand the objective, explore design constraints, and audit the necessary materials.</p>
+      <p class="section-body"><strong>Concept:</strong> Creative Exploration & Inventory Management. Before building, students must understand what resources are available and what the structural requirements are.</p>
+      <div class="section-sublabel" style="margin-top:24px;">Activity:</div>
+      <ul class="content-list">
+        <li>Introduce the final goal: Building a scaled, functional hexagonal structure (e.g., a display for socks or small ornaments) with flat, stable sides.</li>
+        <li>Brainstorming session: How do we achieve a perfect hexagon? What geometric principles do we need to keep in mind?</li>
+        <li>Sketching designs and mapping out a master Resource List.</li>
+      </ul>
+    </div>
+    <div class="section-image">
+      <svg viewBox="0 0 400 380" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;margin-bottom:16px;">
+        <defs>
+          <style>
+            .resource-title { font-size: 18px; font-weight: bold; fill: #0e0c0c; }
+            .resource-label { font-size: 12px; fill: #0e0c0c; font-weight: 600; }
+            .resource-count { font-size: 11px; fill: #666; }
+          </style>
+        </defs>
+
+        <!-- Title -->
+        <text x="200" y="25" class="resource-title" text-anchor="middle" font-size="22">Resource List</text>
+        <text x="200" y="45" class="resource-label" text-anchor="middle" opacity="0.7">Materials Needed</text>
+
+        <!-- Popsicle Sticks -->
+        <g>
+          <rect x="20" y="50" width="60" height="80" fill="#D2691E" opacity="0.8" rx="4"/>
+          <rect x="35" y="65" width="30" height="50" fill="#CD853F" rx="2"/>
+          <text x="50" y="145" class="resource-label" text-anchor="middle">Popsicle</text>
+          <text x="50" y="160" class="resource-label" text-anchor="middle">Sticks</text>
+          <text x="50" y="175" class="resource-count" text-anchor="middle">100+</text>
+        </g>
+
+        <!-- Fasteners -->
+        <g>
+          <circle cx="130" cy="90" r="20" fill="#808080" opacity="0.8"/>
+          <circle cx="130" cy="90" r="15" fill="#A9A9A9"/>
+          <line x1="130" y1="75" x2="130" y2="105" stroke="#606060" stroke-width="2"/>
+          <text x="130" y="145" class="resource-label" text-anchor="middle">Fasteners</text>
+          <text x="130" y="160" class="resource-label" text-anchor="middle">&amp;</text>
+          <text x="130" y="175" class="resource-label" text-anchor="middle">Washers</text>
+        </g>
+
+        <!-- Foam Pads -->
+        <g>
+          <rect x="200" y="50" width="70" height="80" fill="#FFD700" opacity="0.6" rx="4"/>
+          <rect x="210" y="60" width="50" height="60" fill="#FFF8DC" rx="2"/>
+          <text x="235" y="145" class="resource-label" text-anchor="middle">Foam</text>
+          <text x="235" y="160" class="resource-label" text-anchor="middle">Pads</text>
+        </g>
+
+        <!-- Drill/Punch Tool -->
+        <g>
+          <rect x="300" y="55" width="40" height="70" fill="#555" rx="3"/>
+          <circle cx="320" cy="70" r="8" fill="#333"/>
+          <polygon points="320,90 315,105 325,105" fill="#FF6B6B"/>
+          <text x="320" y="145" class="resource-label" text-anchor="middle">Drill/</text>
+          <text x="320" y="160" class="resource-label" text-anchor="middle">Punch</text>
+          <text x="320" y="175" class="resource-label" text-anchor="middle">Tool</text>
+        </g>
+
+        <!-- Glue -->
+        <g>
+          <path d="M 70 220 L 60 240 Q 60 250 70 250 L 80 250 Q 90 250 90 240 L 80 220 Z" fill="#FFB6C1" opacity="0.8"/>
+          <rect x="65" y="200" width="30" height="20" fill="#FF69B4" rx="2"/>
+          <text x="80" y="275" class="resource-label" text-anchor="middle">Glue</text>
+        </g>
+
+        <!-- Sandpaper -->
+        <g>
+          <rect x="170" y="220" width="50" height="35" fill="#D3D3D3" opacity="0.8" rx="2"/>
+          <circle cx="180" cy="230" r="2" fill="#999"/>
+          <circle cx="195" cy="235" r="2" fill="#999"/>
+          <circle cx="210" cy="228" r="2" fill="#999"/>
+          <text x="195" y="275" class="resource-label" text-anchor="middle">Sandpaper</text>
+        </g>
+
+        <!-- Measuring Tools -->
+        <g>
+          <rect x="300" y="220" width="8" height="40" fill="#333" rx="1"/>
+          <line x1="300" y1="225" x2="308" y2="225" stroke="#999" stroke-width="1"/>
+          <line x1="300" y1="235" x2="308" y2="235" stroke="#999" stroke-width="1"/>
+          <line x1="300" y1="245" x2="308" y2="245" stroke="#999" stroke-width="1"/>
+          <text x="304" y="275" class="resource-label" text-anchor="middle">Ruler/</text>
+          <text x="304" y="290" class="resource-label" text-anchor="middle">Measure</text>
+        </g>
+
+        <!-- Decorative line -->
+        <line x1="30" y1="310" x2="370" y2="310" stroke="#0cc4c6" stroke-width="2" opacity="0.5"/>
+
+        <!-- Key Message -->
+        <text x="200" y="345" class="resource-label" text-anchor="middle" font-size="14">Everything needed for</text>
+        <text x="200" y="365" class="resource-label" text-anchor="middle" font-size="14">a complete 5-day build</text>
+      </svg>
+      <table style="font-size:11px; width:100%; border-collapse:collapse; color:#0e0c0c; text-align:left;">
+        <thead>
+          <tr style="border-bottom:2px solid #0cc4c6;">
+            <th style="text-align:left; padding:8px 4px; font-weight:600;">Material</th>
+            <th style="text-align:right; padding:8px 4px; font-weight:600;">Qty</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom:1px solid #e0e0e0;">
+            <td style="padding:6px 4px;">Popsicle sticks</td>
+            <td style="text-align:right; padding:6px 4px;">100+</td>
+          </tr>
+          <tr style="border-bottom:1px solid #e0e0e0;">
+            <td style="padding:6px 4px;">Fasteners</td>
+            <td style="text-align:right; padding:6px 4px;">As needed</td>
+          </tr>
+          <tr style="border-bottom:1px solid #e0e0e0;">
+            <td style="padding:6px 4px;">Drill/Punch tool</td>
+            <td style="text-align:right; padding:6px 4px;">1</td>
+          </tr>
+          <tr style="border-bottom:1px solid #e0e0e0;">
+            <td style="padding:6px 4px;">Foam pads</td>
+            <td style="text-align:right; padding:6px 4px;">1-2</td>
+          </tr>
+          <tr style="border-bottom:1px solid #e0e0e0;">
+            <td style="padding:6px 4px;">Metal washers</td>
+            <td style="text-align:right; padding:6px 4px;">10+</td>
+          </tr>
+          <tr style="border-bottom:1px solid #e0e0e0;">
+            <td style="padding:6px 4px;">Glue</td>
+            <td style="text-align:right; padding:6px 4px;">1</td>
+          </tr>
+          <tr>
+            <td style="padding:6px 4px;">Sandpaper</td>
+            <td style="text-align:right; padding:6px 4px;">1-2</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Section 2: Day 2 - Tool Design & Jig Prototyping -->
+    <div class="section-image">
+    </div>
+    <div class="section-half section-half--gray">
+      <div class="section-label">Tool Design & Jig Prototyping</div>
+      <div class="section-sublabel">Day 2</div>
+      <p class="section-body"><strong>Goal:</strong> Solve the problem of replication and precision by building a manufacturing tool (the jig).</p>
+      <p class="section-body"><strong>Concept:</strong> Mechanical Thinking & Process Optimization. Tweens tackle the executive function challenge of efficiency through planning.</p>
+      <div class="section-sublabel" style="margin-top:24px;">Activity:</div>
+      <ul class="content-list">
+        <li><strong>Problem Scenario:</strong> "How do we drill a hole in the exact same spot for 100 sticks, and how do we cut them perfectly in half without measuring every single time?"</li>
+        <li><strong>Design the Jig:</strong> Use a combination of a thick foam pad and baseline popsicle sticks to create a rigid channel/boundary that holds a stick perfectly in place.</li>
+        <li><strong>Create the Template:</strong> Glue a 1-inch metal washer directly onto a template popsicle stick to serve as a permanent, durable guide for the drill bit.</li>
+        <li><strong>Stress Test:</strong> Test the jig by drilling and cutting a small batch (e.g., 5 to 10 sticks). Check for consistency by stacking them to see if the holes align perfectly. Adjust the jig if shifting occurs.</li>
+      </ul>
+    </div>
+
+    <!-- Section 3: Day 3 - Mass Production & Quality Control -->
+    <div class="section-half">
+      <div class="section-label">Mass Production & Quality Control</div>
+      <div class="section-sublabel">Day 3</div>
+      <p class="section-body"><strong>Goal:</strong> Execute repetitive tasks efficiently and maintain quality across a large batch of materials.</p>
+      <p class="section-body"><strong>Concept:</strong> Stamina, Attention to Detail, and Workflow Management.</p>
+      <div class="section-sublabel" style="margin-top:24px;">Activity:</div>
+      <ul class="content-list">
+        <li>Set up an assembly line or production routine based on yesterday's successful jig prototype.</li>
+        <li>Process the remaining inventory: Drill the designated pivot holes and cut the required number of sticks perfectly in half using the jig guides.</li>
+        <li>Quality Control Check: Periodically stack processed sticks in groups of 10 to ensure the holes haven't drifted and the jig isn't wearing down.</li>
+      </ul>
+    </div>
+    <div class="section-image">
+    </div>
+
+    <!-- Section 4: Day 4 - Structural Assembly & Execution -->
+    <div class="section-image">
+    </div>
+    <div class="section-half section-half--gray">
+      <div class="section-label">Structural Assembly & Execution</div>
+      <div class="section-sublabel">Day 4</div>
+      <p class="section-body"><strong>Goal:</strong> Translate the 2D planned design into a physical, scaled 3D hexagonal structure.</p>
+      <p class="section-body"><strong>Concept:</strong> Spatial Reasoning, Adaptability, and Structural Integrity.</p>
+      <div class="section-sublabel" style="margin-top:24px;">Activity:</div>
+      <ul class="content-list">
+        <li>Begin assembling the pieces using the fasteners through the pre-drilled holes.</li>
+        <li>Manage the flat sides of the hexagon, ensuring the joints pivot smoothly enough for adjustment but remain rigid enough to support weight.</li>
+        <li>Troubleshooting: Address real-time engineering challenges, such as pieces warping, joints loosening, or balancing the structure at scale.</li>
+      </ul>
+    </div>
+
+    <!-- Section 5: Day 5 - Final Evaluation & Process Presentation -->
+    <div class="section-half">
+      <div class="section-label">Final Evaluation & Process Presentation</div>
+      <div class="section-sublabel">Day 5</div>
+      <p class="section-body"><strong>Goal:</strong> Reflect on the project, test functionality, and communicate the manufacturing process.</p>
+      <p class="section-body"><strong>Concept:</strong> Metacognition, Presentation Skills, and Practical Testing.</p>
+      <div class="section-sublabel" style="margin-top:24px;">Activity:</div>
+      <ul class="content-list">
+        <li><strong>Load Testing:</strong> Test the final structure's functionality by using it for its intended purpose—holding socks or hanging small ornaments.</li>
+        <li><strong>The Process Display:</strong> Have the tweens organize a presentation showing their original Day 1 sketches, the Day 2 jig template, and a lineup of perfectly identical sticks to prove their system worked.</li>
+        <li><strong>Reflection:</strong> Discuss what worked, what failed, how the jig saved time, and how they would change the design if they had to build it again.</li>
+      </ul>
+    </div>
+    <div class="section-image">
+    </div>
+
+    <div class="case-footer">
+      <a href="../index.html#portfolio" class="btn-home">← Return Home</a>
+    </div>
+
+  </div>
+
+  <script>
+    (function () {
+      var btn = document.getElementById('nav-hamburger');
+      var links = document.getElementById('nav-links');
+      if (btn && links) {
+        btn.addEventListener('click', function () {
+          btn.classList.toggle('is-open');
+          links.classList.toggle('is-open');
+        });
+        links.querySelectorAll('a').forEach(function (a) {
+          a.addEventListener('click', function () {
+            btn.classList.remove('is-open');
+            links.classList.remove('is-open');
+          });
+        });
+      }
+    })();
+  </script>
+</body>
+</html>

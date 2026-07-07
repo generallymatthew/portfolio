@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Blackbaud Award Cycle Manager: Matthew Barton</title>
+  <meta content="width=device-width, initial-scale=1" name="viewport">
+  <link href="images/favicon.png" rel="shortcut icon" type="image/x-icon">
+  <link href="images/webclip.png" rel="apple-touch-icon">
+  <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+  <script>WebFont.load({ google: { families: ["Great Vibes:400", "Open Sans:300,400,700", "Bitter:400,700"] } });</script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    a { text-decoration: none; }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: #f7f7f7;
+      font-family: 'Open Sans', sans-serif;
+    }
+
+    .page {
+      display: flex;
+      flex-wrap: wrap;
+      width: 100%;
+      max-width: 1080px;
+    }
+
+    .case-hero {
+      width: 100%;
+      min-height: 240px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 56px 64px;
+      background: #98e5e6;
+    }
+
+    .case-hero__title {
+      font-family: 'Open Sans', sans-serif;
+      font-size: 32px;
+      font-weight: 700;
+      color: #0e0c0c;
+      margin-bottom: 8px;
+    }
+
+    .case-hero__company {
+      font-family: 'Open Sans', sans-serif;
+      font-size: 16px;
+      font-weight: 300;
+      color: #0e0c0c;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+    }
+
+    .section-half {
+      width: 50%;
+      min-height: 480px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 64px;
+      background: #fff;
+    }
+
+    .section-full {
+      width: 100%;
+      padding: 64px;
+      background: #fff;
+    }
+
+    .section-placeholder {
+      width: 50%;
+      min-height: 480px;
+      background: #e8e8e8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #999;
+      font-size: 14px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .section-placeholder--full {
+      width: 100%;
+      min-height: 400px;
+    }
+
+    .section-label {
+      font-family: 'Open Sans', sans-serif;
+      font-size: 20px;
+      font-weight: 700;
+      color: #0e0c0c;
+      margin-bottom: 8px;
+    }
+
+    .section-sublabel {
+      font-family: 'Open Sans', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      color: #fe204a;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    .section-body {
+      font-family: 'Open Sans', sans-serif;
+      font-size: 16px;
+      line-height: 28px;
+      color: #0e0c0c;
+      margin-bottom: 16px;
+    }
+
+    .section-body:last-child { margin-bottom: 0; }
+
+    .section-half--gray { background: #ebebeb; }
+    .section-full--gray { background: #ebebeb; }
+
+    .section-divider { width: 100%; height: 1px; background: #e8e8e8; }
+
+    /* ─── Speech bubble ──────────────────────────────────── */
+    .speech-bubble {
+      position: relative;
+      background: #fff;
+      border-radius: 12px;
+      padding: 32px;
+      margin-bottom: 28px;
+      filter: drop-shadow(0 2px 6px rgba(0,0,0,0.12));
+    }
+
+    .speech-bubble::after {
+      content: '';
+      position: absolute;
+      bottom: -18px;
+      left: 28px;
+      width: 0;
+      height: 0;
+      border-top: 20px solid #fff;
+      border-right: 20px solid transparent;
+    }
+
+    .metrics-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; margin-top: 8px; }
+    .metric-card { background: #fff; border-left: 4px solid #0cc4c6; padding: 24px; }
+    @media (max-width: 767px) {
+      .metrics-grid { grid-template-columns: 1fr; }
+    }
+    .metric-card__value { font-size: 32px; font-weight: 700; color: #fe204a; margin-bottom: 8px; }
+    .metric-card__label { font-size: 14px; line-height: 22px; color: #0e0c0c; }
+
+    .design-img-col {
+      width: 50%;
+      background: #e8e8e8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 48px;
+    }
+
+    .design-img-col img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 6px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.12);
+      cursor: zoom-in;
+    }
+
+    @media (max-width: 767px) {
+      .design-img-col { width: 100%; }
+    }
+
+    .image-row { width: 100%; display: flex; gap: 16px; padding: 48px 64px; background: #fff; }
+    .image-row__item { flex: 1; cursor: zoom-in; overflow: hidden; }
+    .image-row__item img { width: 100%; height: auto; display: block; border: 1px solid #e0e0e0; }
+    .image-row__item img:hover { opacity: 0.9; }
+
+    .lightbox { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.88); z-index: 1000; align-items: center; justify-content: center; padding: 24px; }
+    .lightbox.is-open { display: flex; }
+    .lightbox__img { max-width: 100%; max-height: 100%; object-fit: contain; display: block; }
+    .lightbox__close { position: fixed; top: 20px; right: 24px; background: none; border: none; color: #fff; font-size: 32px; cursor: pointer; line-height: 1; }
+
+    .wf-columns { display: flex; gap: 16px; align-items: flex-start; }
+
+    @media (max-width: 767px) {
+      .image-row { flex-direction: column; padding: 32px; }
+      .wf-columns { flex-direction: column; gap: 40px; }
+      .wf-columns > div { width: 100%; }
+    }
+
+    .content-list { list-style: none; margin-bottom: 16px; }
+    .content-list li {
+      font-size: 16px;
+      line-height: 28px;
+      color: #0e0c0c;
+      padding-left: 24px;
+      margin-bottom: 8px;
+      position: relative;
+    }
+    .content-list li::before {
+      content: '—';
+      position: absolute;
+      left: 0;
+      color: #0cc4c6;
+      font-weight: 700;
+    }
+
+    .case-footer {
+      width: 100%;
+      height: 120px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #f7f7f7;
+    }
+
+    .btn-home {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 56px;
+      padding: 0 32px;
+      border-radius: 50px;
+      background: #fe204a;
+      color: #fff !important;
+      font-family: 'Open Sans', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      transition: background 0.3s ease, transform 0.3s ease;
+    }
+
+    .btn-home:hover {
+      background: #b5012f;
+      transform: scale(1.05);
+    }
+
+    .case-footer a {
+      font-family: 'Open Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #0cc4c6;
+    }
+
+    /* ─── Global Nav ─────────────────────────────────────── */
+    .site-nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      width: 100%;
+      height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 40px;
+      background: #fff;
+      border-bottom: 1px solid #e8e8e8;
+      box-sizing: border-box;
+    }
+    .nav-logo {
+      font-family: 'Open Sans', sans-serif;
+      font-weight: 700;
+      font-size: 15px;
+      color: #0e0c0c;
+      letter-spacing: 1px;
+    }
+    .nav-logo span { color: #fe204a; }
+    .nav-links { display: flex; align-items: center; gap: 32px; }
+    .nav-link {
+      font-family: 'Open Sans', sans-serif;
+      font-weight: 700;
+      font-size: 13px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #0e0c0c;
+      transition: color 0.2s ease;
+    }
+    .nav-link:hover { color: #0cc4c6; }
+    .nav-link--accent { color: #fe204a; }
+    .nav-link--accent:hover { color: #b5012f; }
+
+
+    /* ─── Mobile nav ─────────────────────────────────────── */
+    .nav-hamburger {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+    }
+
+    .nav-hamburger span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: #0e0c0c;
+      border-radius: 2px;
+      transition: all 0.25s ease;
+    }
+
+    .nav-hamburger.is-open span:nth-child(1) {
+      transform: translateY(7px) rotate(45deg);
+    }
+
+    .nav-hamburger.is-open span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .nav-hamburger.is-open span:nth-child(3) {
+      transform: translateY(-7px) rotate(-45deg);
+    }
+
+    .split-col { width: 50%; }
+
+    @media (max-width: 767px) {
+      .section-half,
+      .section-placeholder { width: 100%; min-height: auto; padding: 48px 32px; }
+      .split-col { width: 100%; }
+      .case-hero { padding: 40px 32px; }
+      .section-full { padding: 48px 32px; }
+    }
+
+    @media (max-width: 640px) {
+      .nav-hamburger {
+        display: flex;
+      }
+
+      .nav-links {
+        display: none;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0;
+        position: absolute;
+        top: 72px;
+        left: 0;
+        right: 0;
+        background: #fff;
+        border-bottom: 1px solid #e8e8e8;
+        padding: 16px 40px 24px;
+        z-index: 99;
+      }
+
+      .nav-links.is-open {
+        display: flex;
+      }
+
+      .nav-link {
+        padding: 12px 0;
+        font-size: 14px;
+        width: 100%;
+        border-bottom: 1px solid #f0f0f0;
+      }
+
+      .nav-link:last-child {
+        border-bottom: none;
+      }
+    }
+
+  </style>
+</head>
+<body>
+  <div class="page">
+
+    <!-- Nav -->
+    <nav class="site-nav">
+      <a href="index.html#portfolio" class="nav-logo">← Back</a>
+      <button class="nav-hamburger" id="nav-hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+      <div class="nav-links" id="nav-links">
+        <a href="index.html#portfolio" class="nav-link">UX Case Studies</a>
+        
+        <a href="writing.html" class="nav-link">UX Writing</a>
+        <a href="about-me.html" class="nav-link">About Me</a>
+      </div>
+    </nav>
+
+
+    <div class="case-hero">
+      <div class="case-hero__title">Blackbaud Award Cycle Manager</div>
+      <div class="case-hero__company">Blackbaud Award Management</div>
+    </div>
+
+    <!-- Project Origins -->
+    <div class="section-half">
+      <div class="section-label">Project Origins</div>
+      <div class="section-sublabel">Background</div>
+      <p class="section-body">In 2022, Award Management faced a recurring churn problem. My lead tasked me with building a solution to offload the heavy training burden from admins. The catch? I couldn't touch existing pages or request database work from our overextended back-end team.</p>
+      <div class="section-sublabel">Discovery</div>
+      <p class="section-body">Admins were bogged down by scholarship managers needing annual retraining. Interviews revealed the app was built like a blank Excel sheet: powerful, but only if you were an expert.</p>
+    </div>
+    <div class="split-col" style="display:flex;flex-direction:column;">
+      <div style="flex:1;background:#e8e8e8;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px 32px;">
+        <svg viewBox="0 0 520 340" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:440px;display:block;" font-family="Open Sans, sans-serif">
+          <!-- Pages -->
+          <rect x="20"  y="130" width="72" height="90" rx="6" fill="#fff" stroke="#0cc4c6" stroke-width="2.5"/>
+          <rect x="122" y="130" width="72" height="90" rx="6" fill="#fff" stroke="#0cc4c6" stroke-width="2.5"/>
+          <rect x="224" y="130" width="72" height="90" rx="6" fill="#fff" stroke="#0cc4c6" stroke-width="2.5"/>
+          <rect x="326" y="130" width="72" height="90" rx="6" fill="#fff" stroke="#0cc4c6" stroke-width="2.5"/>
+          <rect x="428" y="130" width="72" height="90" rx="6" fill="#fff" stroke="#0cc4c6" stroke-width="2.5"/>
+
+          <!-- Tangled navigation arrows -->
+          <!-- Page 1 → Page 4 (long high arc) -->
+          <path d="M 56 122 Q 209 10 356 116" fill="none" stroke="#fe204a" stroke-width="3" stroke-linecap="round"/>
+          <polygon points="350,104 358,122 362,103" fill="#fe204a"/>
+          <!-- Page 4 → Page 2 (backtrack) -->
+          <path d="M 350 122 Q 254 55 164 116" fill="none" stroke="#fe204a" stroke-width="3" stroke-linecap="round"/>
+          <polygon points="176,106 158,120 179,117" fill="#fe204a"/>
+          <!-- Page 2 → Page 5 (long hop) -->
+          <path d="M 170 122 Q 311 25 458 116" fill="none" stroke="#fe204a" stroke-width="3" stroke-linecap="round"/>
+          <polygon points="452,104 460,122 464,103" fill="#fe204a"/>
+          <!-- Page 5 → Page 3 (backtrack) -->
+          <path d="M 452 122 Q 356 70 266 116" fill="none" stroke="#fe204a" stroke-width="3" stroke-linecap="round"/>
+          <polygon points="278,106 260,120 281,117" fill="#fe204a"/>
+          <!-- Page 3 → Page 1 (backtrack home) -->
+          <path d="M 254 122 Q 155 60 62 116" fill="none" stroke="#fe204a" stroke-width="3" stroke-linecap="round"/>
+          <polygon points="74,106 56,120 77,117" fill="#fe204a"/>
+
+          <!-- Person -->
+          <circle cx="260" cy="272" r="20" fill="none" stroke="#0e0c0c" stroke-width="2.5"/>
+          <path d="M 224 330 Q 224 298 260 298 Q 296 298 296 330 Z" fill="#0e0c0c"/>
+        </svg>
+        <div style="font-family:'Open Sans',sans-serif;font-size:14px;color:#666;margin-top:20px;text-align:center;max-width:360px;">Admins bounced across page after page to complete a single awarding cycle.</div>
+      </div>
+    </div>
+
+    <!-- Problem + Hypothesis -->
+    <div class="section-half" style="justify-content:flex-start;min-height:auto;padding:48px 64px;">
+      <div class="section-label">Problem Statement</div>
+      <div class="section-sublabel">Challenge</div>
+      <p class="section-body">Our experience was cluttered and confusing. Usability tests showed a dashboard packed with 35 links (20 of which saw less than 0.1% of total clicks) while critical workflows remained buried three levels deep.</p>
+    </div>
+    <div class="split-col" style="background:#e8e8e8;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:48px 32px;">
+      <div class="speech-bubble">
+        <p style="font-family:'Bitter',serif;font-size:18px;line-height:30px;color:#0e0c0c;font-style:italic;text-transform:none;letter-spacing:0;margin-bottom:16px;">"I just want to log in and be shown what my tasks are, when they're due, and where I need to go... Just hold my hand."</p>
+        <p style="font-family:'Open Sans',sans-serif;font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#0e0c0c;opacity:0.5;">Junior college scholarship admin</p>
+      </div>
+    </div>
+
+    <!-- Admin priorities -->
+    <div class="section-full">
+      <div class="section-label">Hypothesis</div>
+      <div class="section-sublabel">Solutions</div>
+      <p class="section-body">If 80% of colleges follow the same steps, we could replace the cluttered layout with the Award Cycle Manager: a sequential 6-stage workflow providing automated guidance and progress tracking.</p>
+      <p class="section-body">After talking with users and premium support, we determined a list of things that were important to our scholarship admins:</p>
+      <ol style="font-family:'Open Sans',sans-serif;font-size:16px;line-height:28px;color:#0e0c0c;padding-left:20px;max-width:720px;">
+        <li style="margin-bottom:12px;">All the stages of the award cycle.</li>
+        <li style="margin-bottom:12px;">The current awarding budget for this award cycle: what has been spent and what is left to award.</li>
+        <li style="margin-bottom:12px;">Information about what scholarships they are responsible for and where in the cycle they are.</li>
+        <li style="margin-bottom:12px;">How much time is left in this cycle.</li>
+        <li>Each step has a link that takes them directly to the task page.</li>
+      </ol>
+    </div>
+
+    <!-- Wireframe image rows -->
+    <div class="section-full" style="padding-bottom:0;">
+      <div class="section-label">User Feedback</div>
+      <div class="section-sublabel">Wireframes to be user tested</div>
+    </div>
+
+    <div class="design-img-col image-row__item" style="flex:0 0 50%;" data-src="images/award-cycle-wf-1.png">
+      <img src="images/award-cycle-wf-1.png" alt="Award Cycle Manager: cycle stages view">
+    </div>
+    <div class="section-half" style="justify-content:flex-start;">
+      <div class="section-label">Split View Design</div>
+      <div class="section-sublabel">Design Strategy</div>
+      <p class="section-body">Using the split view design system component to give users a vertical set of steps, showing what's left in the award cycle tasks assigned to them.</p>
+      <div class="section-sublabel">User Feedback</div>
+      <p class="section-body" style="font-family:'Bitter',serif;font-style:italic;">"I like how simple it is to see how many tasks and steps I have left to complete."</p>
+    </div>
+
+    <div class="design-img-col image-row__item" style="flex:0 0 50%;" data-src="images/award-cycle-wf-2.png">
+      <img src="images/award-cycle-wf-2.png" alt="Award Cycle Manager: dashboard view">
+    </div>
+    <div class="section-half" style="justify-content:flex-start;">
+      <div class="section-label">Vertical Accordion Layout</div>
+      <div class="section-sublabel">Design Strategy</div>
+      <p class="section-body">Break out each stage into a container that shows all the steps within that stage once it has been expanded.</p>
+      <div class="section-sublabel">User Feedback</div>
+      <p class="section-body" style="font-family:'Bitter',serif;font-style:italic;">"It's helpful seeing the awarding cycle info at different levels all at once, from the total amount we have to award to how many scholarships are left to make decisions on."</p>
+    </div>
+
+    <div class="design-img-col image-row__item" style="flex:0 0 50%;" data-src="images/award-cycle-wf-3.png">
+      <img src="images/award-cycle-wf-3.png" alt="Award Cycle Manager: workflow timeline view">
+    </div>
+    <div class="section-half" style="justify-content:flex-start;">
+      <div class="section-label">Pizza Tracking</div>
+      <div class="section-sublabel">Design Strategy</div>
+      <p class="section-body">Give the user the ability to quickly view all the tasks within a cycle, and make the UI look more modern.</p>
+      <div class="section-sublabel">User Feedback</div>
+      <p class="section-body" style="font-family:'Bitter',serif;font-style:italic;">"It looked different, but made it hard to see two bits of info from different stages at the same time."</p>
+    </div>
+
+    <!-- Lightbox -->
+    <div id="acm-lightbox" class="lightbox">
+      <img id="acm-lightbox-img" class="lightbox__img" src="" alt="">
+      <button id="acm-lightbox-close" class="lightbox__close">&#x2715;</button>
+    </div>
+
+    <!-- EAP design hero image -->
+    <div class="section-full">
+      <div class="section-label">Early Access Program</div>
+      <div class="section-sublabel">Validating our solution</div>
+      <p class="section-body" style="margin-bottom:16px;">We determined that the feedback we got from users when we showed them the designs was good for solving UI issues, but it was still hard to tell if this solution would resonate with them. So we set up an EAP for 3 months during an awarding cycle. If scholarship admins used it consistently and clicked on links to get where they needed to go, then that was a good sign.</p>
+      <p class="section-body" style="margin-bottom:40px;">We piloted the solution with 17 schools over a 3-month period during the award cycle, conducting follow-up interviews to gauge impact.</p>
+      <img src="images/award_cycle_ manager_1.png" alt="Award Cycle Manager EAP design" id="eap-hero-img" style="width:100%;height:auto;display:block;border-radius:6px;box-shadow:0 6px 20px rgba(0,0,0,0.2);cursor:zoom-in;">
+    </div>
+
+    <!-- Design decision -->
+    <div class="section-full">
+      <div class="section-sublabel">Our EAP Design Strategy</div>
+      <p class="section-body">We took the feedback from users and went with the vertical accordion design, because it did a good job of displaying all the relevant information an admin would need while also condensing down to a single stage at a time. It was seen as a bonus that two stages and their steps could be viewed at once, something the other two designs did not allow for.</p>
+    </div>
+
+    <div class="section-full section-full--gray">
+      <div class="section-label">Metrics of Success for the EAP</div>
+      <div class="section-sublabel">What We Measured</div>
+      <div class="metrics-grid">
+        <div class="metric-card">
+          <div class="metric-card__value">01</div>
+          <div class="metric-card__label">Support requests from admins decreased over the award cycle</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-card__value">02</div>
+          <div class="metric-card__label">Consistent page visits throughout the cycle indicating active use</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-card__value">03</div>
+          <div class="metric-card__label">Adoption rates: users setting the Award Cycle Manager as their homepage</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Key Learnings -->
+    <div class="section-placeholder" style="background:#fff;">
+      <svg viewBox="0 0 320 340" xmlns="http://www.w3.org/2000/svg" style="width:60%;max-width:260px;">
+        <!-- Rays -->
+        <line x1="160" y1="20" x2="160" y2="4" stroke="#98e5e6" stroke-width="4" stroke-linecap="round"/>
+        <line x1="218" y1="38" x2="229" y2="26" stroke="#98e5e6" stroke-width="4" stroke-linecap="round"/>
+        <line x1="248" y1="92" x2="264" y2="86" stroke="#98e5e6" stroke-width="4" stroke-linecap="round"/>
+        <line x1="102" y1="38" x2="91" y2="26" stroke="#98e5e6" stroke-width="4" stroke-linecap="round"/>
+        <line x1="72" y1="92" x2="56" y2="86" stroke="#98e5e6" stroke-width="4" stroke-linecap="round"/>
+        <!-- Bulb body -->
+        <path d="M120 180 C100 160 88 136 88 110 C88 71 121 40 160 40 C199 40 232 71 232 110 C232 136 220 160 200 180 L200 200 L120 200 Z" fill="#0cc4c6" opacity="0.15"/>
+        <path d="M120 180 C100 160 88 136 88 110 C88 71 121 40 160 40 C199 40 232 71 232 110 C232 136 220 160 200 180 L200 200 L120 200 Z" fill="none" stroke="#0cc4c6" stroke-width="4" stroke-linejoin="round"/>
+        <!-- Filament lines -->
+        <line x1="135" y1="200" x2="135" y2="220" stroke="#0e0c0c" stroke-width="3" stroke-linecap="round"/>
+        <line x1="185" y1="200" x2="185" y2="220" stroke="#0e0c0c" stroke-width="3" stroke-linecap="round"/>
+        <!-- Base bands -->
+        <rect x="120" y="220" width="80" height="14" rx="4" fill="#0e0c0c" opacity="0.12"/>
+        <rect x="124" y="238" width="72" height="14" rx="4" fill="#0e0c0c" opacity="0.09"/>
+        <!-- Bottom cap -->
+        <rect x="132" y="256" width="56" height="16" rx="8" fill="#fe204a"/>
+        <!-- Inner glow highlight -->
+        <ellipse cx="145" cy="100" rx="14" ry="22" fill="#fff" opacity="0.35" transform="rotate(-20 145 100)"/>
+      </svg>
+    </div>
+    <div class="section-half">
+      <div class="section-label">Key Learnings from the EAP</div>
+      <div class="section-sublabel">Pros</div>
+      <p class="section-body">Decreased support requests and higher task completion rates without manual admin intervention.</p>
+      <div class="section-sublabel">Cons</div>
+      <p class="section-body">Initially, admins needed guidance on the new dashboard. We also learned users preferred seeing only their tasks; filtering the UI to show individual responsibilities significantly reduced cognitive load.</p>
+      <p class="section-body">To address the onboarding issue we created a large call to action on the existing homepage and a short introduction video explaining the goals and functions of the page.</p>
+    </div>
+
+    <!-- Outcomes -->
+    <div class="section-full" style="padding-top:32px;padding-bottom:32px;">
+      <div class="section-label">User Behavior Change</div>
+      <div class="section-sublabel">Following EAP with 17 Schools</div>
+      <p class="section-body">We saw a shift toward self-sufficiency. Admins stopped relying on training workshops and began using the dashboard proactively, often setting it as their home screen.</p>
+    </div>
+    <div class="section-full">
+      <div class="section-label">Business Outcomes</div>
+      <div class="section-sublabel">Results</div>
+      <p class="section-body">The result: a measurable drop in support requests. While these metrics are anecdotal, over the next fiscal year churn dropped by 17%, allowing us to meet our churn rate goal. The intuitive design gave the team fresh confidence to upsell the platform across other departments.</p>
+    </div>
+
+    <div class="case-footer">
+      <a href="index.html#portfolio" class="btn-home">← Return Home</a>
+    </div>
+
+  </div>
+
+  <script>
+    (function () {
+      var lightbox = document.getElementById('acm-lightbox');
+      var lightboxImg = document.getElementById('acm-lightbox-img');
+      var closeBtn = document.getElementById('acm-lightbox-close');
+
+      var eapHeroImg = document.getElementById('eap-hero-img');
+      if (eapHeroImg) {
+        eapHeroImg.addEventListener('click', function () {
+          lightboxImg.src = eapHeroImg.src;
+          lightbox.classList.add('is-open');
+          document.body.style.overflow = 'hidden';
+        });
+      }
+
+      document.querySelectorAll('.image-row__item').forEach(function (item) {
+        item.addEventListener('click', function () {
+          lightboxImg.src = item.getAttribute('data-src');
+          lightbox.classList.add('is-open');
+          document.body.style.overflow = 'hidden';
+        });
+      });
+
+      function closeLightbox() {
+        lightbox.classList.remove('is-open');
+        document.body.style.overflow = '';
+      }
+
+      closeBtn.addEventListener('click', closeLightbox);
+      lightbox.addEventListener('click', function (e) {
+        if (e.target === lightbox) closeLightbox();
+      });
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') closeLightbox();
+      });
+
+      var btn = document.getElementById('nav-hamburger');
+      var links = document.getElementById('nav-links');
+      if (btn && links) {
+        btn.addEventListener('click', function () {
+          btn.classList.toggle('is-open');
+          links.classList.toggle('is-open');
+        });
+        links.querySelectorAll('a').forEach(function (a) {
+          a.addEventListener('click', function () {
+            btn.classList.remove('is-open');
+            links.classList.remove('is-open');
+          });
+        });
+      }
+    })();
+  </script>
+</body>
+</html>

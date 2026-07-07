@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>About Me: Matthew Barton</title>
+  <meta content="About Matthew Barton" property="og:title">
+  <meta content="width=device-width, initial-scale=1" name="viewport">
+  <link href="images/favicon.png" rel="shortcut icon" type="image/x-icon">
+  <link href="images/webclip.png" rel="apple-touch-icon">
+  <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+  <script>WebFont.load({ google: { families: ["Great Vibes:400", "Open Sans:400,700", "Bitter:400,700"] } });</script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    a { text-decoration: none; }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: #f7f7f7;
+      font-family: 'Open Sans', sans-serif;
+    }
+
+    .page {
+      display: flex;
+      flex-wrap: wrap;
+      width: 100%;
+      max-width: 1080px;
+    }
+
+    /* ─── Nav ─────────────────────────────────────── */
+    .site-nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      width: 100%;
+      height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 40px;
+      background: #fff;
+      border-bottom: 1px solid #e8e8e8;
+      box-sizing: border-box;
+    }
+
+    .nav-logo {
+      font-family: 'Open Sans', sans-serif;
+      font-weight: 700;
+      font-size: 15px;
+      color: #0e0c0c;
+      letter-spacing: 1px;
+      text-decoration: none;
+    }
+
+    .nav-links { display: flex; align-items: center; gap: 32px; }
+
+    .nav-link {
+      font-family: 'Open Sans', sans-serif;
+      font-weight: 700;
+      font-size: 13px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #0e0c0c;
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .nav-link:hover { color: #0cc4c6; }
+    .nav-link--accent { color: #fe204a; }
+    .nav-link--accent:hover { color: #b5012f; }
+
+    .nav-hamburger {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+    }
+
+    .nav-hamburger span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: #0e0c0c;
+      border-radius: 2px;
+      transition: all 0.25s ease;
+    }
+
+    .nav-hamburger.is-open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .nav-hamburger.is-open span:nth-child(2) { opacity: 0; }
+    .nav-hamburger.is-open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    @media (max-width: 640px) {
+      .nav-hamburger { display: flex; }
+      .nav-links {
+        display: none;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0;
+        position: absolute;
+        top: 72px;
+        left: 0;
+        right: 0;
+        background: #fff;
+        border-bottom: 1px solid #e8e8e8;
+        padding: 16px 40px 24px;
+        z-index: 99;
+      }
+      .nav-links.is-open { display: flex; }
+      .nav-link { padding: 12px 0; font-size: 14px; width: 100%; border-bottom: 1px solid #f0f0f0; }
+      .nav-link:last-child { border-bottom: none; }
+    }
+
+    /* ─── Content ─────────────────────────────────── */
+    .about-hero {
+      width: 100%;
+      background: #fff;
+      padding: 80px 56px 72px;
+      border-bottom: 1px solid #e8e8e8;
+    }
+
+    .about-hero__heading {
+      font-family: 'Great Vibes', cursive;
+      font-size: 72px;
+      color: #fe204a;
+      line-height: 1.2;
+      margin-bottom: 24px;
+    }
+
+    .about-hero__text {
+      font-size: 18px;
+      line-height: 29px;
+      color: #0e0c0c;
+      max-width: 640px;
+      margin-bottom: 20px;
+    }
+
+    /* ─── Hero subtitle / meta ────────────────────── */
+    .about-hero__title {
+      font-size: 20px;
+      font-weight: 700;
+      color: #0e0c0c;
+      margin-bottom: 10px;
+    }
+
+    .about-hero__meta {
+      font-size: 14px;
+      color: #555;
+      margin-bottom: 32px;
+    }
+
+    .about-hero__meta a { color: #0cc4c6; }
+
+    .about-hero__links {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    /* ─── Content sections ────────────────────────── */
+    .about-section {
+      width: 100%;
+      padding: 72px 56px;
+      border-top: 1px solid #e8e8e8;
+    }
+
+    .about-section--white { background: #fff; }
+    .about-section--grey  { background: #f7f7f7; }
+
+    .about-section__label {
+      font-family: 'Open Sans', sans-serif;
+      font-weight: 700;
+      font-size: 13px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #0cc4c6;
+      margin-bottom: 28px;
+    }
+
+    .about-section__body {
+      font-size: 16px;
+      line-height: 28px;
+      color: #0e0c0c;
+      max-width: 720px;
+      margin-bottom: 16px;
+    }
+
+    /* ─── Expertise grid ──────────────────────────── */
+    .about-expertise-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+      max-width: 880px;
+    }
+
+    .about-expertise-card {
+      background: #fff;
+      border: 1px solid #e8e8e8;
+      border-radius: 8px;
+      padding: 32px;
+    }
+
+    .about-expertise-card__title {
+      font-weight: 700;
+      font-size: 15px;
+      color: #0e0c0c;
+      margin-bottom: 12px;
+    }
+
+    .about-expertise-card__body {
+      font-size: 14px;
+      line-height: 24px;
+      color: #444;
+    }
+
+    /* ─── Career items ────────────────────────────── */
+    .about-career-item {
+      max-width: 720px;
+      margin-bottom: 40px;
+      padding-bottom: 40px;
+      border-bottom: 1px solid #e8e8e8;
+    }
+
+    .about-career-item:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .about-career-item__header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .about-career-item__company {
+      font-weight: 700;
+      font-size: 16px;
+      color: #0e0c0c;
+    }
+
+    .about-career-item__role {
+      font-size: 14px;
+      color: #555;
+    }
+
+    .about-career-item__dates {
+      font-size: 13px;
+      color: #999;
+      margin-left: auto;
+    }
+
+    .about-career-item__body {
+      font-size: 15px;
+      line-height: 26px;
+      color: #333;
+    }
+
+    /* ─── Links section ───────────────────────────── */
+    .about-link-card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #fff;
+      border: 1px solid #e8e8e8;
+      border-radius: 8px;
+      padding: 24px 32px;
+      max-width: 600px;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .about-link-card:hover {
+      border-color: #0cc4c6;
+      box-shadow: 0 2px 12px rgba(12, 196, 198, 0.12);
+    }
+
+    .about-link-card__label {
+      font-weight: 700;
+      font-size: 15px;
+      color: #0e0c0c;
+    }
+
+    .about-link-card__desc {
+      font-size: 13px;
+      color: #777;
+      margin-top: 4px;
+    }
+
+    .about-link-card__arrow {
+      font-size: 20px;
+      color: #0cc4c6;
+    }
+
+    /* ─── Contact ─────────────────────────────────── */
+    .about-contact {
+      width: 100%;
+      background: #fff;
+      padding: 56px 56px 72px;
+      border-top: 1px solid #e8e8e8;
+    }
+
+    .about-contact__heading {
+      font-family: 'Open Sans', sans-serif;
+      font-weight: 700;
+      font-size: 13px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #0e0c0c;
+      margin-bottom: 24px;
+    }
+
+    .about-contact__item {
+      font-size: 16px;
+      color: #0e0c0c;
+      margin-bottom: 12px;
+    }
+
+    .about-contact__item a {
+      color: #0cc4c6;
+      text-decoration: none;
+    }
+
+    .about-contact__item a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 767px) {
+      .about-hero { padding: 48px 32px 56px; }
+      .about-section { padding: 48px 32px 56px; }
+      .about-link-card { max-width: 100%; }
+      .about-expertise-grid { grid-template-columns: 1fr; }
+      .about-career-item__dates { margin-left: 0; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="site-nav">
+    <a href="index.html" class="nav-logo">← Back</a>
+    <button class="nav-hamburger" id="nav-hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+    <div class="nav-links" id="nav-links">
+      <a href="index.html#portfolio" class="nav-link">UX Case Studies</a>
+      <a href="writing.html" class="nav-link">UX Writing</a>
+      <a href="about-me.html" class="nav-link">About Me</a>
+    </div>
+  </nav>
+
+  <div class="page">
+
+    <!-- Hero -->
+    <div class="about-hero">
+      <div class="about-hero__heading">About Me</div>
+      <div style="font-family:'Open Sans',sans-serif;font-weight:700;font-size:15px;color:#0cc4c6;letter-spacing:1px;margin-bottom:16px;">Matthew Barton</div>
+      <div class="about-hero__title">UX Designer + Strategist</div>
+      <div class="about-hero__meta">Durham, NC &nbsp;·&nbsp; <a href="mailto:matthew.barton@gmail.com">matthew.barton@gmail.com</a> &nbsp;·&nbsp; <a href="tel:+19199067085">919.906.7085</a></div>
+      <div class="about-hero__links">
+        <a href="http://www.linkedin.com/in/matthewwbarton" target="_blank" class="about-link-card">
+          <div>
+            <div class="about-link-card__label">LinkedIn</div>
+            <div class="about-link-card__desc">View my profile and work history</div>
+          </div>
+          <span class="about-link-card__arrow">→</span>
+        </a>
+        <a href="documents/Resume-Matthew-Barton-2018.pdf" target="_blank" class="about-link-card">
+          <div>
+            <div class="about-link-card__label">Resume</div>
+            <div class="about-link-card__desc">Download my current resume (PDF)</div>
+          </div>
+          <span class="about-link-card__arrow">↓</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Philosophy -->
+    <div class="about-section about-section--white">
+      <div class="about-section__label">The Philosophy</div>
+      <p class="about-section__body">I am a UX professional driven by a strict outcomes-over-outputs methodology. With over two decades of experience navigating agency environments, corporate fintech, and enterprise SaaS, I have learned that the highest-leverage design decisions are those tethered directly to product strategy and business health. Delightful user experiences are secondary to positive financial outcomes; my goal is to ensure they are one and the same.</p>
+    </div>
+
+    <!-- Expertise -->
+    <div class="about-section about-section--grey">
+      <div class="about-section__label">Key Areas of Impact &amp; Expertise</div>
+      <div class="about-expertise-grid">
+        <div class="about-expertise-card">
+          <div class="about-expertise-card__title">Simplifying Enterprise Complexity</div>
+          <p class="about-expertise-card__body">A proven track record of taking highly technical, friction-heavy legacy platforms and transforming them into intuitive, self-explanatory workflows. I specialize in designing for "infrequent users": seasonal or annual stakeholders who require zero learning curve to execute high-stakes tasks flawlessly.</p>
+        </div>
+        <div class="about-expertise-card">
+          <div class="about-expertise-card__title">Responsible AI Integration &amp; Governance</div>
+          <p class="about-expertise-card__body">Deeply engaged in the strategic transition from manual software oversight to high-leverage agentic AI workflows. I balance this innovation with strict product stewardship, advocating for AI ethics, user-facing verification frameworks, and knowing exactly when to halt a feature to protect resource allocation and system integrity.</p>
+        </div>
+        <div class="about-expertise-card">
+          <div class="about-expertise-card__title">Connecting UX to the Bottom Line</div>
+          <p class="about-expertise-card__body">Co-authored an internal primer on UX and Finances to train design teams on how their work directly impacts corporate fiscal targets. I bridge the gap between design execution and executive leadership priorities, proving UX value through support-ticket reduction, conversion lifts, and churn mitigation.</p>
+        </div>
+        <div class="about-expertise-card">
+          <div class="about-expertise-card__title">Design Culture Architecture</div>
+          <p class="about-expertise-card__body">Experienced in auditing operational gaps and rebuilding collaborative frameworks for fully distributed, remote teams. I focus on restoring peer-to-peer feedback loops to keep remote design organizations highly aligned and cross-functionally integrated.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Career -->
+    <div class="about-section about-section--white">
+      <div class="about-section__label">Career Trajectory</div>
+      <div class="about-career-item">
+        <div class="about-career-item__header">
+          <span class="about-career-item__company">Blackbaud</span>
+          <span class="about-career-item__role">Senior UX Designer</span>
+          <span class="about-career-item__dates">2020 – 2026</span>
+        </div>
+        <p class="about-career-item__body">Drove UX strategy for the company's second-highest profit margin product. Re-engineered the core scholarship awarding platform to balance individual student needs with institutional funding goals. Introduced agentic AI to capture administrative efficiencies, resulting in sustained sales outperformance (averaging 128% of target) and a 50% reduction in support volume.</p>
+      </div>
+      <div class="about-career-item">
+        <div class="about-career-item__header">
+          <span class="about-career-item__company">Fidelity Investments</span>
+          <span class="about-career-item__role">UX Designer</span>
+          <span class="about-career-item__dates">2019 – 2020</span>
+        </div>
+        <p class="about-career-item__body">Demystified the HSA investing experience for novice users, translating sophisticated financial advice tools into actionable, low-barrier interfaces regardless of a user's baseline financial literacy.</p>
+      </div>
+      <div class="about-career-item">
+        <div class="about-career-item__header">
+          <span class="about-career-item__company">Republic Wireless</span>
+          <span class="about-career-item__role">Senior UX Designer</span>
+          <span class="about-career-item__dates">2012 – 2018</span>
+        </div>
+        <p class="about-career-item__body">Led the UX team for over six years, designing a reliable suite of applications and device-activation ecosystems utilized daily by hundreds of thousands of subscribers.</p>
+      </div>
+      <div class="about-career-item">
+        <div class="about-career-item__header">
+          <span class="about-career-item__company">Agency &amp; Core Product Beginnings</span>
+          <span class="about-career-item__dates">2007 – 2012</span>
+        </div>
+        <p class="about-career-item__body">Honed cross-functional execution across early product and agency landscapes (Hesketh, iContact, Brooks Bell), blending frontend execution (HTML/CSS/JS) with data-driven direct response and conversion rate optimization (CRO).</p>
+      </div>
+    </div>
+
+    <!-- Education -->
+    <div class="about-section about-section--grey">
+      <div class="about-section__label">Education &amp; Foundations</div>
+      <div class="about-career-item">
+        <div class="about-career-item__header">
+          <span class="about-career-item__company">FIDM San Francisco</span>
+          <span class="about-career-item__role">Associate's Degree in Visual Communications</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    const hamburger = document.getElementById('nav-hamburger');
+    const navLinks = document.getElementById('nav-links');
+    hamburger.addEventListener('click', function() {
+      hamburger.classList.toggle('is-open');
+      navLinks.classList.toggle('is-open');
+    });
+  </script>
+</body>
+</html>

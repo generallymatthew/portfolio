@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Anywhere Messaging App: Matthew Barton</title>
+  <meta content="width=device-width, initial-scale=1" name="viewport">
+  <link href="images/favicon.png" rel="shortcut icon" type="image/x-icon">
+  <link href="images/webclip.png" rel="apple-touch-icon">
+  <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+  <script>WebFont.load({ google: { families: ["Open Sans:400,700", "Bitter:400,700"] } });</script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    a { text-decoration: none; }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: #f7f7f7;
+      font-family: 'Open Sans', sans-serif;
+    }
+
+    .page {
+      display: flex;
+      flex-wrap: wrap;
+      width: 100%;
+      max-width: 1080px;
+    }
+
+    /* ─── Nav ─────────────────────────────────────── */
+    .site-nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      width: 100%;
+      height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 40px;
+      background: #fff;
+      border-bottom: 1px solid #e8e8e8;
+    }
+    .nav-logo {
+      font-family: 'Open Sans', sans-serif;
+      font-weight: 700;
+      font-size: 15px;
+      color: #0e0c0c;
+      letter-spacing: 1px;
+    }
+    .nav-links { display: flex; align-items: center; gap: 32px; }
+    .nav-link {
+      font-family: 'Open Sans', sans-serif;
+      font-weight: 700;
+      font-size: 13px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #0e0c0c;
+      transition: color 0.2s ease;
+    }
+    .nav-link:hover { color: #0cc4c6; }
+    .nav-hamburger {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+    }
+    .nav-hamburger span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: #0e0c0c;
+      border-radius: 2px;
+      transition: all 0.25s ease;
+    }
+    .nav-hamburger.is-open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .nav-hamburger.is-open span:nth-child(2) { opacity: 0; }
+    .nav-hamburger.is-open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* ─── Hero ─────────────────────────────────────── */
+    .case-hero {
+      width: 100%;
+      min-height: 220px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 56px 64px;
+      background: #98e5e6;
+    }
+    .case-hero__title {
+      font-size: 36px;
+      font-weight: 700;
+      color: #0e0c0c;
+      margin-bottom: 8px;
+    }
+    .case-hero__company {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #0e0c0c;
+      opacity: 0.6;
+    }
+
+    /* ─── Sections ──────────────────────────────────── */
+    .section-full {
+      width: 100%;
+      padding: 64px;
+      background: #fff;
+    }
+    .section-full--gray { background: #ebebeb; }
+
+    .section-half {
+      width: 50%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 64px;
+      background: #fff;
+    }
+    .section-half--gray { background: #ebebeb; }
+
+    .section-image {
+      width: 50%;
+      background: #e8e8e8;
+      min-height: 400px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .section-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .section-image--contain img { object-fit: contain; padding: 32px; }
+    .section-image--phone { min-height: auto; padding: 48px 0; }
+    .section-image--phone img { width: 50%; height: auto; object-fit: contain; }
+
+    @media (min-width: 768px) {
+      .section-image:not(.section-image--phone) img { transform: scale(0.75); }
+    }
+
+    .section-label {
+      font-size: 22px;
+      font-weight: 700;
+      color: #0e0c0c;
+      margin-bottom: 8px;
+    }
+    .section-sublabel {
+      font-size: 11px;
+      font-weight: 700;
+      color: #fe204a;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+    .section-body {
+      font-size: 16px;
+      line-height: 28px;
+      color: #0e0c0c;
+      margin-bottom: 16px;
+    }
+    .section-body:last-child { margin-bottom: 0; }
+
+    .content-list {
+      list-style: none;
+      margin-bottom: 16px;
+    }
+    .content-list li {
+      font-size: 16px;
+      line-height: 28px;
+      color: #0e0c0c;
+      padding-left: 24px;
+      margin-bottom: 8px;
+      position: relative;
+    }
+    .content-list li::before {
+      content: '—';
+      position: absolute;
+      left: 0;
+      color: #0cc4c6;
+      font-weight: 700;
+    }
+
+    .section-divider { width: 100%; height: 1px; background: #e8e8e8; }
+
+    /* ─── Responsive ────────────────────────────────── */
+    @media (max-width: 767px) {
+      .case-hero { padding: 40px 32px; }
+      .section-full { padding: 48px 32px; }
+      .section-half { width: 100%; padding: 48px 32px; }
+      .section-image { width: 100%; min-height: 260px; }
+      .section-image--phone { min-height: auto; padding: 40px 0; }
+      .section-image--phone img { width: 25%; }
+    }
+
+    @media (max-width: 640px) {
+      .nav-hamburger { display: flex; }
+      .nav-links {
+        display: none;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0;
+        position: absolute;
+        top: 72px;
+        left: 0;
+        right: 0;
+        background: #fff;
+        border-bottom: 1px solid #e8e8e8;
+        padding: 16px 40px 24px;
+        z-index: 99;
+      }
+      .nav-links.is-open { display: flex; }
+      .nav-link { padding: 12px 0; font-size: 14px; width: 100%; border-bottom: 1px solid #f0f0f0; }
+      .nav-link:last-child { border-bottom: none; }
+    }
+    .case-footer { width: 100%; height: 120px; display: flex; align-items: center; justify-content: center; background: #fff; }
+    .btn-home { display: inline-flex; align-items: center; justify-content: center; height: 56px; padding: 0 32px; border-radius: 50px; background: #fe204a; color: #fff !important; font-family: 'Open Sans', sans-serif; font-size: 15px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; transition: background 0.3s ease, transform 0.3s ease; }
+    .btn-home:hover { background: #b5012f; transform: scale(1.05); }
+  </style>
+</head>
+<body>
+  <nav class="site-nav">
+    <a href="index.html#portfolio" class="nav-logo">← Back</a>
+    <button class="nav-hamburger" id="nav-hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+    <div class="nav-links" id="nav-links">
+      <a href="index.html#portfolio" class="nav-link">UX Case Studies</a>
+      <a href="writing.html" class="nav-link">UX Writing</a>
+      <a href="about-me.html" class="nav-link">About Me</a>
+    </div>
+  </nav>
+
+  <div class="page">
+
+    <div class="case-hero">
+      <div class="case-hero__title">Anywhere Messaging App</div>
+      <div class="case-hero__company">Republic Wireless</div>
+    </div>
+
+    <div class="section-full">
+      <div class="section-label">User Experience</div>
+      <div class="section-sublabel">Challenges</div>
+      <p class="section-body">The goal of the Anywhere app was to allow users to untether their phone number from their physical device, enabling calls and texts from any screen.</p>
+      <div class="section-sublabel" style="margin-top:24px;">Experience Goals</div>
+      <p class="section-body">We wanted to preserve the native feel users expected when receiving calls or texts on their smartphone. Users stated their biggest concern was getting appropriately notified in a desktop environment.</p>
+      <div class="section-sublabel" style="margin-top:24px;">Responsibilities</div>
+      <p class="section-body">User experience strategy, stakeholder interviews, competitive analysis, system diagrams, wireframes, UI design, prototyping, usability testing.</p>
+    </div>
+
+    <div class="section-divider"></div>
+
+    <div class="section-half">
+      <div class="section-label">Mobile App</div>
+      <div class="section-sublabel">Learnings</div>
+      <p class="section-body">Due to technical limitations in how Android secures internal SMS and MMS databases, we could only access messages if we requested a specific permission during app installation. This required us to build our own mobile app.</p>
+      <p class="section-body">Messaging apps are deceptively complex from a technical standpoint, so we chose to fork the native Messenger app and re-skin it with our brand and design patterns from the desktop app.</p>
+    </div>
+    <div class="section-image section-image--phone">
+      <img src="images/anywhere-mobile-conversation.png" alt="Anywhere mobile app conversation view">
+    </div>
+
+    <div class="section-half">
+      <div class="section-label">Tablet App</div>
+      <div class="section-sublabel">Learnings</div>
+      <p class="section-body">Due to the requirement that the tablet app work in both portrait and landscape modes, we needed to overhaul the layout structure. We found a design pattern that worked across both iOS and Android.</p>
+      <p class="section-body">Users liked this layout so much they asked us to bring it into the desktop app as well.</p>
+    </div>
+    <div class="section-image section-image--phone" style="background:#fff;">
+      <img src="images/anywhere-tablet.png" alt="Anywhere tablet app">
+    </div>
+
+    <div class="section-half section-half--gray">
+      <div class="section-label">Desktop Calling</div>
+      <div class="section-sublabel">Learnings</div>
+      <p class="section-body">The first round of designs tried to integrate the calling interface directly into the desktop app. The complexity this created when switching conversations during an active call made the concept unworkable.</p>
+      <p class="section-body">Our solution was to launch the call interface as a separate modal, independent of the messaging UI, keeping both experiences focused and uncluttered.</p>
+    </div>
+    <div class="section-image section-image--phone section-half--gray">
+      <img src="images/call-modal.svg" alt="Desktop calling modal">
+    </div>
+
+    <div class="case-footer">
+      <a href="index.html#portfolio" class="btn-home">← Return Home</a>
+    </div>
+
+  </div>
+
+  <script>
+    (function () {
+      var btn = document.getElementById('nav-hamburger');
+      var links = document.getElementById('nav-links');
+      if (btn && links) {
+        btn.addEventListener('click', function () {
+          btn.classList.toggle('is-open');
+          links.classList.toggle('is-open');
+        });
+        links.querySelectorAll('a').forEach(function (a) {
+          a.addEventListener('click', function () {
+            btn.classList.remove('is-open');
+            links.classList.remove('is-open');
+          });
+        });
+      }
+    })();
+  </script>
+</body>
+</html>

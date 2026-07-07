@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Trust but Verify: Matthew Barton</title>
+  <meta content="width=device-width, initial-scale=1" name="viewport">
+  <link href="images/favicon.png" rel="shortcut icon" type="image/x-icon">
+  <link href="images/webclip.png" rel="apple-touch-icon">
+  <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+  <script>WebFont.load({ google: { families: ["Great Vibes:400", "Open Sans:300,400,700", "Bitter:400,700"] } });</script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    a { text-decoration: none; }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: #f7f7f7;
+      font-family: 'Open Sans', sans-serif;
+    }
+
+    .page {
+      display: flex;
+      flex-wrap: wrap;
+      width: 100%;
+      max-width: 1080px;
+    }
+
+    /* ─── Hero ───────────────────────────────────────────────── */
+    .case-hero {
+      width: 100%;
+      min-height: 240px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 56px 64px;
+      background: #98e5e6;
+    }
+
+    .case-hero__eyebrow {
+      font-family: 'Open Sans', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #0e0c0c;
+      opacity: 0.5;
+      margin-bottom: 12px;
+    }
+
+    .case-hero__title {
+      font-family: 'Open Sans', sans-serif;
+      font-size: 32px;
+      font-weight: 700;
+      color: #0e0c0c;
+      margin-bottom: 8px;
+      max-width: 640px;
+    }
+
+    /* ─── Sections ───────────────────────────────────────────── */
+    .section-full {
+      width: 100%;
+      padding: 64px;
+      background: #fff;
+    }
+
+    .section-full--gray {
+      background: #ebebeb;
+    }
+
+    .section-label {
+      font-family: 'Open Sans', sans-serif;
+      font-size: 20px;
+      font-weight: 700;
+      color: #0e0c0c;
+      margin-bottom: 16px;
+    }
+
+    .section-sublabel {
+      font-family: 'Open Sans', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      color: #fe204a;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+      margin-top: 32px;
+    }
+
+    .section-sublabel:first-of-type { margin-top: 0; }
+
+    .section-body {
+      font-family: 'Open Sans', sans-serif;
+      font-size: 16px;
+      line-height: 28px;
+      color: #0e0c0c;
+      margin-bottom: 16px;
+      max-width: 720px;
+    }
+
+    /* ─── Pillar cards ───────────────────────────────────────── */
+    .pillars-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 32px;
+      margin-top: 8px;
+    }
+
+    .pillar-card {
+      flex: 1;
+      min-width: 200px;
+      background: #fff;
+      border-left: 4px solid #0cc4c6;
+      padding: 24px;
+    }
+
+    .pillar-card__value {
+      font-family: 'Open Sans', sans-serif;
+      font-size: 32px;
+      font-weight: 700;
+      color: #fe204a;
+      margin-bottom: 8px;
+    }
+
+    .pillar-card__label {
+      font-family: 'Open Sans', sans-serif;
+      font-size: 14px;
+      line-height: 22px;
+      color: #0e0c0c;
+      font-weight: 700;
+    }
+
+    /* ─── Content list ──────────────────────────────────────── */
+    .content-list {
+      list-style: none;
+      padding: 0;
+      margin: 16px 0;
+    }
+
+    .content-list li {
+      font-family: 'Open Sans', sans-serif;
+      font-size: 16px;
+      line-height: 28px;
+      color: #0e0c0c;
+      padding-left: 24px;
+      margin-bottom: 12px;
+      position: relative;
+      max-width: 720px;
+    }
+
+    .content-list li::before {
+      content: '—';
+      position: absolute;
+      left: 0;
+      color: #0cc4c6;
+      font-weight: 700;
+    }
+
+    .content-list li strong {
+      color: #0e0c0c;
+    }
+
+    /* ─── Footer ─────────────────────────────────────────────── */
+    .case-footer {
+      width: 100%;
+      height: 120px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #f7f7f7;
+    }
+
+    .btn-home {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 56px;
+      padding: 0 32px;
+      border-radius: 50px;
+      background: #fe204a;
+      color: #fff !important;
+      font-family: 'Open Sans', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      transition: background 0.3s ease, transform 0.3s ease;
+    }
+
+    .btn-home:hover {
+      background: #b5012f;
+      transform: scale(1.05);
+    }
+
+    .case-footer a {
+      font-family: 'Open Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #0cc4c6;
+    }
+
+    /* ─── Global Nav ─────────────────────────────────────── */
+    .site-nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      width: 100%;
+      height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 40px;
+      background: #fff;
+      border-bottom: 1px solid #e8e8e8;
+      box-sizing: border-box;
+    }
+    .nav-logo {
+      font-family: 'Open Sans', sans-serif;
+      font-weight: 700;
+      font-size: 15px;
+      color: #0e0c0c;
+      letter-spacing: 1px;
+    }
+    .nav-logo span { color: #fe204a; }
+    .nav-links { display: flex; align-items: center; gap: 32px; }
+    .nav-link {
+      font-family: 'Open Sans', sans-serif;
+      font-weight: 700;
+      font-size: 13px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #0e0c0c;
+      transition: color 0.2s ease;
+    }
+    .nav-link:hover { color: #0cc4c6; }
+    .nav-link--accent { color: #fe204a; }
+    .nav-link--accent:hover { color: #b5012f; }
+
+
+    /* ─── Mobile nav ─────────────────────────────────────── */
+    .nav-hamburger {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+    }
+
+    .nav-hamburger span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: #0e0c0c;
+      border-radius: 2px;
+      transition: all 0.25s ease;
+    }
+
+    .nav-hamburger.is-open span:nth-child(1) {
+      transform: translateY(7px) rotate(45deg);
+    }
+
+    .nav-hamburger.is-open span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .nav-hamburger.is-open span:nth-child(3) {
+      transform: translateY(-7px) rotate(-45deg);
+    }
+
+    @media (max-width: 640px) {
+      .nav-hamburger {
+        display: flex;
+      }
+
+      .nav-links {
+        display: none;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0;
+        position: absolute;
+        top: 72px;
+        left: 0;
+        right: 0;
+        background: #fff;
+        border-bottom: 1px solid #e8e8e8;
+        padding: 16px 40px 24px;
+        z-index: 99;
+      }
+
+      .nav-links.is-open {
+        display: flex;
+      }
+
+      .nav-link {
+        padding: 12px 0;
+        font-size: 14px;
+        width: 100%;
+        border-bottom: 1px solid #f0f0f0;
+      }
+
+      .nav-link:last-child {
+        border-bottom: none;
+      }
+    }
+
+  </style>
+</head>
+<body>
+  <div class="page">
+
+    <!-- Nav -->
+    <nav class="site-nav">
+      <a href="writing.html" class="nav-logo">← Back</a>
+      <button class="nav-hamburger" id="nav-hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+      <div class="nav-links" id="nav-links">
+        <a href="index.html#portfolio" class="nav-link">UX Case Studies</a>
+        
+        <a href="writing.html" class="nav-link">UX Writing</a>
+        <a href="about-me.html" class="nav-link">About Me</a>
+      </div>
+    </nav>
+
+
+    <!-- Hero -->
+    <div class="case-hero">
+      <div class="case-hero__eyebrow">Essay</div>
+      <div class="case-hero__title">Trust but Verify</div>
+    </div>
+
+    <!-- Intro -->
+    <div class="section-full">
+      <div class="section-label">How we should negotiate our relationship to agentic AI recommendations and actions</div>
+      <p class="section-body">We are living through a fundamental shift in how humanity interacts with information. For decades, the internet operated as a vast, interconnected library. Today, it has transformed into a generative engine. In this new landscape, Large Language Models (LLMs) operate as "calculators for the world's knowledge." They possess an unprecedented ability to answer any question in any format. Yet, this incredible capability introduces a massive point of friction: while a traditional calculator guarantees mathematical accuracy, an LLM only guarantees plausibility.</p>
+      <p class="section-body">As user experience professionals, we must face an uncomfortable reality. When we design generative systems that stream flawed text with unearned confidence, we aren't just designing an interface; we are actively breaking user trust. Historically, media literacy was taught as a consumer-side responsibility, crystallized in frameworks like Mike Caulfield's SIFT method: Stop, Investigate the source, Find better coverage, and Trace back to the original context. But in an ecosystem where synthetic text, deepfakes, and algorithmic confirmation bias act as constant cognitive friction, we can no longer expect users to shoulder this burden alone.</p>
+      <p class="section-body">Our users expect us to be experts in the technology we build. Therefore, we owe it to them to embed media literacy best practices directly into the user interface. Product design must move past the "black box" era. We must establish a new UX paradigm anchored by three core pillars.</p>
+    </div>
+
+    <!-- Three pillars summary -->
+    <div class="section-full section-full--gray">
+      <div class="section-label">Three Core Pillars</div>
+      <div class="pillars-grid">
+        <div class="pillar-card">
+          <div class="pillar-card__value">01</div>
+          <div class="pillar-card__label">Show Sources</div>
+        </div>
+        <div class="pillar-card">
+          <div class="pillar-card__value">02</div>
+          <div class="pillar-card__label">Show Uncertainty</div>
+        </div>
+        <div class="pillar-card">
+          <div class="pillar-card__value">03</div>
+          <div class="pillar-card__label">Show Humans</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pillar 1 -->
+    <div class="section-full">
+      <div class="section-label">1. Show Sources</div>
+      <div class="section-sublabel">Transparency by Design</div>
+      <p class="section-body">The foundational flaw of most modern AI experiences is the lack of lineage. An LLM states a claim, and the user is expected to accept it wholesale. Good media literacy design borrows a page from the open-web playbook, specifically Wikipedia, by championing structural patterns like edit histories, explicit reference links, superscript citations, and inline attributions.</p>
+      <p class="section-body">To build Transparency by Design at the interface and system level, our design systems must treat provenance as a first-class citizen:</p>
+      <ul class="content-list">
+        <li><strong>Prompt Engineering Constraints:</strong> System prompts should be strictly engineered to auto-include verified source links rather than forcing the model to generate them ad-hoc.</li>
+        <li><strong>UI Labeling:</strong> Any synthetic, altered, or AI-generated image or piece of content must be clearly and unambiguously labeled as such.</li>
+        <li><strong>Traceable Lineage:</strong> For complex automation, like an agentic workflow handling a university scholarship review, the UI must explicitly pull raw, uninterpreted data directly from the system database, ensuring users can trace information back to its immutable point of origin.</li>
+      </ul>
+    </div>
+
+    <!-- Pillar 2 -->
+    <div class="section-full section-full--gray">
+      <div class="section-label">2. Show Uncertainty</div>
+      <div class="section-sublabel">Designing the "Confident Voice" Warning</div>
+      <p class="section-body">AI models are engineered to sound authoritative, but the real world is built on nuance. Left unchecked, a model will deliver a wild hallucination and a foundational truth with the exact same linguistic confidence. This is a massive UX failure mode. If a system cannot guarantee a fact, the UI must aggressively counter the model's "confident voice."</p>
+      <p class="section-body">We can make uncertainty highly visible through distinct interface interventions:</p>
+      <ul class="content-list">
+        <li><strong>Visual Differentiation:</strong> We must visually separate rock-solid facts from soft algorithmic inferences. If a model is extrapolating or predicting, the design should flag this distinction through typography, color, or container treatments.</li>
+        <li><strong>Alternative Perspectives:</strong> When a topic is complex or heavily debated, the interface should surface alternative viewpoints or fact-based counterpoints alongside the primary output.</li>
+        <li><strong>Explicit Limits:</strong> If a user's query touches upon data beyond a model's training knowledge cutoff, the system must state these data limitations explicitly, warning the user that the response may be outdated or incomplete.</li>
+      </ul>
+    </div>
+
+    <!-- Pillar 3 -->
+    <div class="section-full">
+      <div class="section-label">3. Show Humans</div>
+      <div class="section-sublabel">Preserving Agency and Accountability</div>
+      <p class="section-body">AI is an amplifier, not a surrogate. Just as a wrench requires a human hand to guide it, an AI tool requires human oversight to be safe and effective. When systems become too automated, human users slip into automation bias: a state of passive compliance where they stop critically evaluating the system's outputs. Our job as product designers is to design friction back into the system to protect human agency.</p>
+      <p class="section-body">Preserving the human element requires systemic guardrails across the user journey:</p>
+      <ul class="content-list">
+        <li><strong>Action Plans and Reasoning Logs:</strong> Instead of just outputting an end result, complex agentic workflows should expose their step-by-step chain-of-thought. Showing an action plan or reasoning log allows the user to follow the logic trail and intervene if the system veers off course.</li>
+        <li><strong>Trust but Verify:</strong> In high-stakes environments, such as financial calculations, legal reviews, or institutional award processing, the UI must mandate an explicit human sign-off before any critical action is executed. Relying blindly on an "AI-on-AI" validation strategy exponentially compounds error risks.</li>
+        <li><strong>Supportive, Not Directive UX:</strong> Interface text and options should be framed to support a user's critical thinking, not dictate their actions. System suggestions should present optional next steps rather than automated mandates, keeping the human firmly in the driver's seat.</li>
+      </ul>
+    </div>
+
+    <!-- UX Mandate -->
+    <div class="section-full section-full--gray">
+      <div class="section-label">The UX Mandate</div>
+      <p class="section-body">Ultimately, media literacy in the digital age cannot just be an educational campaign; it must be an architectural principle. When we build interfaces for generative AI, we hold a massive amount of power over what users perceive as true, credible, and actionable.</p>
+      <p class="section-body">By exposing sources, making algorithmic uncertainty visible, and designing clear checkpoints for human accountability, we can move away from manipulative, opaque design patterns. It is our responsibility as UX practitioners to build products that don't just deliver fast answers, but actively empower our users to navigate the world with a critical, media-literate eye.</p>
+    </div>
+
+    <div class="case-footer">
+      <a href="index.html#portfolio" class="btn-home">← Return Home</a>
+    </div>
+
+  </div>
+</body>
+</html>

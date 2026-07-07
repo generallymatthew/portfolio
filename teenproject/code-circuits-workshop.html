@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Font Design and Cryptography</title>
+  <meta content="width=device-width, initial-scale=1" name="viewport">
+  <link href="../images/favicon.png" rel="shortcut icon" type="image/x-icon">
+  <link href="../images/webclip.png" rel="apple-touch-icon">
+  <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+  <script>WebFont.load({ google: { families: ["Open Sans:400,700", "Bitter:400,700", "Satisfy:400"] } });</script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    a { text-decoration: none; }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: #f7f7f7;
+      font-family: 'Open Sans', sans-serif;
+    }
+
+    .page {
+      display: flex;
+      flex-wrap: wrap;
+      width: 100%;
+      max-width: 1080px;
+    }
+
+    /* ─── Nav ─────────────────────────────────────── */
+    .site-nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      width: 100%;
+      height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 40px;
+      background: #fff;
+      border-bottom: 1px solid #e8e8e8;
+    }
+    .nav-logo {
+      font-family: 'Open Sans', sans-serif;
+      font-weight: 700;
+      font-size: 15px;
+      color: #0e0c0c;
+      letter-spacing: 1px;
+    }
+    .nav-links { display: flex; align-items: center; gap: 32px; }
+    .nav-link {
+      font-family: 'Open Sans', sans-serif;
+      font-weight: 700;
+      font-size: 13px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #0e0c0c;
+      transition: color 0.2s ease;
+    }
+    .nav-link:hover { color: #0cc4c6; }
+    .nav-hamburger {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+    }
+    .nav-hamburger span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: #0e0c0c;
+      border-radius: 2px;
+      transition: all 0.25s ease;
+    }
+    .nav-hamburger.is-open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .nav-hamburger.is-open span:nth-child(2) { opacity: 0; }
+    .nav-hamburger.is-open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* ─── Hero ─────────────────────────────────────── */
+    .case-hero {
+      width: 100%;
+      min-height: 220px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 56px 64px;
+      background: #98e5e6;
+    }
+    .case-hero__title {
+      font-size: 36px;
+      font-weight: 700;
+      color: #0e0c0c;
+      margin-bottom: 8px;
+    }
+    .case-hero__company {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #0e0c0c;
+      opacity: 0.6;
+    }
+
+    /* ─── Sections ──────────────────────────────────── */
+    .section-full {
+      width: 100%;
+      padding: 64px;
+      background: #fff;
+    }
+    .section-full--gray { background: #ebebeb; }
+    .section-full--columns {
+      display: flex;
+      gap: 64px;
+    }
+    .section-full--columns > div {
+      flex: 1;
+    }
+    .section-full--columns .content-list {
+      font-size: 13px;
+      line-height: 22px;
+    }
+    .section-full--columns .content-list li {
+      font-size: 13px;
+      line-height: 22px;
+    }
+
+    .section-half {
+      width: 50%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 64px;
+      background: #fff;
+    }
+    .section-half--gray { background: #fff; }
+
+    .section-image {
+      width: 50%;
+      background: rgba(152, 229, 230, 0.2);
+      min-height: auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      overflow: auto;
+      font-size: 14px;
+      color: #999;
+      text-align: center;
+      padding: 40px;
+      gap: 20px;
+    }
+    .section-image svg {
+      width: 100%;
+      max-width: 100%;
+      height: auto;
+    }
+    .section-image ul {
+      width: 100%;
+    }
+    .section-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .section-image--contain img { object-fit: contain; padding: 40px; }
+
+    .section-image-full {
+      width: 100%;
+      border-top: 1px solid #e8e8e8;
+      border-bottom: 1px solid #e8e8e8;
+      background: #fff;
+    }
+    .section-image-full img { width: 100%; display: block; }
+
+    .section-label {
+      font-size: 22px;
+      font-weight: 700;
+      color: #0e0c0c;
+      margin-bottom: 8px;
+    }
+    .section-sublabel {
+      font-size: 11px;
+      font-weight: 700;
+      color: #fe204a;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+    .section-body {
+      font-size: 16px;
+      line-height: 28px;
+      color: #0e0c0c;
+      margin-bottom: 16px;
+    }
+    .section-body:last-child { margin-bottom: 0; }
+
+    .content-list {
+      list-style: none;
+      margin-bottom: 16px;
+    }
+    .content-list li {
+      font-size: 16px;
+      line-height: 28px;
+      color: #0e0c0c;
+      padding-left: 24px;
+      margin-bottom: 8px;
+      position: relative;
+    }
+    .content-list li::before {
+      content: '—';
+      position: absolute;
+      left: 0;
+      color: #0cc4c6;
+      font-weight: 700;
+    }
+
+    .section-divider { width: 100%; height: 1px; background: #e8e8e8; }
+
+    /* ─── Responsive ────────────────────────────────── */
+    @media (max-width: 767px) {
+      .case-hero { padding: 40px 32px; }
+      .section-full { padding: 48px 32px; }
+      .section-half { width: 100%; padding: 48px 32px; }
+      .section-image { width: 100%; min-height: 260px; }
+    }
+
+    @media (max-width: 640px) {
+      .nav-hamburger { display: flex; }
+      .nav-links {
+        display: none;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0;
+        position: absolute;
+        top: 72px;
+        left: 0;
+        right: 0;
+        background: #fff;
+        border-bottom: 1px solid #e8e8e8;
+        padding: 16px 40px 24px;
+        z-index: 99;
+      }
+      .nav-links.is-open { display: flex; }
+      .nav-link { padding: 12px 0; font-size: 14px; width: 100%; border-bottom: 1px solid #f0f0f0; }
+      .nav-link:last-child { border-bottom: none; }
+    }
+    .case-footer { width: 100%; height: 120px; display: flex; align-items: center; justify-content: center; background: #fff; }
+    .btn-home { display: inline-flex; align-items: center; justify-content: center; height: 56px; padding: 0 32px; border-radius: 50px; background: #fe204a; color: #fff !important; font-family: 'Open Sans', sans-serif; font-size: 15px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; transition: background 0.3s ease, transform 0.3s ease; }
+    .btn-home:hover { background: #b5012f; transform: scale(1.05); }
+  </style>
+</head>
+<body>
+  <nav class="site-nav">
+    <a href="../index.html#portfolio" class="nav-logo">← Back</a>
+    <button class="nav-hamburger" id="nav-hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+    <div class="nav-links" id="nav-links">
+      <a href="../index.html#portfolio" class="nav-link">Portfolio</a>
+      <a href="../about-me.html" class="nav-link">About Me</a>
+    </div>
+  </nav>
+
+  <div class="page">
+
+    <div class="case-hero">
+      <div class="case-hero__title">Font Design and Cryptography</div>
+      <div class="case-hero__company">Educational Initiative</div>
+    </div>
+
+    <div class="section-full">
+      <div class="section-label">Overview</div>
+    </div>
+
+    <div class="section-full section-full--columns">
+      <div>
+        <p class="section-body">The Telegraphic Grid Font Project bridges analog design, data logic, and history by challenging teams to collaborate on creating, encoding, and decoding a custom typeface using a highly constrained physical communication system. Over 5 days (1–1.5 hours per day), students design a custom alphanumeric font on a shared 5×5 grid system, translate visual designs into binary sequences and decimal codes, and use physical tactile signals (taps and scratches) to transmit their encryption.</p>
+      </div>
+      <div>
+        <p class="section-body" style="margin-bottom:24px;"><strong>The project progresses through the following phases:</strong></p>
+        <ul class="content-list">
+          <li><strong>Day 1: Design & Grid Setup</strong> — Establish the design framework and brainstorm the font on a 5×5 grid system.</li>
+          <li><strong>Day 2: Character Development</strong> — Finalize the visual alphabet with complete stylistic consistency.</li>
+          <li><strong>Day 3: Binary Encoding & Decimal Shorthand</strong> — Translate visual design into data logic using binary sequences.</li>
+          <li><strong>Day 4: Message Composition & Poster Layout</strong> — Prep the physical canvas and establish the control message (haiku).</li>
+          <li><strong>Day 5: Transmission, Inking & Verification</strong> — Run the communication loop, complete the artwork, and verify accuracy.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="section-divider"></div>
+
+    <!-- Section 1: Day 1 -->
+    <div class="section-half">
+      <div class="section-label">Design & Grid Setup</div>
+      <div class="section-sublabel">Day 1</div>
+      <p class="section-body"><strong>Objective:</strong> Establish the design framework and brainstorm the font.</p>
+      <div class="section-sublabel" style="margin-top:24px;">Instructions:</div>
+      <ul class="content-list">
+        <li>Introduce the project theme, constraints (binary/Telegram), and final goals to the team.</li>
+        <li>Review the technical constraints of a 5×5 grid system.</li>
+        <li>Distribute the Coder's Workbook and set up individual grid templates for sketching.</li>
+        <li>Begin brainstorming and sketching initial modular shapes for letters A–Z.</li>
+      </ul>
+    </div>
+    <div class="section-image" style="display: flex; align-items: center; justify-content: center; flex-direction: column;">
+      <svg viewBox="0 0 400 380" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;margin-bottom:16px;">
+        <defs>
+          <style>
+            .resource-title { font-size: 18px; font-weight: bold; fill: #0e0c0c; }
+            .resource-label { font-size: 12px; fill: #0e0c0c; font-weight: 600; }
+            .resource-count { font-size: 11px; fill: #666; }
+          </style>
+        </defs>
+
+        <!-- Title -->
+        <text x="200" y="5" class="resource-title" text-anchor="middle" font-size="22">Resource List</text>
+
+        <!-- ROW 1 -->
+
+        <!-- Poster Board -->
+        <g>
+          <rect x="42" y="50" width="60" height="75" fill="#FFF8DC" opacity="0.9" stroke="#333" stroke-width="2" rx="2"/>
+          <line x1="49" y1="65" x2="95" y2="65" stroke="#ccc" stroke-width="1"/>
+          <line x1="49" y1="80" x2="95" y2="80" stroke="#ccc" stroke-width="1"/>
+          <line x1="49" y1="95" x2="95" y2="95" stroke="#ccc" stroke-width="1"/>
+          <text x="72" y="145" class="resource-label" text-anchor="middle">Poster</text>
+          <text x="72" y="160" class="resource-label" text-anchor="middle">Board</text>
+          <text x="72" y="175" class="resource-count" text-anchor="middle">22x28"</text>
+        </g>
+
+        <!-- Sharpies (Various Sizes) -->
+        <g>
+          <!-- Small Sharpie -->
+          <rect x="192" y="75" width="4" height="35" fill="#000" rx="1.5"/>
+          <circle cx="194" cy="68" r="2" fill="#000"/>
+          <!-- Medium Sharpie -->
+          <rect x="202" y="60" width="6" height="50" fill="#000" rx="2"/>
+          <circle cx="205" cy="50" r="3" fill="#000"/>
+          <!-- Large Sharpie -->
+          <rect x="214" y="50" width="8" height="60" fill="#000" rx="2.5"/>
+          <circle cx="218" cy="40" r="4" fill="#000"/>
+          <text x="207" y="145" class="resource-label" text-anchor="middle">Sharpie</text>
+          <text x="207" y="160" class="resource-label" text-anchor="middle">Various</text>
+          <text x="207" y="175" class="resource-count" text-anchor="middle">Sizes</text>
+        </g>
+
+        <!-- T-Square -->
+        <g>
+          <!-- Blade (horizontal) -->
+          <rect x="280" y="85" width="80" height="10" fill="#D3D3D3" stroke="#666" stroke-width="1.5" rx="2"/>
+          <line x1="292" y1="83" x2="292" y2="97" stroke="#999" stroke-width="0.5"/>
+          <line x1="310" y1="83" x2="310" y2="97" stroke="#999" stroke-width="0.5"/>
+          <line x1="328" y1="83" x2="328" y2="97" stroke="#999" stroke-width="0.5"/>
+          <!-- Head (vertical) -->
+          <rect x="313" y="55" width="26" height="32" fill="#D3D3D3" stroke="#666" stroke-width="1.5" rx="2"/>
+          <line x1="311" y1="67" x2="341" y2="67" stroke="#999" stroke-width="0.5"/>
+          <line x1="311" y1="79" x2="341" y2="79" stroke="#999" stroke-width="0.5"/>
+          <text x="326" y="145" class="resource-label" text-anchor="middle">T-Square</text>
+        </g>
+
+        <!-- ROW 2 -->
+
+        <!-- Pencil -->
+        <g>
+          <rect x="67" y="210" width="5" height="65" fill="#F4A460" rx="2"/>
+          <polygon points="72,210 77,210 74.5,203" fill="#FFD700"/>
+          <text x="72" y="295" class="resource-label" text-anchor="middle">Pencil</text>
+        </g>
+
+        <!-- Eraser -->
+        <g>
+          <rect x="192" y="220" width="30" height="30" fill="#FF69B4" rx="3"/>
+          <text x="207" y="295" class="resource-label" text-anchor="middle">Eraser</text>
+        </g>
+
+        <!-- Grid Paper -->
+        <g>
+          <rect x="287" y="210" width="55" height="65" fill="#E8F4F8" stroke="#999" stroke-width="1.5" rx="2"/>
+          <line x1="295" y1="223" x2="337" y2="223" stroke="#ddd" stroke-width="0.5"/>
+          <line x1="295" y1="237" x2="337" y2="237" stroke="#ddd" stroke-width="0.5"/>
+          <line x1="295" y1="251" x2="337" y2="251" stroke="#ddd" stroke-width="0.5"/>
+          <line x1="303" y1="210" x2="303" y2="275" stroke="#ddd" stroke-width="0.5"/>
+          <line x1="319" y1="210" x2="319" y2="275" stroke="#ddd" stroke-width="0.5"/>
+          <line x1="335" y1="210" x2="335" y2="275" stroke="#ddd" stroke-width="0.5"/>
+          <text x="314" y="295" class="resource-label" text-anchor="middle">Grid</text>
+          <text x="314" y="310" class="resource-label" text-anchor="middle">Paper</text>
+        </g>
+
+
+      </svg>
+      <table style="font-size:11px; width:100%; border-collapse:collapse; color:#0e0c0c; text-align:left;">
+        <thead>
+          <tr style="border-bottom:2px solid #0cc4c6;">
+            <th style="text-align:left; padding:8px 4px; font-weight:600;">Material</th>
+            <th style="text-align:right; padding:8px 4px; font-weight:600;">Qty</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom:1px solid #e0e0e0;">
+            <td style="padding:6px 4px;">Poster Board (22×28")</td>
+            <td style="text-align:right; padding:6px 4px;">1 sheet</td>
+          </tr>
+          <tr style="border-bottom:1px solid #e0e0e0;">
+            <td style="padding:6px 4px;">Sharpies (Various Sizes)</td>
+            <td style="text-align:right; padding:6px 4px;">Set</td>
+          </tr>
+          <tr style="border-bottom:1px solid #e0e0e0;">
+            <td style="padding:6px 4px;">T-Square</td>
+            <td style="text-align:right; padding:6px 4px;">1 per team</td>
+          </tr>
+          <tr style="border-bottom:1px solid #e0e0e0;">
+            <td style="padding:6px 4px;">Pencil</td>
+            <td style="text-align:right; padding:6px 4px;">1 per student</td>
+          </tr>
+          <tr style="border-bottom:1px solid #e0e0e0;">
+            <td style="padding:6px 4px;">Eraser</td>
+            <td style="text-align:right; padding:6px 4px;">1 per student</td>
+          </tr>
+          <tr>
+            <td style="padding:6px 4px;">Grid Paper</td>
+            <td style="text-align:right; padding:6px 4px;">1 pad</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Section 2: Day 2 -->
+    <div class="section-image" style="padding: 10px;">
+      <svg viewBox="0 0 500 350" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;">
+        <!-- Grid-based alphabet font - LARGER -->
+        <defs>
+          <style>
+            .grid-cell { stroke: #ddd; stroke-width: 0.5; }
+            .letter-fill { fill: #0e0c0c; }
+          </style>
+        </defs>
+
+        <g transform="scale(0.7)" transform-origin="0 0">
+        <!-- A -->
+        <rect x="10" y="10" width="16" height="16" class="grid-cell letter-fill"/>
+        <rect x="36" y="10" width="16" height="16" class="grid-cell letter-fill"/>
+        <rect x="10" y="36" width="16" height="16" class="grid-cell letter-fill"/>
+        <rect x="52" y="36" width="16" height="16" class="grid-cell letter-fill"/>
+        <rect x="10" y="62" width="16" height="16" class="grid-cell letter-fill"/>
+        <rect x="36" y="62" width="16" height="16" class="grid-cell letter-fill"/>
+        <rect x="52" y="62" width="16" height="16" class="grid-cell letter-fill"/>
+        <rect x="10" y="88" width="16" height="16" class="grid-cell letter-fill"/>
+        <rect x="52" y="88" width="16" height="16" class="grid-cell letter-fill"/>
+        <rect x="10" y="114" width="16" height="16" class="grid-cell letter-fill"/>
+        <rect x="52" y="114" width="16" height="16" class="grid-cell letter-fill"/>
+
+        <!-- B -->
+        <rect x="90" y="10" width="16" height="16" class="grid-cell letter-fill"/>
+        <rect x="116" y="10" width="16" height="16" class="grid-cell letter-fill"/>
+        <rect x="142" y="10" width="16" height="16" class="grid-cell letter-fill"/>
+        <rect x="90" y="36" width="16" height="16" class="grid-cell letter-fill"/>
+        <rect x="152" y="36" width="16" height="16" class="grid-cell letter-fill"/>
+        <rect x="90" y="62" width="16" height="16" class="grid-cell letter-fill"/>
+        <rect x="116" y="62" width="16" height="16" class="grid-cell letter-fill"/>
+        <rect x="142" y="62" width="16" height="16" class="grid-cell letter-fill"/>
+        <rect x="90" y="88" width="16" height="16" class="grid-cell letter-fill"/>
+        <rect x="152" y="88" width="16" height="16" class="grid-cell letter-fill"/>
+        <rect x="90" y="114" width="16" height="16" class="grid-cell letter-fill"/>
+        <rect x="116" y="114" width="16" height="16" class="grid-cell letter-fill"/>
+        <rect x="142" y="114" width="16" height="16" class="grid-cell letter-fill"/>
+
+        <!-- C -->
+        <rect x="180" y="10" width="16" height="16" class="grid-cell letter-fill"/>
+        <rect x="206" y="10" width="16" height="16" class="grid-cell letter-fill"/>
+        <rect x="232" y="10" width="16" height="16" class="grid-cell letter-fill"/>
+        <rect x="180" y="36" width="16" height="16" class="grid-cell letter-fill"/>
+        <rect x="180" y="62" width="16" height="16" class="grid-cell letter-fill"/>
+        <rect x="180" y="88" width="16" height="16" class="grid-cell letter-fill"/>
+        <rect x="180" y="114" width="16" height="16" class="grid-cell letter-fill"/>
+        <rect x="206" y="114" width="16" height="16" class="grid-cell letter-fill"/>
+        <rect x="232" y="114" width="16" height="16" class="grid-cell letter-fill"/>
+
+        <!-- D -->
+        <rect x="270" y="10" width="16" height="16" class="grid-cell letter-fill"/>
+        <rect x="296" y="10" width="16" height="16" class="grid-cell letter-fill"/>
+        <rect x="322" y="10" width="16" height="16" class="grid-cell letter-fill"/>
+        <rect x="270" y="36" width="16" height="16" class="grid-cell letter-fill"/>
+        <rect x="338" y="36" width="16" height="16" class="grid-cell letter-fill"/>
+        <rect x="270" y="62" width="16" height="16" class="grid-cell letter-fill"/>
+        <rect x="338" y="62" width="16" height="16" class="grid-cell letter-fill"/>
+        <rect x="270" y="88" width="16" height="16" class="grid-cell letter-fill"/>
+        <rect x="338" y="88" width="16" height="16" class="grid-cell letter-fill"/>
+        <rect x="270" y="114" width="16" height="16" class="grid-cell letter-fill"/>
+        <rect x="296" y="114" width="16" height="16" class="grid-cell letter-fill"/>
+        <rect x="322" y="114" width="16" height="16" class="grid-cell letter-fill"/>
+
+        <!-- E -->
+        <rect x="360" y="10" width="16" height="16" class="grid-cell letter-fill"/>
+        <rect x="386" y="10" width="16" height="16" class="grid-cell letter-fill"/>
+        <rect x="412" y="10" width="16" height="16" class="grid-cell letter-fill"/>
+        <rect x="438" y="10" width="16" height="16" class="grid-cell letter-fill"/>
+        <rect x="360" y="36" width="16" height="16" class="grid-cell letter-fill"/>
+        <rect x="360" y="62" width="16" height="16" class="grid-cell letter-fill"/>
+        <rect x="386" y="62" width="16" height="16" class="grid-cell letter-fill"/>
+        <rect x="412" y="62" width="16" height="16" class="grid-cell letter-fill"/>
+        <rect x="360" y="88" width="16" height="16" class="grid-cell letter-fill"/>
+        <rect x="360" y="114" width="16" height="16" class="grid-cell letter-fill"/>
+        <rect x="386" y="114" width="16" height="16" class="grid-cell letter-fill"/>
+        <rect x="412" y="114" width="16" height="16" class="grid-cell letter-fill"/>
+        <rect x="438" y="114" width="16" height="16" class="grid-cell letter-fill"/>
+
+        <!-- F -->
+        <rect x="10" y="160" width="16" height="16" class="grid-cell letter-fill"/>
+        <rect x="36" y="160" width="16" height="16" class="grid-cell letter-fill"/>
+        <rect x="62" y="160" width="16" height="16" class="grid-cell letter-fill"/>
+        <rect x="88" y="160" width="16" height="16" class="grid-cell letter-fill"/>
+        <rect x="10" y="186" width="16" height="16" class="grid-cell letter-fill"/>
+        <rect x="10" y="212" width="16" height="16" class="grid-cell letter-fill"/>
+        <rect x="36" y="212" width="16" height="16" class="grid-cell letter-fill"/>
+        <rect x="62" y="212" width="16" height="16" class="grid-cell letter-fill"/>
+        <rect x="10" y="238" width="16" height="16" class="grid-cell letter-fill"/>
+        <rect x="10" y="264" width="16" height="16" class="grid-cell letter-fill"/>
+
+        <!-- G -->
+        <rect x="120" y="160" width="16" height="16" class="grid-cell letter-fill"/>
+        <rect x="146" y="160" width="16" height="16" class="grid-cell letter-fill"/>
+        <rect x="172" y="160" width="16" height="16" class="grid-cell letter-fill"/>
+        <rect x="198" y="160" width="16" height="16" class="grid-cell letter-fill"/>
+        <rect x="120" y="186" width="16" height="16" class="grid-cell letter-fill"/>
+        <rect x="120" y="212" width="16" height="16" class="grid-cell letter-fill"/>
+        <rect x="172" y="212" width="16" height="16" class="grid-cell letter-fill"/>
+        <rect x="198" y="212" width="16" height="16" class="grid-cell letter-fill"/>
+        <rect x="120" y="238" width="16" height="16" class="grid-cell letter-fill"/>
+        <rect x="198" y="238" width="16" height="16" class="grid-cell letter-fill"/>
+        <rect x="120" y="264" width="16" height="16" class="grid-cell letter-fill"/>
+        <rect x="146" y="264" width="16" height="16" class="grid-cell letter-fill"/>
+        <rect x="172" y="264" width="16" height="16" class="grid-cell letter-fill"/>
+        <rect x="198" y="264" width="16" height="16" class="grid-cell letter-fill"/>
+
+        <!-- H -->
+        <rect x="230" y="160" width="16" height="16" class="grid-cell letter-fill"/>
+        <rect x="282" y="160" width="16" height="16" class="grid-cell letter-fill"/>
+        <rect x="230" y="186" width="16" height="16" class="grid-cell letter-fill"/>
+        <rect x="282" y="186" width="16" height="16" class="grid-cell letter-fill"/>
+        <rect x="230" y="212" width="16" height="16" class="grid-cell letter-fill"/>
+        <rect x="256" y="212" width="16" height="16" class="grid-cell letter-fill"/>
+        <rect x="282" y="212" width="16" height="16" class="grid-cell letter-fill"/>
+        <rect x="230" y="238" width="16" height="16" class="grid-cell letter-fill"/>
+        <rect x="282" y="238" width="16" height="16" class="grid-cell letter-fill"/>
+        <rect x="230" y="264" width="16" height="16" class="grid-cell letter-fill"/>
+        <rect x="282" y="264" width="16" height="16" class="grid-cell letter-fill"/>
+
+        <!-- I -->
+        <rect x="320" y="160" width="16" height="16" class="grid-cell letter-fill"/>
+        <rect x="346" y="160" width="16" height="16" class="grid-cell letter-fill"/>
+        <rect x="372" y="160" width="16" height="16" class="grid-cell letter-fill"/>
+        <rect x="346" y="186" width="16" height="16" class="grid-cell letter-fill"/>
+        <rect x="346" y="212" width="16" height="16" class="grid-cell letter-fill"/>
+        <rect x="346" y="238" width="16" height="16" class="grid-cell letter-fill"/>
+        <rect x="320" y="264" width="16" height="16" class="grid-cell letter-fill"/>
+        <rect x="346" y="264" width="16" height="16" class="grid-cell letter-fill"/>
+        <rect x="372" y="264" width="16" height="16" class="grid-cell letter-fill"/>
+
+        <!-- J -->
+        <rect x="404" y="160" width="16" height="16" class="grid-cell letter-fill"/>
+        <rect x="430" y="160" width="16" height="16" class="grid-cell letter-fill"/>
+        <rect x="456" y="160" width="16" height="16" class="grid-cell letter-fill"/>
+        <rect x="456" y="186" width="16" height="16" class="grid-cell letter-fill"/>
+        <rect x="456" y="212" width="16" height="16" class="grid-cell letter-fill"/>
+        <rect x="456" y="238" width="16" height="16" class="grid-cell letter-fill"/>
+        <rect x="404" y="264" width="16" height="16" class="grid-cell letter-fill"/>
+        <rect x="430" y="264" width="16" height="16" class="grid-cell letter-fill"/>
+        <rect x="456" y="264" width="16" height="16" class="grid-cell letter-fill"/>
+        </g>
+      </svg>
+    </div>
+    <div class="section-half section-half--gray">
+      <div class="section-label">Character Development</div>
+      <div class="section-sublabel">Day 2</div>
+      <p class="section-body"><strong>Objective:</strong> Finalize the visual alphabet with complete stylistic consistency.</p>
+      <div class="section-sublabel" style="margin-top:24px;">Instructions:</div>
+      <ul class="content-list">
+        <li>Complete the technical drawings for the full alphabet set on clean workbook grid templates.</li>
+        <li>Review all characters as a team to ensure stylistic uniformity across the entire set.</li>
+        <li>Refine any messy grid patterns to optimize clarity and legibility before translation.</li>
+      </ul>
+    </div>
+
+    <!-- Section 3: Day 3 -->
+    <div class="section-half">
+      <div class="section-label">Binary Encoding & Decimal Shorthand</div>
+      <div class="section-sublabel">Day 3</div>
+      <p class="section-body"><strong>Objective:</strong> Translate visual design into data logic.</p>
+      <div class="section-sublabel" style="margin-top:24px;">Instructions:</div>
+      <ul class="content-list">
+        <li>Conduct a final review of the visual alphabet.</li>
+        <li>Translate each letter row-by-row into a 5-digit binary sequence (0 for empty space, 1 for filled space).</li>
+        <li>Map these binary sequences into their specific decimal shorthand values using the ledger in the workbook.</li>
+        <li>Document the completed system codes cleanly so they are ready for transmission.</li>
+      </ul>
+    </div>
+    <div class="section-image">
+      [Illustration: Binary encoding system]
+    </div>
+
+    <!-- Section 4: Day 4 -->
+    <div class="section-image" style="flex-direction:column; justify-content:flex-start; padding:40px; text-align:center;">
+      <div style="margin-bottom:40px;">
+        <p style="font-size:18px; font-weight:700; color:#0e0c0c; margin-bottom:24px; letter-spacing:1px;">PROJECT HAIKU</p>
+        <p style="font-family:'Satisfy', cursive; font-size:28px; line-height:40px; color:#fe204a; margin-bottom:8px;">grid marks the signal</p>
+        <p style="font-family:'Satisfy', cursive; font-size:28px; line-height:40px; color:#fe204a; margin-bottom:8px;">taps and scratches speak the code</p>
+        <p style="font-family:'Satisfy', cursive; font-size:28px; line-height:40px; color:#fe204a;">letters emerge whole</p>
+      </div>
+
+      <div style="border-top:2px solid #0cc4c6; padding-top:32px; text-align:left;">
+        <p style="font-size:13px; font-weight:700; color:#0e0c0c; margin-bottom:16px; letter-spacing:1px;">HAIKU RULES</p>
+        <ul style="list-style:none; padding:0; font-size:12px; color:#0e0c0c; line-height:20px;">
+          <li style="margin-bottom:12px;"><strong>Structure:</strong> Three lines with a 5-7-5 syllable pattern</li>
+          <li style="margin-bottom:12px;"><strong>Simplicity:</strong> Uses clear, concrete imagery rather than abstract ideas</li>
+          <li><strong>Present tense:</strong> Describes what is happening now, creating immediacy</li>
+        </ul>
+      </div>
+    </div>
+    <div class="section-half section-half--gray">
+      <div class="section-label">Message Composition & Poster Layout</div>
+      <div class="section-sublabel">Day 4</div>
+      <p class="section-body"><strong>Objective:</strong> Prep the physical canvas and establish the control message.</p>
+      <div class="section-sublabel" style="margin-top:24px;">Instructions:</div>
+      <ul class="content-list">
+        <li>Lock in the pre-decided haiku or short phrase that will serve as your translation test.</li>
+        <li>Plan the layout, letter spacing, and margins on the large poster sheet.</li>
+        <li>Gently sketch out the master layout grid boundaries on the poster sheet using pencil and ruler.</li>
+      </ul>
+    </div>
+
+    <!-- Section 5: Day 5 -->
+    <div class="section-half">
+      <div class="section-label">Transmission, Inking & Verification</div>
+      <div class="section-sublabel">Day 5</div>
+      <p class="section-body"><strong>Objective:</strong> Run the communication loop, complete the artwork, and verify accuracy.</p>
+      <div class="section-sublabel" style="margin-top:24px;">Instructions:</div>
+      <ul class="content-list">
+        <li><strong>Transmit:</strong> Senders transmit the decimal/binary data using rhythmic taps (dots/zeros) and scratches (dashes/ones).</li>
+        <li><strong>Transcribe:</strong> Receivers log the codes, map them back into the 5×5 poster grids, and lightly pencil them in.</li>
+        <li><strong>Ink:</strong> Color in the filled squares cleanly using solid black fine-line markers and thick permanent markers.</li>
+        <li><strong>Verify (QA):</strong> Read the final visual poster layout side-by-side with the original control haiku to check for discrepancies and patch any translation errors.</li>
+      </ul>
+    </div>
+    <div class="section-image">
+      [Illustration: Completed poster]
+    </div>
+
+    <div class="case-footer">
+      <a href="../index.html#portfolio" class="btn-home">← Return Home</a>
+    </div>
+
+  </div>
+
+  <script>
+    (function () {
+      var btn = document.getElementById('nav-hamburger');
+      var links = document.getElementById('nav-links');
+      if (btn && links) {
+        btn.addEventListener('click', function () {
+          btn.classList.toggle('is-open');
+          links.classList.toggle('is-open');
+        });
+        links.querySelectorAll('a').forEach(function (a) {
+          a.addEventListener('click', function () {
+            btn.classList.remove('is-open');
+            links.classList.remove('is-open');
+          });
+        });
+      }
+    })();
+  </script>
+</body>
+</html>

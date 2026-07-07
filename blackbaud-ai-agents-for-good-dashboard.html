@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Blackbaud AI Agents for Good Dashboard: Matthew Barton</title>
+  <meta content="width=device-width, initial-scale=1" name="viewport">
+  <link href="images/favicon.png" rel="shortcut icon" type="image/x-icon">
+  <link href="images/webclip.png" rel="apple-touch-icon">
+  <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+  <script>WebFont.load({ google: { families: ["Great Vibes:400", "Open Sans:300,400,700", "Bitter:400,700"] } });</script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    a { text-decoration: none; }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: #f7f7f7;
+      font-family: 'Open Sans', sans-serif;
+    }
+
+    .page {
+      display: flex;
+      flex-wrap: wrap;
+      width: 100%;
+      max-width: 1080px;
+    }
+
+    /* ─── Hero ───────────────────────────────────────────────── */
+    .case-hero {
+      width: 100%;
+      min-height: 240px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 56px 64px;
+      background: #98e5e6;
+    }
+
+    .case-hero__title {
+      font-family: 'Open Sans', sans-serif;
+      font-size: 32px;
+      font-weight: 700;
+      color: #0e0c0c;
+      margin-bottom: 8px;
+    }
+
+    .case-hero__company {
+      font-family: 'Open Sans', sans-serif;
+      font-size: 16px;
+      font-weight: 300;
+      color: #0e0c0c;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+    }
+
+    /* ─── Content sections ───────────────────────────────────── */
+    .section-half {
+      width: 50%;
+      min-height: 480px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 64px;
+      background: #fff;
+    }
+
+    .section-full {
+      width: 100%;
+      padding: 64px;
+      background: #fff;
+    }
+
+    .section-full--gray {
+      background: #ebebeb;
+    }
+
+    .section-half--gray {
+      background: #ebebeb;
+    }
+
+    .section-placeholder {
+      width: 50%;
+      min-height: 480px;
+      background: #e8e8e8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #999;
+      font-size: 14px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .section-placeholder--full {
+      width: 100%;
+      min-height: 400px;
+    }
+
+    .section-label {
+      font-family: 'Open Sans', sans-serif;
+      font-size: 20px;
+      font-weight: 700;
+      color: #0e0c0c;
+      margin-bottom: 8px;
+    }
+
+    .section-sublabel {
+      font-family: 'Open Sans', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      color: #fe204a;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+      margin-top: 32px;
+    }
+
+    .section-sublabel:first-of-type { margin-top: 0; }
+
+    .section-body {
+      font-family: 'Open Sans', sans-serif;
+      font-size: 16px;
+      line-height: 28px;
+      color: #0e0c0c;
+      margin-bottom: 16px;
+    }
+
+    /* ─── Content list ──────────────────────────────────────── */
+    .content-list {
+      list-style: none;
+      padding: 0;
+      margin-bottom: 16px;
+    }
+
+    .content-list li {
+      font-family: 'Open Sans', sans-serif;
+      font-size: 16px;
+      line-height: 28px;
+      color: #0e0c0c;
+      padding-left: 24px;
+      margin-bottom: 12px;
+      position: relative;
+    }
+
+    .content-list li::before {
+      content: '—';
+      position: absolute;
+      left: 0;
+      color: #0cc4c6;
+      font-weight: 700;
+    }
+
+    /* ─── Metrics grid ──────────────────────────────────────── */
+    .metrics-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 32px;
+      margin-top: 8px;
+    }
+
+    .metric-card {
+      flex: 1;
+      min-width: 200px;
+      background: #fff;
+      border-left: 4px solid #0cc4c6;
+      padding: 24px;
+    }
+
+    .metric-card__value {
+      font-family: 'Open Sans', sans-serif;
+      font-size: 32px;
+      font-weight: 700;
+      color: #fe204a;
+      margin-bottom: 8px;
+    }
+
+    .metric-card__label {
+      font-family: 'Open Sans', sans-serif;
+      font-size: 14px;
+      line-height: 22px;
+      color: #0e0c0c;
+    }
+
+    /* ─── Screenshots row ───────────────────────────────────── */
+    .screenshots-row {
+      width: 100%;
+      background: #e8e8e8;
+      display: flex;
+      align-items: stretch;
+      gap: 24px;
+      padding: 48px 64px;
+    }
+
+    .screenshot-img {
+      flex: 1;
+      min-width: 0;
+      height: 200px;
+      object-fit: cover;
+      object-position: top left;
+      border-radius: 4px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.12);
+    }
+
+    @media (max-width: 767px) {
+      .screenshots-row { flex-direction: column; padding: 32px; }
+      .screenshot-img { flex: none; width: 100%; height: auto; }
+    }
+
+    /* ─── Design compare rows ───────────────────────────────── */
+    .design-img-col {
+      width: 50%;
+      background: #e8e8e8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 48px;
+    }
+
+    .design-img-col img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 6px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.12);
+      cursor: zoom-in;
+    }
+
+    @media (max-width: 767px) {
+      .design-img-col { width: 100%; }
+    }
+
+    /* ─── Lightbox ───────────────────────────────────────────── */
+    .lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(14,12,12,0.92);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 40px;
+    }
+
+    .lightbox.is-open {
+      display: flex;
+    }
+
+    .lightbox__img {
+      max-width: 100%;
+      max-height: 100%;
+      border-radius: 6px;
+      display: block;
+    }
+
+    .lightbox__close {
+      position: absolute;
+      top: 24px;
+      right: 32px;
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 28px;
+      cursor: pointer;
+      line-height: 1;
+    }
+
+    /* ─── Footer ─────────────────────────────────────────────── */
+    .case-footer {
+      width: 100%;
+      height: 120px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #f7f7f7;
+    }
+
+    .btn-home {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 56px;
+      padding: 0 32px;
+      border-radius: 50px;
+      background: #fe204a;
+      color: #fff !important;
+      font-family: 'Open Sans', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      transition: background 0.3s ease, transform 0.3s ease;
+    }
+
+    .btn-home:hover {
+      background: #b5012f;
+      transform: scale(1.05);
+    }
+
+    .case-footer a {
+      font-family: 'Open Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #0cc4c6;
+    }
+
+    /* ─── Global Nav ─────────────────────────────────────── */
+    .site-nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      width: 100%;
+      height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 40px;
+      background: #fff;
+      border-bottom: 1px solid #e8e8e8;
+      box-sizing: border-box;
+    }
+    .nav-logo {
+      font-family: 'Open Sans', sans-serif;
+      font-weight: 700;
+      font-size: 15px;
+      color: #0e0c0c;
+      letter-spacing: 1px;
+    }
+    .nav-logo span { color: #fe204a; }
+    .nav-links { display: flex; align-items: center; gap: 32px; }
+    .nav-link {
+      font-family: 'Open Sans', sans-serif;
+      font-weight: 700;
+      font-size: 13px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #0e0c0c;
+      transition: color 0.2s ease;
+    }
+    .nav-link:hover { color: #0cc4c6; }
+    .nav-link--accent { color: #fe204a; }
+    .nav-link--accent:hover { color: #b5012f; }
+
+
+    /* ─── Mobile nav ─────────────────────────────────────── */
+    .nav-hamburger {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+    }
+
+    .nav-hamburger span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: #0e0c0c;
+      border-radius: 2px;
+      transition: all 0.25s ease;
+    }
+
+    .nav-hamburger.is-open span:nth-child(1) {
+      transform: translateY(7px) rotate(45deg);
+    }
+
+    .nav-hamburger.is-open span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .nav-hamburger.is-open span:nth-child(3) {
+      transform: translateY(-7px) rotate(-45deg);
+    }
+
+    @media (max-width: 640px) {
+      .nav-hamburger {
+        display: flex;
+      }
+
+      .nav-links {
+        display: none;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0;
+        position: absolute;
+        top: 72px;
+        left: 0;
+        right: 0;
+        background: #fff;
+        border-bottom: 1px solid #e8e8e8;
+        padding: 16px 40px 24px;
+        z-index: 99;
+      }
+
+      .nav-links.is-open {
+        display: flex;
+      }
+
+      .nav-link {
+        padding: 12px 0;
+        font-size: 14px;
+        width: 100%;
+        border-bottom: 1px solid #f0f0f0;
+      }
+
+      .nav-link:last-child {
+        border-bottom: none;
+      }
+    }
+
+  </style>
+</head>
+<body>
+  <div class="page">
+
+    <!-- Nav -->
+    <nav class="site-nav">
+      <a href="index.html#portfolio" class="nav-logo">← Back</a>
+      <button class="nav-hamburger" id="nav-hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+      <div class="nav-links" id="nav-links">
+        <a href="index.html#portfolio" class="nav-link">UX Case Studies</a>
+        <a href="writing.html" class="nav-link">UX Writing</a>
+        <a href="about-me.html" class="nav-link">About Me</a>
+      </div>
+    </nav>
+
+
+    <!-- Hero -->
+    <div class="case-hero">
+      <div class="case-hero__title">Fundraising Agent Performance Metrics</div>
+      <div class="case-hero__company">Blackbaud FENXT</div>
+    </div>
+
+    <!-- Project Origins -->
+    <div class="section-full" style="padding-bottom:0;">
+      <div class="section-label">Project Origins</div>
+      <p class="section-body">Users have repeatedly told us that performance metrics are crucial to understanding the effectiveness of this new fundraising tool. In this new world of AI agents, we needed to determine if traditional dashboards still deliver genuine value to users.</p>
+
+      <div class="section-label">On discovery calls</div>
+    </div>
+
+    <div class="section-half" style="justify-content:flex-start;padding-top:32px;min-height:0;">
+      <div class="section-sublabel">Users feelings about dashboards</div>
+      <ul class="content-list">
+        <li><strong>Too much data, not enough clarity:</strong> Users track 12+ data points, making traditional dashboards feel fragmented.</li>
+        <li><strong>Fundraisers want insight, not raw metrics:</strong> Nonprofits want to understand what the data means, not just see spreadsheets.</li>
+        <li><strong>Reducing anxiety:</strong> Dashboards should drive action and confidence rather than adding frustration.</li>
+      </ul>
+    </div>
+    <div class="section-half" style="justify-content:flex-start;padding-top:32px;min-height:0;">
+      <div class="section-sublabel">Important metrics</div>
+      <ul class="content-list">
+        <li><strong>Financials:</strong> Total Revenue / New Donations</li>
+        <li><strong>Volume & Activity:</strong> Total Messages Sent, Comparison to Staff Volume, New Donor Conversations, Questions Answered</li>
+        <li><strong>Engagement:</strong> Open Rate, Effectiveness Rate, Click-Through Rate (by message type), Overall Engagement %</li>
+      </ul>
+    </div>
+
+    <!-- Problem + Hypothesis -->
+    <div class="section-full">
+      <div class="section-label">Problem Statement</div>
+      <p class="section-body">Nurturing relationships with donors takes time (up to 6 months), but users evaluate success from day one of a contract. Passive dashboards risk creating a frustrating experience during this long lead time.</p>
+
+      <div class="section-label" style="margin-top:32px;">Hypothesis</div>
+      <p class="section-body">We hypothesized that alternative data visualization formats, such as report cards or narrative "wrapped" experiences, would better communicate performance and reduce user anxiety compared to classic dashboards.</p>
+
+      <div class="section-label" style="margin-top:32px;">User Interviews</div>
+      <div class="section-sublabel">On Different Performance Metrics Concepts</div>
+    </div>
+
+    <!-- Classic Dashboard -->
+    <div class="design-img-col">
+      <img src="images/agentic-dashaboard-classic.png" alt="Classic dashboard design" class="lightbox-trigger" data-src="images/agentic-dashaboard-classic.png">
+    </div>
+    <div class="section-half" style="justify-content:flex-start;">
+      <div class="section-label">Classic Dashboard</div>
+      <div class="section-sublabel">Design Strategy</div>
+      <p class="section-body">Real-time revenue trend lines and engagement pie charts give an at-a-glance read on whether the agent is on target. Escalated, reviewed, and flagged message tiles act as a quick operational health check.</p>
+      <div class="section-sublabel">User Feedback</div>
+      <p class="section-body" style="font-family:'Bitter',serif;font-style:italic;">"Familiar and comforting, but I need more context and better filtering."</p>
+    </div>
+
+    <!-- Spotify Wrapped -->
+    <div class="design-img-col">
+      <img src="images/Agentic-dashboard-spotify.png" alt="Q1 Metrics to remember: Spotify Wrapped style design" class="lightbox-trigger" data-src="images/Agentic-dashboard-spotify.png">
+    </div>
+    <div class="section-half" style="justify-content:flex-start;">
+      <div class="section-label">Spotify Wrapped</div>
+      <div class="section-sublabel">Design Strategy</div>
+      <p class="section-body">Curated cards like "Your top 3 best performing message types" and "Agent Successes" turn the data into a shareable story of impact, built to be put in front of a board, leadership team, or funder.</p>
+      <div class="section-sublabel">User Feedback</div>
+      <p class="section-body" style="font-family:'Bitter',serif;font-style:italic;">"This actually feels like something I'd be proud to show my board."</p>
+    </div>
+
+    <!-- Report Card -->
+    <div class="design-img-col">
+      <img src="images/Agentic dashboard-report-card.png" alt="Development Agent report card design" class="lightbox-trigger" data-src="images/Agentic dashboard-report-card.png">
+    </div>
+    <div class="section-half" style="justify-content:flex-start;">
+      <div class="section-label">Report Card Design</div>
+      <div class="section-sublabel">Design Strategy</div>
+      <p class="section-body">Metrics are grouped into thematic pillars (Revenue, Engagement, Costs, Experience) and summarized as a letter grade, answering "how is the agent doing?" without asking the user to interpret raw numbers themselves.</p>
+      <div class="section-sublabel">User Feedback</div>
+      <p class="section-body" style="font-family:'Bitter',serif;font-style:italic;">"It feels like I'm the one being graded, not the agent."</p>
+    </div>
+
+    <!-- Validation -->
+    <div class="section-full">
+      <div class="section-label">Validation</div>
+
+      <div class="section-sublabel">Testing Results</div>
+      <div class="metrics-grid">
+        <div class="metric-card">
+          <div class="metric-card__value">01</div>
+          <div class="metric-card__label"><strong>Classic Dashboard:</strong> Familiar and comforting, but users demanded more context and better filtering options.</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-card__value">02</div>
+          <div class="metric-card__label"><strong>Spotify Wrapped:</strong> The winner. Users found the narrative, cherry-picked data points compelling and impactful.</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-card__value">03</div>
+          <div class="metric-card__label"><strong>Report Card:</strong> Strongly disliked. Users felt they were being "graded" personally, leading to school-related stress.</div>
+        </div>
+      </div>
+
+      <div class="section-label" style="margin-top:32px;">Design Pivot</div>
+      <div class="section-sublabel">The "Aha!" Moment</div>
+      <p class="section-body">Our user testing led to a critical realization. We realized that our static dashboard concepts would likely cause anxiety for fundraisers. Because the agent's strategy involves sending five non-fundraising emails over several weeks before making an ask, the "Total Raised" metric would likely sit at $0 for the first six months. Seeing a stagnant zero would be disheartening for any user.</p>
+      <p class="section-body">We pivoted by brainstorming a weekly report that focuses on active, meaningful data. Instead of forcing a static dashboard, we leaned into the "Spotify Wrapped" narrative approach as our primary way to communicate performance. We also added context by comparing current metrics to the previous week's performance. While it wasn't a silver bullet, it provided a necessary benchmark that turned a potential frustration into a clear, steady measure of progress.</p>
+
+      <div class="section-sublabel">What Success Looks Like</div>
+      <p class="section-body">Our goal was to design a performance page that feels:</p>
+      <ul class="content-list">
+        <li><strong>Understandable:</strong> It cuts through the noise and provides clarity without requiring data analyst skills.</li>
+        <li><strong>Shareable:</strong> It's polished and ready to be put in front of boards, leadership, or funders.</li>
+        <li><strong>Actionable:</strong> It connects directly to real-world organizational decisions.</li>
+      </ul>
+    </div>
+
+    <!-- User Behavior Change -->
+    <div class="section-full section-full--gray">
+      <div class="section-label">User Behavior Change</div>
+      <p class="section-body">Moving to a narrative-driven, "Wrapped" style changed the game. Instead of just watching raw data, fundraisers started feeling like they were telling the story of the agent's impact, which naturally built more confidence and pride. The real shift happened when they stopped micromanaging every email and started confidently sharing the weekly reports directly with their managers and boards.</p>
+    </div>
+
+    <!-- Business Outcomes -->
+    <div class="section-full">
+      <div class="section-label">Business Outcomes</div>
+      <p class="section-body">Our strategy is really about transparency. By showing real-time revenue targets alongside the narrative wins, we give leadership the high-level insights they actually need. Since this agent is a big investment for our clients, proving that value is crucial for renewals. We basically took what felt like a mysterious black box and turned it into a partner that our clients can actually trust.</p>
+    </div>
+
+    <div class="case-footer">
+      <a href="index.html#portfolio" class="btn-home">← Return Home</a>
+    </div>
+
+  </div>
+
+  <!-- Lightbox -->
+  <div id="dashboard-lightbox" class="lightbox">
+    <img id="dashboard-lightbox-img" class="lightbox__img" src="" alt="">
+    <button id="dashboard-lightbox-close" class="lightbox__close">&#x2715;</button>
+  </div>
+
+  <script>
+    (function () {
+      var lightbox = document.getElementById('dashboard-lightbox');
+      var lightboxImg = document.getElementById('dashboard-lightbox-img');
+      var closeBtn = document.getElementById('dashboard-lightbox-close');
+
+      document.querySelectorAll('.lightbox-trigger').forEach(function (item) {
+        item.addEventListener('click', function () {
+          lightboxImg.src = item.getAttribute('data-src');
+          lightbox.classList.add('is-open');
+          document.body.style.overflow = 'hidden';
+        });
+      });
+
+      function closeLightbox() {
+        lightbox.classList.remove('is-open');
+        document.body.style.overflow = '';
+      }
+
+      closeBtn.addEventListener('click', closeLightbox);
+      lightbox.addEventListener('click', function (e) {
+        if (e.target === lightbox) closeLightbox();
+      });
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') closeLightbox();
+      });
+    })();
+  </script>
+</body>
+</html>

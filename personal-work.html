@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Personal Work: Matthew Barton</title>
+  <meta content="width=device-width, initial-scale=1" name="viewport">
+  <link href="images/favicon.png" rel="shortcut icon" type="image/x-icon">
+  <link href="images/webclip.png" rel="apple-touch-icon">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+  <script>WebFont.load({ google: { families: ["Open Sans:400,700", "Bitter:400,700"] } });</script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    a { text-decoration: none; }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: #f7f7f7;
+      font-family: 'Open Sans', sans-serif;
+    }
+
+    .page {
+      display: flex;
+      flex-wrap: wrap;
+      width: 100%;
+      max-width: 1080px;
+    }
+
+    /* ─── Nav ─────────────────────────────────────── */
+    .site-nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      width: 100%;
+      height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 40px;
+      background: #fff;
+      border-bottom: 1px solid #e8e8e8;
+    }
+    .nav-logo {
+      font-family: 'Open Sans', sans-serif;
+      font-weight: 700;
+      font-size: 15px;
+      color: #0e0c0c;
+      letter-spacing: 1px;
+    }
+    .nav-links { display: flex; align-items: center; gap: 32px; }
+    .nav-link {
+      font-family: 'Open Sans', sans-serif;
+      font-weight: 700;
+      font-size: 13px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #0e0c0c;
+      transition: color 0.2s ease;
+    }
+    .nav-link:hover { color: #0cc4c6; }
+    .nav-hamburger {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+    }
+    .nav-hamburger span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: #0e0c0c;
+      border-radius: 2px;
+      transition: all 0.25s ease;
+    }
+    .nav-hamburger.is-open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .nav-hamburger.is-open span:nth-child(2) { opacity: 0; }
+    .nav-hamburger.is-open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* ─── Hero ─────────────────────────────────────── */
+    .case-hero {
+      width: 100%;
+      min-height: 220px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 56px 64px;
+      background: #98e5e6;
+    }
+    .case-hero__title {
+      font-size: 36px;
+      font-weight: 700;
+      color: #0e0c0c;
+      margin-bottom: 8px;
+    }
+    .case-hero__company {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #0e0c0c;
+      opacity: 0.6;
+    }
+
+    /* ─── Sections ──────────────────────────────────── */
+    .section-full {
+      width: 100%;
+      padding: 64px;
+      background: #fff;
+    }
+
+    .section-label {
+      font-size: 22px;
+      font-weight: 700;
+      color: #0e0c0c;
+      margin-bottom: 8px;
+    }
+    .section-sublabel {
+      font-size: 11px;
+      font-weight: 700;
+      color: #fe204a;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+    .section-body {
+      font-size: 16px;
+      line-height: 28px;
+      color: #0e0c0c;
+      margin-bottom: 16px;
+    }
+    .section-body:last-child { margin-bottom: 0; }
+
+    /* ─── Project Grid ──────────────────────────────── */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+      margin-top: 32px;
+    }
+
+    .project-card {
+      padding: 32px;
+      background: #ffffff;
+      border: none;
+      border-radius: 0px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+    }
+
+    .project-card:hover {
+      border-color: #0cc4c6;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+
+    .card-icon {
+      font-size: 64px;
+      color: #0cc4c6;
+      margin-bottom: 24px;
+      display: block;
+      height: 64px;
+      width: 64px;
+    }
+
+    .material-icons {
+      font-size: 64px !important;
+      display: block;
+      height: 64px;
+      width: 64px;
+    }
+
+    .card-type {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: #0cc4c6;
+      margin-bottom: 12px;
+    }
+
+    .project-card h3 {
+      font-size: 18px;
+      font-weight: 700;
+      color: #0e0c0c;
+      margin-bottom: 8px;
+    }
+
+    .project-card p {
+      font-size: 14px;
+      line-height: 22px;
+      color: #555;
+      margin-bottom: 16px;
+    }
+
+    .project-card a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      margin-top: 24px;
+      padding: 16px 24px;
+      background: #f5f5f5;
+      color: #0cc4c6;
+      font-family: 'Open Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      border-radius: 100px;
+      transition: background 0.3s ease, transform 0.3s ease;
+      cursor: pointer;
+    }
+
+    .project-card a:hover {
+      background: #e8e8e8;
+      transform: scale(1.02);
+    }
+
+    .project-card a::after {
+      content: "";
+      margin-left: 0;
+    }
+
+    .project-tags {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px solid #eee;
+    }
+
+    .tag {
+      display: inline;
+      font-size: 10px;
+      font-weight: 400;
+      color: #0cc4c6;
+      letter-spacing: 0.5px;
+    }
+
+    .tag.featured {
+      color: #fe204a;
+    }
+
+    .case-footer {
+      width: 100%;
+      height: 120px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #fff;
+    }
+
+    .btn-home {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 56px;
+      padding: 0 32px;
+      border-radius: 50px;
+      background: #fe204a;
+      color: #fff !important;
+      font-family: 'Open Sans', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      transition: background 0.3s ease, transform 0.3s ease;
+    }
+
+    .btn-home:hover {
+      background: #b5012f;
+      transform: scale(1.05);
+    }
+
+    /* ─── Responsive ────────────────────────────────── */
+    @media (max-width: 767px) {
+      .case-hero { padding: 40px 32px; }
+      .section-full { padding: 48px 32px; }
+      .projects-grid { grid-template-columns: 1fr; gap: 24px; }
+    }
+
+    @media (max-width: 640px) {
+      .nav-hamburger { display: flex; }
+      .nav-links {
+        display: none;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0;
+        position: absolute;
+        top: 72px;
+        left: 0;
+        right: 0;
+        background: #fff;
+        border-bottom: 1px solid #e8e8e8;
+        padding: 16px 40px 24px;
+        z-index: 99;
+      }
+      .nav-links.is-open { display: flex; }
+      .nav-link { padding: 12px 0; font-size: 14px; width: 100%; border-bottom: 1px solid #f0f0f0; }
+      .nav-link:last-child { border-bottom: none; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="site-nav">
+    <a href="index.html" class="nav-logo">← Back</a>
+    <button class="nav-hamburger" id="nav-hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+    <div class="nav-links" id="nav-links">
+      <a href="index.html#portfolio" class="nav-link">UX Case Studies</a>
+      <a href="writing.html" class="nav-link">UX Writing</a>
+      <a href="personal-work.html" class="nav-link">Explorations</a>
+      <a href="about-me.html" class="nav-link">About Me</a>
+    </div>
+  </nav>
+
+  <div class="page">
+
+    <div class="case-hero">
+      <div class="case-hero__title">Personal Work</div>
+      <div class="case-hero__company">Educational & Executive Function Projects</div>
+    </div>
+
+    <div class="section-full">
+      <div class="section-label">Educational Initiatives</div>
+      <div class="section-sublabel">Project Plans & Interactive Tools</div>
+      <p class="section-body">I've designed and developed comprehensive educational programs and interactive tools to help tweens develop executive function skills through hands-on, creative problem-solving. Each 5-day project plan includes 1–1.5 hours of instruction per day, combining technical learning with practical application.</p>
+
+      <div class="projects-grid">
+        <!-- Project 1 -->
+        <div class="project-card">
+          <i class="material-icons card-icon">hexagon</i>
+          <div class="card-type">5-Day Project Plan</div>
+          <h3>Analog Project: Popsicle Stick Hexagons</h3>
+          <p>An engineering challenge where students design and build a hexagonal structure using popsicle sticks.</p>
+          <div class="project-tags">
+            <span class="tag featured">Executive Function</span>
+            <span class="tag featured">Young Teens</span>
+            <span class="tag">Engineering</span>
+            <span class="tag">Spatial Reasoning</span>
+            <span class="tag">Problem-Solving</span>
+            <span class="tag">Planning Skills</span>
+          </div>
+          <a href="teenproject/analog-project.html">View Project Details</a>
+        </div>
+
+        <!-- Project 2 -->
+        <div class="project-card">
+          <i class="material-icons card-icon">grid_on</i>
+          <div class="card-type">5-Day Project Plan</div>
+          <h3>Telegraphic Grid Font Project</h3>
+          <p>A creative project where students design a custom font on a 5×5 grid, encode it as binary, and transmit it using physical signals.</p>
+          <div class="project-tags">
+            <span class="tag featured">Executive Function</span>
+            <span class="tag featured">Young Teens</span>
+            <span class="tag">Typography</span>
+            <span class="tag">Cryptography</span>
+            <span class="tag">Design Thinking</span>
+            <span class="tag">Communication</span>
+          </div>
+          <a href="teenproject/code-circuits-workshop.html">View Project Details</a>
+        </div>
+
+        <!-- Tool 1 -->
+        <div class="project-card">
+          <i class="material-icons card-icon">calculate</i>
+          <div class="card-type">Interactive Tool</div>
+          <h3>Grid Typographic Calculator</h3>
+          <p>Design custom fonts on a 5×5 grid system with real-time rendering.</p>
+          <div class="project-tags">
+            <span class="tag">Font Design</span>
+            <span class="tag">Typography</span>
+            <span class="tag">Interactive Tool</span>
+            <span class="tag">Grid-Based Design</span>
+            <span class="tag">Real-Time Rendering</span>
+          </div>
+          <a href="grid-calc/grid_typographic_calculator.html">Open Tool</a>
+        </div>
+
+        <!-- Tool 2 -->
+        <div class="project-card">
+          <i class="material-icons card-icon">palette</i>
+          <div class="card-type">Interactive Tool</div>
+          <h3>Stencil Grid Font Designer</h3>
+          <p>A 5-step wizard for creating grid-based fonts with SVG and PNG export capabilities.</p>
+          <div class="project-tags">
+            <span class="tag">Font Design</span>
+            <span class="tag">Typography</span>
+            <span class="tag">Creative Tool</span>
+            <span class="tag">Export Capabilities</span>
+            <span class="tag">Wizard Interface</span>
+          </div>
+          <a href="stencil-grid/index.html">Open Tool</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="case-footer">
+      <a href="index.html" class="btn-home">← Return Home</a>
+    </div>
+
+  </div>
+
+  <script>
+    (function () {
+      var btn = document.getElementById('nav-hamburger');
+      var links = document.getElementById('nav-links');
+      if (btn && links) {
+        btn.addEventListener('click', function () {
+          btn.classList.toggle('is-open');
+          links.classList.toggle('is-open');
+        });
+        links.querySelectorAll('a').forEach(function (a) {
+          a.addEventListener('click', function () {
+            btn.classList.remove('is-open');
+            links.classList.remove('is-open');
+          });
+        });
+      }
+    })();
+  </script>
+</body>
+</html>

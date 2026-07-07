@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Can We Design Ethical User Experiences?: Matthew Barton</title>
+  <meta content="width=device-width, initial-scale=1" name="viewport">
+  <link href="images/favicon.png" rel="shortcut icon" type="image/x-icon">
+  <link href="images/webclip.png" rel="apple-touch-icon">
+  <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+  <script>WebFont.load({ google: { families: ["Great Vibes:400", "Open Sans:300,400,700", "Bitter:400,700"] } });</script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    a { text-decoration: none; }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: #f7f7f7;
+      font-family: 'Open Sans', sans-serif;
+    }
+
+    .page {
+      display: flex;
+      flex-wrap: wrap;
+      width: 100%;
+      max-width: 1080px;
+    }
+
+    /* ─── Hero ───────────────────────────────────────────────── */
+    .case-hero {
+      width: 100%;
+      min-height: 240px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 56px 64px;
+      background: #98e5e6;
+    }
+
+    .case-hero__eyebrow {
+      font-family: 'Open Sans', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #0e0c0c;
+      opacity: 0.5;
+      margin-bottom: 12px;
+    }
+
+    .case-hero__title {
+      font-family: 'Open Sans', sans-serif;
+      font-size: 32px;
+      font-weight: 700;
+      color: #0e0c0c;
+      margin-bottom: 8px;
+      max-width: 640px;
+    }
+
+    /* ─── Sections ───────────────────────────────────────────── */
+    .section-full {
+      width: 100%;
+      padding: 64px;
+      background: #fff;
+    }
+
+    .section-full--gray {
+      background: #ebebeb;
+    }
+
+    .section-label {
+      font-family: 'Open Sans', sans-serif;
+      font-size: 20px;
+      font-weight: 700;
+      color: #0e0c0c;
+      margin-bottom: 16px;
+    }
+
+    .section-sublabel {
+      font-family: 'Open Sans', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      color: #fe204a;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+      margin-top: 32px;
+    }
+
+    .section-sublabel:first-of-type { margin-top: 0; }
+
+    .section-body {
+      font-family: 'Open Sans', sans-serif;
+      font-size: 16px;
+      line-height: 28px;
+      color: #0e0c0c;
+      margin-bottom: 16px;
+      max-width: 720px;
+    }
+
+    /* ─── ACTS pillars ───────────────────────────────────────── */
+    .acts-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 32px;
+      margin-top: 8px;
+    }
+
+    .acts-card {
+      flex: 1;
+      min-width: 180px;
+      background: #fff;
+      border-left: 4px solid #0cc4c6;
+      padding: 24px;
+    }
+
+    .acts-card__letter {
+      font-family: 'Open Sans', sans-serif;
+      font-size: 48px;
+      font-weight: 700;
+      color: #fe204a;
+      margin-bottom: 8px;
+      line-height: 1;
+    }
+
+    .acts-card__label {
+      font-family: 'Open Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      color: #0e0c0c;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    /* ─── Content list ──────────────────────────────────────── */
+    .content-list {
+      list-style: none;
+      padding: 0;
+      margin-bottom: 16px;
+    }
+
+    .content-list li {
+      font-family: 'Open Sans', sans-serif;
+      font-size: 16px;
+      line-height: 28px;
+      color: #0e0c0c;
+      padding-left: 24px;
+      margin-bottom: 12px;
+      position: relative;
+    }
+
+    .content-list li::before {
+      content: '—';
+      position: absolute;
+      left: 0;
+      color: #0cc4c6;
+      font-weight: 700;
+    }
+
+    /* ─── Footer ─────────────────────────────────────────────── */
+    .case-footer {
+      width: 100%;
+      height: 120px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #f7f7f7;
+    }
+
+    .btn-home {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 56px;
+      padding: 0 32px;
+      border-radius: 50px;
+      background: #fe204a;
+      color: #fff !important;
+      font-family: 'Open Sans', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      transition: background 0.3s ease, transform 0.3s ease;
+    }
+
+    .btn-home:hover {
+      background: #b5012f;
+      transform: scale(1.05);
+    }
+
+    .case-footer a {
+      font-family: 'Open Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #0cc4c6;
+    }
+
+    /* ─── Global Nav ─────────────────────────────────────── */
+    .site-nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      width: 100%;
+      height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 40px;
+      background: #fff;
+      border-bottom: 1px solid #e8e8e8;
+      box-sizing: border-box;
+    }
+    .nav-logo {
+      font-family: 'Open Sans', sans-serif;
+      font-weight: 700;
+      font-size: 15px;
+      color: #0e0c0c;
+      letter-spacing: 1px;
+    }
+    .nav-logo span { color: #fe204a; }
+    .nav-links { display: flex; align-items: center; gap: 32px; }
+    .nav-link {
+      font-family: 'Open Sans', sans-serif;
+      font-weight: 700;
+      font-size: 13px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #0e0c0c;
+      transition: color 0.2s ease;
+    }
+    .nav-link:hover { color: #0cc4c6; }
+    .nav-link--accent { color: #fe204a; }
+    .nav-link--accent:hover { color: #b5012f; }
+
+
+    /* ─── Mobile nav ─────────────────────────────────────── */
+    .nav-hamburger {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+    }
+
+    .nav-hamburger span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: #0e0c0c;
+      border-radius: 2px;
+      transition: all 0.25s ease;
+    }
+
+    .nav-hamburger.is-open span:nth-child(1) {
+      transform: translateY(7px) rotate(45deg);
+    }
+
+    .nav-hamburger.is-open span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .nav-hamburger.is-open span:nth-child(3) {
+      transform: translateY(-7px) rotate(-45deg);
+    }
+
+    @media (max-width: 640px) {
+      .nav-hamburger {
+        display: flex;
+      }
+
+      .nav-links {
+        display: none;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0;
+        position: absolute;
+        top: 72px;
+        left: 0;
+        right: 0;
+        background: #fff;
+        border-bottom: 1px solid #e8e8e8;
+        padding: 16px 40px 24px;
+        z-index: 99;
+      }
+
+      .nav-links.is-open {
+        display: flex;
+      }
+
+      .nav-link {
+        padding: 12px 0;
+        font-size: 14px;
+        width: 100%;
+        border-bottom: 1px solid #f0f0f0;
+      }
+
+      .nav-link:last-child {
+        border-bottom: none;
+      }
+    }
+
+  </style>
+</head>
+<body>
+  <div class="page">
+
+    <!-- Nav -->
+    <nav class="site-nav">
+      <a href="writing.html" class="nav-logo">← Back</a>
+      <button class="nav-hamburger" id="nav-hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+      <div class="nav-links" id="nav-links">
+        <a href="index.html#portfolio" class="nav-link">UX Case Studies</a>
+        
+        <a href="writing.html" class="nav-link">UX Writing</a>
+        <a href="about-me.html" class="nav-link">About Me</a>
+      </div>
+    </nav>
+
+
+    <!-- Hero -->
+    <div class="case-hero">
+      <div class="case-hero__eyebrow">Essay</div>
+      <div class="case-hero__title">Can We Design Ethical User Experiences?</div>
+    </div>
+
+    <!-- Intro -->
+    <div class="section-full">
+      <div class="section-label">Ethical Design in Contemporary UX Practice</div>
+      <p class="section-body">Ethical design has emerged as a critical imperative in the technology sector, marking a significant shift over the last decade toward evaluating the broader societal impacts of digital products. As an industry, there is an increasing scrutiny placed on how user rights, privacy, and data security are safeguarded. This stands in contrast to historic tech models that often prioritized shareholder satisfaction and rapid engagement mechanics over user well-being.</p>
+      <p class="section-body">Within this landscape, User Experience (UX) designers occupy a uniquely influential position. While designers rarely hold direct power to dictate overarching business models, they possess immense implicit power as the primary architects of the digital instruments that drive those models. This specific vantage point allows UX professionals to act as vital advocates for the end-user and directly shape product strategies across broader product teams.</p>
+      <p class="section-body">To systematically address the complexities of ethical lapses, framework systems are essential for evaluating digital interfaces. A practical approach organizes these core ethical responsibilities into four distinct dimensions, easily remembered by the acronym ACTS: Alignment, Consent, Transparency, and Safety.</p>
+    </div>
+
+    <!-- ACTS Framework -->
+    <div class="section-full section-full--gray">
+      <div class="section-label">The ACTS Framework</div>
+      <div class="acts-grid">
+        <div class="acts-card">
+          <div class="acts-card__letter">A</div>
+          <div class="acts-card__label">Alignment</div>
+        </div>
+        <div class="acts-card">
+          <div class="acts-card__letter">C</div>
+          <div class="acts-card__label">Consent</div>
+        </div>
+        <div class="acts-card">
+          <div class="acts-card__letter">T</div>
+          <div class="acts-card__label">Transparency</div>
+        </div>
+        <div class="acts-card">
+          <div class="acts-card__letter">S</div>
+          <div class="acts-card__label">Safety</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Four Pillars -->
+    <div class="section-full">
+      <div class="section-label">The Four Pillars</div>
+
+      <div class="section-sublabel">1. Transparency</div>
+      <p class="section-body">Transparency mandates that users remain fully informed about a system's backend behaviors and the immediate or long-term consequences of their digital interactions. When a platform intentionally obfuscates the outcomes of user actions through deceptive interface choices (commonly known as dark design patterns) or masks realities behind deliberately complex phrasing, it crosses into unethical behavior. Such practices carry severe reputational risks, often leading to substantial public backlash once these dark patterns are inevitably exposed.</p>
+
+      <div class="section-sublabel">2. Consent</div>
+      <p class="section-body">True consent requires a platform to secure explicit, uncoerced permission before executing actions that impact the user or their data. This requires a fundamental reimagining of current notification standards. Traditional legal agreements, such as typical Terms and Conditions (T&Cs), represent a fundamentally broken paradigm for establishing consent. Written in dense, lengthy legal language, they act primarily as a barrier to usage, resulting in users blindly checking boxes without actual comprehension. Merely obtaining a checkbox confirmation does not absolve a platform of unethical intent; instead, interfaces must leverage clear, readable language accessible to all demographics.</p>
+
+      <div class="section-sublabel">3. Alignment</div>
+      <p class="section-body">Alignment evaluates whether a company's financial success directly correlates with the success of its customers. When corporate motivations deviate from the user's best interests, friction inevitably occurs. For instance, enterprise platforms navigating transaction flows, such as those prompting donors to cover software processing fees, face a distinct structural tension. While specific persuasive design patterns can maximize short-term revenue collection, they simultaneously introduce the risk of making users feel manipulated or deceived. This dynamic ultimately erodes long-term user retention, proving that a failure in ethical alignment poses an existential threat to organizational trust.</p>
+
+      <div class="section-sublabel">4. Safety</div>
+      <p class="section-body">Safety represents the baseline corporate obligation to secure user privacy and protect data from exploitation. Of all the pillars, lapses in safety carry the most direct legal and material consequences. Organizations that fail to build robust technological safeguards around user information leave themselves deeply vulnerable to structural liabilities and litigation.</p>
+    </div>
+
+    <!-- Strategic Buy-In -->
+    <div class="section-full section-full--gray">
+      <div class="section-label">Strategic Buy-In and Practical Implementation</div>
+      <p class="section-body">Identifying these ethical dimensions is only half the battle; the true challenge lies in securing stakeholder buy-in within highly competitive corporate environments. To advocate effectively for ethical changes, UX designers must approach the issue strategically rather than purely philosophically.</p>
+      <ul class="content-list">
+        <li>Collaborate directly with corporate legal counsel early in the process. Securing legal evaluation on borderline interface patterns provides concrete organizational boundaries that protect the firm from future liability.</li>
+        <li>Introduce ethical concerns early in the product lifecycle. Waiting until late-stage ceremonies, such as sprint planning, leaves engineering and product teams with zero runway to implement meaningful structural remedies.</li>
+        <li>Back advocacy with empirical data. Researching and presenting historical case studies of companies that suffered severe financial or reputational damage due to similar ethical oversights transforms abstract moral arguments into tangible business justifications.</li>
+      </ul>
+      <p class="section-body">Ultimately, ethics in design cannot be treated as a secondary feature or an afterthought. By utilizing structured frameworks like ACTS and addressing systemic issues early alongside legal and business stakeholders, modern product teams can build sustainable, high-trust digital ecosystems that protect both the user and the enterprise.</p>
+    </div>
+
+    <div class="case-footer">
+      <a href="index.html#portfolio" class="btn-home">← Return Home</a>
+    </div>
+
+  </div>
+</body>
+</html>

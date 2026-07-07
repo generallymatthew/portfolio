@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Writing: Matthew Barton</title>
+  <meta content="width=device-width, initial-scale=1" name="viewport">
+  <link href="images/favicon.png" rel="shortcut icon" type="image/x-icon">
+  <link href="images/webclip.png" rel="apple-touch-icon">
+  <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+  <script>WebFont.load({ google: { families: ["Great Vibes:400", "Open Sans:400,700", "Bitter:400,700"] } });</script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    a { text-decoration: none; }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: #f7f7f7;
+      font-family: 'Open Sans', sans-serif;
+    }
+
+    .page {
+      display: flex;
+      flex-wrap: wrap;
+      width: 100%;
+      max-width: 1080px;
+    }
+
+    /* ─── Nav ─────────────────────────────────────── */
+    .site-nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      width: 100%;
+      height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 40px;
+      background: #fff;
+      border-bottom: 1px solid #e8e8e8;
+      box-sizing: border-box;
+    }
+
+    .nav-logo {
+      font-family: 'Open Sans', sans-serif;
+      font-weight: 700;
+      font-size: 15px;
+      color: #0e0c0c;
+      letter-spacing: 1px;
+      text-decoration: none;
+    }
+
+    .nav-links { display: flex; align-items: center; gap: 32px; }
+
+    .nav-link {
+      font-family: 'Open Sans', sans-serif;
+      font-weight: 700;
+      font-size: 13px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #0e0c0c;
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .nav-link:hover { color: #0cc4c6; }
+    .nav-link--active { color: #0cc4c6; }
+
+    .nav-hamburger {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+    }
+
+    .nav-hamburger span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: #0e0c0c;
+      border-radius: 2px;
+      transition: all 0.25s ease;
+    }
+
+    .nav-hamburger.is-open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .nav-hamburger.is-open span:nth-child(2) { opacity: 0; }
+    .nav-hamburger.is-open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    @media (max-width: 640px) {
+      .nav-hamburger { display: flex; }
+      .nav-links {
+        display: none;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0;
+        position: absolute;
+        top: 72px;
+        left: 0;
+        right: 0;
+        background: #fff;
+        border-bottom: 1px solid #e8e8e8;
+        padding: 16px 40px 24px;
+        z-index: 99;
+      }
+      .nav-links.is-open { display: flex; }
+      .nav-link { padding: 12px 0; font-size: 14px; width: 100%; border-bottom: 1px solid #f0f0f0; }
+      .nav-link:last-child { border-bottom: none; }
+    }
+
+    /* ─── Hero ────────────────────────────────────── */
+    .about-hero {
+      width: 100%;
+      background: #fff;
+      padding: 80px 56px 72px;
+      border-bottom: 1px solid #e8e8e8;
+    }
+
+    .about-hero__heading {
+      font-family: 'Great Vibes', cursive;
+      font-size: 72px;
+      color: #fe204a;
+      line-height: 1.2;
+      margin-bottom: 24px;
+    }
+
+    .about-hero__text {
+      font-size: 18px;
+      line-height: 29px;
+      color: #0e0c0c;
+      max-width: 640px;
+    }
+
+    /* ─── Article sections ───────────────────────── */
+    .about-section {
+      width: 100%;
+      padding: 72px 56px;
+      border-top: 1px solid #e8e8e8;
+    }
+
+    .about-section--white { background: #fff; }
+    .about-section--grey  { background: #f7f7f7; }
+
+    .about-section__label {
+      font-family: 'Open Sans', sans-serif;
+      font-weight: 700;
+      font-size: 13px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #0cc4c6;
+      margin-bottom: 28px;
+    }
+
+    .article-title {
+      font-family: 'Open Sans', sans-serif;
+      font-weight: 700;
+      font-size: 24px;
+      color: #0e0c0c;
+      margin-bottom: 16px;
+    }
+
+    .article-body {
+      font-size: 16px;
+      line-height: 28px;
+      color: #0e0c0c;
+      max-width: 720px;
+      margin-bottom: 24px;
+    }
+
+    .article-read-more {
+      display: inline-block;
+      font-family: 'Open Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #0cc4c6;
+      transition: color 0.2s ease;
+    }
+
+    .article-read-more:hover { color: #0e0c0c; }
+
+    /* ─── Contact ─────────────────────────────────── */
+    .about-contact {
+      width: 100%;
+      background: #fff;
+      padding: 56px 56px 72px;
+      border-top: 1px solid #e8e8e8;
+    }
+
+    .about-contact__heading {
+      font-family: 'Open Sans', sans-serif;
+      font-weight: 700;
+      font-size: 13px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #0e0c0c;
+      margin-bottom: 24px;
+    }
+
+    .about-contact__item {
+      font-size: 16px;
+      color: #0e0c0c;
+      margin-bottom: 12px;
+    }
+
+    .about-contact__item a {
+      color: #0cc4c6;
+    }
+
+    .about-contact__item a:hover { text-decoration: underline; }
+
+    @media (max-width: 767px) {
+      .about-hero { padding: 48px 32px 56px; }
+      .about-section { padding: 48px 32px 56px; }
+      .about-contact { padding: 48px 32px 56px; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="site-nav">
+    <a href="index.html" class="nav-logo">← Back</a>
+    <button class="nav-hamburger" id="nav-hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+    <div class="nav-links" id="nav-links">
+      <a href="index.html#portfolio" class="nav-link">UX Case Studies</a>
+      <a href="writing.html" class="nav-link nav-link--active">UX Writing</a>
+      <a href="about-me.html" class="nav-link">About Me</a>
+    </div>
+  </nav>
+
+  <div class="page">
+
+    <!-- Hero -->
+    <div class="about-hero">
+      <div class="about-hero__heading">Writing</div>
+      <p class="about-hero__text">Some thoughts on UX and technology.</p>
+    </div>
+
+    <!-- Article 1 -->
+    <div class="about-section about-section--white">
+      <div class="about-section__label">July 1, 2026</div>
+      <div class="article-title">Why Your AI Needs a Media Literacy Filter</div>
+      <p class="article-body">A system prompt that forces AI to cite sources, flag uncertainty, and present balanced perspectives, plus how to set it up in ChatGPT, Claude, and Gemini.</p>
+      <a href="ai-media-literacy-filter.html" class="article-read-more">Read More →</a>
+    </div>
+
+    <!-- Article 2 -->
+    <div class="about-section about-section--white">
+      <div class="about-section__label">July 1, 2026</div>
+      <div class="article-title">The Danger of the Infinite "Yes-Man"</div>
+      <p class="article-body">Why a hyper-agreeable AI is a trap, and how constructive friction leads to better outcomes.</p>
+      <a href="the-infinite-yes-man.html" class="article-read-more">Read More →</a>
+    </div>
+
+    <!-- Article 3 -->
+    <div class="about-section about-section--white">
+      <div class="about-section__label">June 30, 2026</div>
+      <div class="article-title">Large Knowledge Models</div>
+      <p class="article-body">Calling these systems "Large Language Models" describes how they were built. "Large Knowledge Models" describes what they actually do.</p>
+      <a href="large-knowledge-models.html" class="article-read-more">Read More →</a>
+    </div>
+
+    <!-- Article 4 -->
+    <div class="about-section about-section--white">
+      <div class="about-section__label">January 22, 2025</div>
+      <div class="article-title">Can we design ethical user experiences?</div>
+      <p class="article-body">Ethical Design in Contemporary UX Practice.</p>
+      <a href="ethical-design.html" class="article-read-more">Read More →</a>
+    </div>
+
+    <!-- Article 5 -->
+    <div class="about-section about-section--white">
+      <div class="about-section__label">September 6, 2024</div>
+      <div class="article-title">Trust but Verify</div>
+      <p class="article-body">How we should negotiate our relationship to agentic AI recommendations and actions.</p>
+      <a href="trust-but-verify.html" class="article-read-more">Read More →</a>
+    </div>
+
+    <!-- Article 6 -->
+    <div class="about-section about-section--white">
+      <div class="about-section__label">March 14, 2024</div>
+      <div class="article-title">Empathy and AI</div>
+      <p class="article-body">What kind of empathy do we want from our AI support agents?</p>
+      <a href="empathy-and-ai.html" class="article-read-more">Read More →</a>
+    </div>
+
+    <!-- Contact -->
+    <div class="about-contact">
+      <div class="about-contact__heading">Get in Touch</div>
+      <div class="about-contact__item"><a href="mailto:matthew.barton@gmail.com">matthew.barton@gmail.com</a></div>
+      <div class="about-contact__item">(919) 906-7085</div>
+    </div>
+
+  </div>
+
+  <script>
+    const hamburger = document.getElementById('nav-hamburger');
+    const navLinks = document.getElementById('nav-links');
+    hamburger.addEventListener('click', function() {
+      hamburger.classList.toggle('is-open');
+      navLinks.classList.toggle('is-open');
+    });
+  </script>
+</body>
+</html>

@@ -211,6 +211,169 @@
       font-size: 13px;
       color: #666;
     }
+
+    .workspace-container {
+      display: none;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      min-height: 600px;
+      margin-bottom: 40px;
+    }
+
+    .workspace-container.active {
+      display: grid;
+    }
+
+    .progress-bar {
+      background: #e0e0e0;
+      height: 8px;
+      border-radius: 4px;
+      margin-bottom: 20px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      background: #0066cc;
+      height: 100%;
+      transition: width 0.3s ease;
+    }
+
+    .progress-text {
+      font-size: 13px;
+      color: #666;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+
+    .copilot-pane {
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      overflow-y: auto;
+      min-width: 0;
+    }
+
+    .form-pane {
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+
+    .copilot-section {
+      margin-bottom: 25px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    .copilot-section:last-child {
+      border-bottom: none;
+    }
+
+    .copilot-section h3 {
+      font-size: 14px;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .copilot-field {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 10px;
+      margin-bottom: 12px;
+      align-items: center;
+    }
+
+    .copilot-label {
+      font-size: 13px;
+      color: #666;
+      font-weight: 600;
+    }
+
+    .copilot-value {
+      font-size: 13px;
+      padding: 8px 12px;
+      background: #f5f5f5;
+      border-radius: 4px;
+      border: 1px solid #e0e0e0;
+      word-break: break-word;
+    }
+
+    .form-iframe {
+      flex: 1;
+      border: none;
+      width: 100%;
+    }
+
+    .form-fallback {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px;
+      text-align: center;
+      color: #666;
+    }
+
+    .form-fallback a {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 12px 24px;
+      background: #0066cc;
+      color: white;
+      text-decoration: none;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+
+    .form-fallback a:hover {
+      background: #0052a3;
+    }
+
+    .workspace-actions {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 1px solid #e0e0e0;
+    }
+
+    .complete-btn {
+      background: #2e7d32;
+      padding: 10px 20px;
+    }
+
+    .complete-btn:hover {
+      background: #1b5e20;
+    }
+
+    .back-btn {
+      background: #666;
+      padding: 10px 20px;
+    }
+
+    .back-btn:hover {
+      background: #333;
+    }
+
+    .scholarship-list.inactive {
+      display: none;
+    }
+
+    .browser-link-icon {
+      display: inline-block;
+      margin-left: 5px;
+      font-size: 11px;
+    }
   </style>
 </head>
 <body>
@@ -263,10 +426,57 @@
     <div id="scholarships" class="scholarship-list">
       <div class="loading">Loading scholarships...</div>
     </div>
+
+    <!-- Split-screen workspace -->
+    <div id="workspace" class="workspace-container">
+      <div class="copilot-pane">
+        <div class="progress-text" id="progressText"></div>
+        <div class="progress-bar">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+
+        <div class="copilot-section">
+          <h3>Scholarship Details</h3>
+          <div id="scholarshipDetails"></div>
+        </div>
+
+        <div class="copilot-section">
+          <h3>Your Profile</h3>
+          <div id="profileFields"></div>
+        </div>
+
+        <div class="copilot-section">
+          <h3>Essay Prompt</h3>
+          <div style="font-size: 13px; line-height: 1.6; color: #666;" id="essayPrompt"></div>
+        </div>
+
+        <div class="workspace-actions">
+          <button class="complete-btn" onclick="markComplete()">✓ Completed Application</button>
+          <button class="back-btn" onclick="exitWorkspace()">← Back</button>
+        </div>
+      </div>
+
+      <div class="form-pane">
+        <iframe id="formIframe" class="form-iframe" allow="same-origin"></iframe>
+        <div id="formFallback" class="form-fallback" style="display: none;">
+          <div>
+            <p>The college form couldn't be embedded due to security settings.</p>
+            <p>Click the button below to open it in a new tab.</p>
+            <a id="formLink" href="#" target="_blank">
+              Open Application Form
+              <span class="browser-link-icon">↗</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
   <script>
     let allScholarships = [];
+    let activeScholarship = null;
+    let eligibleScholarships = [];
+    let currentIndex = 0;
 
     async function loadScholarships() {
       try {
@@ -317,12 +527,17 @@
 
       let eligibleCount = 0;
       let disqualifiedCount = 0;
+      eligibleScholarships = [];
 
       const html = allScholarships.map(scholarship => {
         const { eligible, reasons } = checkEligibility(scholarship, profile);
 
-        if (eligible) eligibleCount++;
-        else disqualifiedCount++;
+        if (eligible) {
+          eligibleCount++;
+          eligibleScholarships.push(scholarship);
+        } else {
+          disqualifiedCount++;
+        }
 
         return `
           <div class="scholarship-card ${eligible ? '' : 'disqualified'}">
@@ -336,10 +551,9 @@
               <div><strong>Min GPA:</strong> ${scholarship.minGPA}</div>
               <div><strong>Majors:</strong> ${scholarship.acceptedMajors.join(', ')}</div>
               <div><strong>Need-Based:</strong> ${scholarship.needBased ? 'Yes' : 'No'}</div>
-              <div><strong>Essay Prompt:</strong> ${scholarship.essayPrompt}</div>
             </div>
             <div class="eligibility-status ${eligible ? 'eligible' : 'disqualified'}">
-              ${eligible ? '✓ You are eligible for this scholarship' : '✗ ' + reasons.join(' • ')}
+              ${eligible ? `✓ You are eligible for this scholarship <button class="copy-btn" onclick="startApplication('${scholarship.id}')" style="margin-left: 10px;">Apply →</button>` : '✗ ' + reasons.join(' • ')}
             </div>
           </div>
         `;
@@ -351,6 +565,117 @@
       document.getElementById('eligibleCount').textContent = eligibleCount;
       document.getElementById('disqualifiedCount').textContent = disqualifiedCount;
       statsDiv.style.display = 'grid';
+    }
+
+    function startApplication(scholarshipId) {
+      const scholarship = allScholarships.find(s => s.id === scholarshipId);
+      activeScholarship = scholarship;
+      currentIndex = eligibleScholarships.findIndex(s => s.id === scholarshipId);
+
+      populateWorkspace();
+
+      document.getElementById('scholarships').classList.add('inactive');
+      document.getElementById('workspace').classList.add('active');
+      window.scrollTo(0, 0);
+    }
+
+    function populateWorkspace() {
+      const profile = getStudentProfile();
+
+      // Update progress
+      const progress = ((currentIndex + 1) / eligibleScholarships.length) * 100;
+      document.getElementById('progressFill').style.width = progress + '%';
+      document.getElementById('progressText').textContent = `Scholarship ${currentIndex + 1} of ${eligibleScholarships.length}`;
+
+      // Scholarship details
+      const detailsHtml = `
+        <div class="copilot-field">
+          <div class="copilot-label"><strong>Award:</strong></div>
+          <div class="copilot-value">${activeScholarship.name}</div>
+        </div>
+        <div class="copilot-field">
+          <div class="copilot-label"><strong>University:</strong></div>
+          <div class="copilot-value">${activeScholarship.university}</div>
+        </div>
+        <div class="copilot-field">
+          <div class="copilot-label"><strong>Amount:</strong></div>
+          <div class="copilot-value">$${activeScholarship.amount.toLocaleString()}</div>
+        </div>
+        <div class="copilot-field">
+          <div class="copilot-label"><strong>Deadline:</strong></div>
+          <div class="copilot-value">${activeScholarship.deadline}</div>
+        </div>
+      `;
+      document.getElementById('scholarshipDetails').innerHTML = detailsHtml;
+
+      // Profile fields with copy buttons
+      const profileHtml = `
+        <div class="copilot-field">
+          <div class="copilot-label"><strong>Major:</strong></div>
+          <div class="copilot-value">${profile.major}</div>
+          <button class="copy-btn" onclick="copyCopilotField('${profile.major}')">Copy</button>
+        </div>
+        <div class="copilot-field">
+          <div class="copilot-label"><strong>GPA:</strong></div>
+          <div class="copilot-value">${profile.gpa}</div>
+          <button class="copy-btn" onclick="copyCopilotField('${profile.gpa}')">Copy</button>
+        </div>
+        <div class="copilot-field">
+          <div class="copilot-label"><strong>Financial Need:</strong></div>
+          <div class="copilot-value">${profile.needBased ? 'Yes' : 'No'}</div>
+          <button class="copy-btn" onclick="copyCopilotField('${profile.needBased ? 'Yes' : 'No'}')">Copy</button>
+        </div>
+      `;
+      document.getElementById('profileFields').innerHTML = profileHtml;
+
+      // Essay prompt
+      document.getElementById('essayPrompt').textContent = activeScholarship.essayPrompt;
+
+      // Setup form
+      const formIframe = document.getElementById('formIframe');
+      const formFallback = document.getElementById('formFallback');
+      const formLink = document.getElementById('formLink');
+
+      if (activeScholarship.applicationUrl) {
+        formLink.href = activeScholarship.applicationUrl;
+        formIframe.src = activeScholarship.applicationUrl;
+        formFallback.style.display = 'none';
+        formIframe.style.display = 'block';
+      } else {
+        formFallback.style.display = 'flex';
+        formIframe.style.display = 'none';
+        formLink.href = '#';
+        formLink.textContent = 'Application Form Not Available';
+      }
+    }
+
+    function copyCopilotField(text) {
+      navigator.clipboard.writeText(text).then(() => {
+        const btn = event.target;
+        const originalText = btn.textContent;
+        btn.textContent = 'Copied!';
+        setTimeout(() => {
+          btn.textContent = originalText;
+        }, 1500);
+      });
+    }
+
+    function markComplete() {
+      currentIndex++;
+      if (currentIndex < eligibleScholarships.length) {
+        activeScholarship = eligibleScholarships[currentIndex];
+        populateWorkspace();
+      } else {
+        exitWorkspace();
+        alert('🎉 You\'ve completed all eligible scholarships! Great work!');
+      }
+    }
+
+    function exitWorkspace() {
+      activeScholarship = null;
+      document.getElementById('workspace').classList.remove('active');
+      document.getElementById('scholarships').classList.remove('inactive');
+      window.scrollTo(0, 0);
     }
 
     function copyToClipboard(fieldId) {

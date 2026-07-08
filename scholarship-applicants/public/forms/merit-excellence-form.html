@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Merit Excellence Award Application - State University</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #f9f9f9;
+      padding: 20px;
+      color: #333;
+    }
+
+    .form-container {
+      max-width: 600px;
+      margin: 0 auto;
+      background: white;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .form-header {
+      margin-bottom: 30px;
+      border-bottom: 2px solid #0066cc;
+      padding-bottom: 20px;
+    }
+
+    .form-header h1 {
+      font-size: 24px;
+      color: #0066cc;
+      margin-bottom: 5px;
+    }
+
+    .form-header p {
+      font-size: 14px;
+      color: #666;
+    }
+
+    .form-section {
+      margin-bottom: 25px;
+    }
+
+    .form-section h2 {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 15px;
+      color: #333;
+      border-bottom: 1px solid #e0e0e0;
+      padding-bottom: 10px;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: #333;
+    }
+
+    .required {
+      color: #cc0000;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="number"],
+    input[type="date"],
+    select,
+    textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 14px;
+      font-family: inherit;
+    }
+
+    input[type="text"]:focus,
+    input[type="email"]:focus,
+    input[type="number"]:focus,
+    input[type="date"]:focus,
+    select:focus,
+    textarea:focus {
+      outline: none;
+      border-color: #0066cc;
+      box-shadow: 0 0 0 2px rgba(0, 102, 204, 0.1);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+    }
+
+    .form-row.full {
+      grid-template-columns: 1fr;
+    }
+
+    .checkbox-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .checkbox-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      cursor: pointer;
+    }
+
+    .checkbox-item label {
+      margin-bottom: 0;
+      font-weight: 400;
+      cursor: pointer;
+    }
+
+    .form-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 30px;
+      padding-top: 20px;
+      border-top: 1px solid #e0e0e0;
+    }
+
+    .btn {
+      padding: 12px 24px;
+      border: none;
+      border-radius: 4px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .btn-primary {
+      background: #0066cc;
+      color: white;
+      flex: 1;
+    }
+
+    .btn-primary:hover {
+      background: #0052a3;
+    }
+
+    .btn-secondary {
+      background: #e0e0e0;
+      color: #333;
+    }
+
+    .btn-secondary:hover {
+      background: #d0d0d0;
+    }
+
+    .help-text {
+      font-size: 12px;
+      color: #999;
+      margin-top: 4px;
+    }
+
+    .success-message {
+      display: none;
+      background: #e8f5e9;
+      border-left: 4px solid #2e7d32;
+      padding: 15px;
+      border-radius: 4px;
+      margin-bottom: 20px;
+      color: #2e7d32;
+    }
+
+    .success-message.show {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <div class="form-container">
+    <div class="success-message" id="successMessage">
+      ✓ Application submitted successfully! We'll review your application and contact you within 2 weeks.
+    </div>
+
+    <div class="form-header">
+      <h1>Merit Excellence Award Application</h1>
+      <p>State University Financial Aid Office</p>
+    </div>
+
+    <form id="applicationForm">
+      <!-- Personal Information -->
+      <div class="form-section">
+        <h2>Personal Information</h2>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>First Name <span class="required">*</span></label>
+            <input type="text" name="firstName" required>
+          </div>
+          <div class="form-group">
+            <label>Last Name <span class="required">*</span></label>
+            <input type="text" name="lastName" required>
+          </div>
+        </div>
+
+        <div class="form-row full">
+          <div class="form-group">
+            <label>Email Address <span class="required">*</span></label>
+            <input type="email" name="email" required>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Phone Number</label>
+            <input type="text" name="phone" placeholder="(555) 123-4567">
+          </div>
+          <div class="form-group">
+            <label>Student ID</label>
+            <input type="text" name="studentId">
+          </div>
+        </div>
+      </div>
+
+      <!-- Academic Information -->
+      <div class="form-section">
+        <h2>Academic Information</h2>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Major <span class="required">*</span></label>
+            <select name="major" required>
+              <option value="">-- Select Major --</option>
+              <option value="Computer Science">Computer Science</option>
+              <option value="Engineering">Engineering</option>
+              <option value="Mathematics">Mathematics</option>
+              <option value="Physics">Physics</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Current GPA <span class="required">*</span></label>
+            <input type="number" name="gpa" step="0.01" min="0" max="4.0" required placeholder="3.5">
+          </div>
+        </div>
+
+        <div class="form-row full">
+          <div class="form-group">
+            <label>Graduation Date <span class="required">*</span></label>
+            <input type="date" name="graduationDate" required>
+          </div>
+        </div>
+      </div>
+
+      <!-- Essay Question -->
+      <div class="form-section">
+        <h2>Essay</h2>
+
+        <div class="form-group">
+          <label>Describe your academic goals and how this scholarship will help you achieve them. <span class="required">*</span></label>
+          <textarea name="essay" required placeholder="Write your response here (500 words maximum)..."></textarea>
+          <div class="help-text">Maximum 500 words</div>
+        </div>
+      </div>
+
+      <!-- Additional Information -->
+      <div class="form-section">
+        <h2>Additional Information</h2>
+
+        <div class="form-group">
+          <label>Are you a first-generation college student?</label>
+          <div class="checkbox-group">
+            <div class="checkbox-item">
+              <input type="radio" id="firstGen_yes" name="firstGeneration" value="yes">
+              <label for="firstGen_yes">Yes</label>
+            </div>
+            <div class="checkbox-item">
+              <input type="radio" id="firstGen_no" name="firstGeneration" value="no">
+              <label for="firstGen_no">No</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Demonstrate financial need?</label>
+          <select name="financialNeed">
+            <option value="">-- Select --</option>
+            <option value="yes">Yes, I demonstrate financial need</option>
+            <option value="no">No financial need</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <div class="checkbox-item">
+            <input type="checkbox" id="agreeTerms" name="agreeTerms" required>
+            <label for="agreeTerms">I certify that the information provided in this application is true and complete. <span class="required">*</span></label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Submit -->
+      <div class="form-actions">
+        <button type="button" class="btn btn-secondary" onclick="resetForm()">Clear</button>
+        <button type="submit" class="btn btn-primary">Submit Application</button>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    const form = document.getElementById('applicationForm');
+    const successMessage = document.getElementById('successMessage');
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      // Get form data
+      const formData = new FormData(form);
+      const data = Object.fromEntries(formData);
+
+      // Save to localStorage for demo
+      localStorage.setItem('lastApplicationData', JSON.stringify(data));
+
+      // Show success message
+      successMessage.classList.add('show');
+
+      // Scroll to top to show success message
+      window.scrollTo(0, 0);
+
+      // Reset form after 2 seconds for demo purposes
+      setTimeout(() => {
+        form.reset();
+      }, 2000);
+    });
+
+    function resetForm() {
+      form.reset();
+      successMessage.classList.remove('show');
+    }
+
+    // Pre-fill form from copilot panel if available
+    window.addEventListener('load', function() {
+      // Check if there's data we can pre-fill from parent window
+      try {
+        const savedData = localStorage.getItem('studentProfile');
+        if (savedData) {
+          const profile = JSON.parse(savedData);
+          if (document.querySelector('[name="major"]')) {
+            document.querySelector('[name="major"]').value = profile.major || '';
+          }
+          if (document.querySelector('[name="gpa"]')) {
+            document.querySelector('[name="gpa"]').value = profile.gpa || '';
+          }
+        }
+      } catch (e) {
+        // Silently ignore if no saved data
+      }
+    });
+  </script>
+</body>
+</html>

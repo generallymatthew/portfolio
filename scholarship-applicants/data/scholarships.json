@@ -8,11 +8,12 @@
     "minGPA": 3.5,
     "acceptedMajors": ["Computer Science", "Engineering", "Mathematics"],
     "needBased": false,
-    "essayPrompt": "Describe your academic goals and how this scholarship will help you achieve them. (500 words)"
+    "essayPrompt": "Describe your academic goals and how this scholarship will help you achieve them. (500 words)",
+    "applicationUrl": "http://localhost:3001/forms/merit-excellence-form.html"
   },
   {
     "id": "sch_002",
-    "name": "First-Generation Scholar Grant",
+    "name": "Patel Family Foundation - First Gen Scholars",
     "university": "State University",
     "amount": 3000,
     "deadline": "2026-04-01",
@@ -23,18 +24,19 @@
   },
   {
     "id": "sch_003",
-    "name": "STEM Innovation Scholarship",
+    "name": "Goldman Sachs STEM Innovation Challenge",
     "university": "Tech Institute",
     "amount": 7500,
     "deadline": "2026-02-28",
     "minGPA": 3.7,
     "acceptedMajors": ["Computer Science", "Engineering", "Physics", "Mathematics"],
     "needBased": false,
-    "essayPrompt": "Describe an innovative STEM project you've worked on or would like to pursue. (600 words)"
+    "essayPrompt": "Describe an innovative STEM project you've worked on or would like to pursue. (600 words)",
+    "applicationUrl": "http://localhost:3001/forms/merit-excellence-form.html"
   },
   {
     "id": "sch_004",
-    "name": "Diversity & Inclusion Award",
+    "name": "Tech for Equity Diversity Scholarship",
     "university": "State University",
     "amount": 4000,
     "deadline": "2026-03-30",
@@ -45,7 +47,7 @@
   },
   {
     "id": "sch_005",
-    "name": "Financial Need Scholarship",
+    "name": "Hope Fund - Financial Access Grant",
     "university": "Tech Institute",
     "amount": 6000,
     "deadline": "2026-05-15",
@@ -56,18 +58,19 @@
   },
   {
     "id": "sch_006",
-    "name": "Business Leadership Award",
+    "name": "NextGen Business Leaders Award",
     "university": "State University",
     "amount": 5500,
     "deadline": "2026-04-10",
     "minGPA": 3.4,
     "acceptedMajors": ["Business", "Economics", "Accounting"],
     "needBased": false,
-    "essayPrompt": "Describe a leadership role you've held and what you learned from it. (500 words)"
+    "essayPrompt": "Describe a leadership role you've held and what you learned from it. (500 words)",
+    "applicationUrl": "http://localhost:3001/forms/merit-excellence-form.html"
   },
   {
     "id": "sch_007",
-    "name": "Environmental Sustainability Grant",
+    "name": "Green Planet Initiative Scholarship",
     "university": "Green College",
     "amount": 4500,
     "deadline": "2026-03-20",
@@ -78,7 +81,7 @@
   },
   {
     "id": "sch_008",
-    "name": "Community Service Scholarship",
+    "name": "Service Leaders of Tomorrow",
     "university": "State University",
     "amount": 3500,
     "deadline": "2026-04-05",
@@ -89,7 +92,7 @@
   },
   {
     "id": "sch_009",
-    "name": "Women in STEM Award",
+    "name": "Women in Computing Excellence Award",
     "university": "Tech Institute",
     "amount": 5000,
     "deadline": "2026-03-10",
@@ -100,7 +103,7 @@
   },
   {
     "id": "sch_010",
-    "name": "General Academic Excellence Scholarship",
+    "name": "Chancellor's Academic Excellence Fund",
     "university": "Green College",
     "amount": 4000,
     "deadline": "2026-05-01",
@@ -111,18 +114,19 @@
   },
   {
     "id": "sch_011",
-    "name": "Engineering Future Leaders",
+    "name": "IEEE Engineering Futures Scholarship",
     "university": "Tech Institute",
     "amount": 6500,
     "deadline": "2026-04-20",
     "minGPA": 3.6,
     "acceptedMajors": ["Engineering"],
     "needBased": false,
-    "essayPrompt": "Where do you see yourself as a leader in engineering 10 years from now? (550 words)"
+    "essayPrompt": "Where do you see yourself as a leader in engineering 10 years from now? (550 words)",
+    "applicationUrl": "http://localhost:3001/forms/merit-excellence-form.html"
   },
   {
     "id": "sch_012",
-    "name": "Low-Income Access Fund",
+    "name": "Bridge to Success - Low-Income Access",
     "university": "State University",
     "amount": 8000,
     "deadline": "2026-06-15",
@@ -133,7 +137,7 @@
   },
   {
     "id": "sch_013",
-    "name": "Transfer Student Excellence",
+    "name": "Transfer Student Leadership Award",
     "university": "Green College",
     "amount": 5000,
     "deadline": "2026-05-30",
@@ -144,18 +148,19 @@
   },
   {
     "id": "sch_014",
-    "name": "Computer Science Innovators",
+    "name": "ACM - Code the Future Scholarship",
     "university": "Tech Institute",
     "amount": 7000,
     "deadline": "2026-03-25",
     "minGPA": 3.5,
     "acceptedMajors": ["Computer Science"],
     "needBased": false,
-    "essayPrompt": "Describe a software project or coding innovation that excites you. (500 words)"
+    "essayPrompt": "Describe a software project or coding innovation that excites you. (500 words)",
+    "applicationUrl": "http://localhost:3001/forms/merit-excellence-form.html"
   },
   {
     "id": "sch_015",
-    "name": "Rural Student Opportunity Grant",
+    "name": "Rural Communities Education Fund",
     "university": "State University",
     "amount": 4500,
     "deadline": "2026-04-25",

@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scholarship Assistant</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #f5f5f5;
+      color: #333;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    header {
+      background: white;
+      padding: 20px;
+      margin-bottom: 20px;
+      border-radius: 8px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+
+    .profile-section {
+      background: white;
+      padding: 20px;
+      margin-bottom: 20px;
+      border-radius: 8px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    .profile-section h2 {
+      font-size: 18px;
+      margin-bottom: 15px;
+      border-bottom: 2px solid #e0e0e0;
+      padding-bottom: 10px;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    label {
+      min-width: 120px;
+      font-weight: 500;
+    }
+
+    input, select {
+      flex: 1;
+      padding: 8px 12px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+
+    input:focus, select:focus {
+      outline: none;
+      border-color: #0066cc;
+      box-shadow: 0 0 0 2px rgba(0, 102, 204, 0.1);
+    }
+
+    .scholarship-list {
+      display: grid;
+      gap: 15px;
+    }
+
+    .scholarship-card {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      border-left: 4px solid #0066cc;
+    }
+
+    .scholarship-card.disqualified {
+      border-left-color: #cc0000;
+      opacity: 0.6;
+    }
+
+    .scholarship-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: start;
+      margin-bottom: 10px;
+    }
+
+    .scholarship-name {
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    .scholarship-amount {
+      font-size: 18px;
+      font-weight: bold;
+      color: #0066cc;
+    }
+
+    .scholarship-university {
+      font-size: 13px;
+      color: #666;
+      margin-bottom: 10px;
+    }
+
+    .scholarship-details {
+      font-size: 13px;
+      color: #666;
+      margin-bottom: 10px;
+      line-height: 1.5;
+    }
+
+    .eligibility-status {
+      padding: 10px;
+      border-radius: 4px;
+      margin-top: 10px;
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    .eligible {
+      background: #e8f5e9;
+      color: #2e7d32;
+    }
+
+    .disqualified {
+      background: #ffebee;
+      color: #c62828;
+    }
+
+    .copy-btn {
+      padding: 6px 12px;
+      background: #0066cc;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 13px;
+      margin-right: 10px;
+    }
+
+    .copy-btn:hover {
+      background: #0052a3;
+    }
+
+    button {
+      padding: 8px 16px;
+      background: #0066cc;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    button:hover {
+      background: #0052a3;
+    }
+
+    .button-group {
+      display: flex;
+      gap: 10px;
+      margin-top: 15px;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 40px;
+      color: #666;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    .stat-box {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+
+    .stat-value {
+      font-size: 32px;
+      font-weight: bold;
+      color: #0066cc;
+      margin-bottom: 5px;
+    }
+
+    .stat-label {
+      font-size: 13px;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>🎓 Scholarship Application Assistant</h1>
+      <p>Local-first scholarship discovery and tracking</p>
+    </header>
+
+    <div class="profile-section">
+      <h2>Your Profile</h2>
+      <div class="form-group">
+        <label>Major:</label>
+        <input type="text" id="major" placeholder="e.g., Computer Science" value="Computer Science">
+        <button class="copy-btn" onclick="copyToClipboard('major')">Copy</button>
+      </div>
+      <div class="form-group">
+        <label>GPA:</label>
+        <input type="number" id="gpa" placeholder="3.5" value="3.5" step="0.1" min="0" max="4">
+        <button class="copy-btn" onclick="copyToClipboard('gpa')">Copy</button>
+      </div>
+      <div class="form-group">
+        <label>Financial Need:</label>
+        <select id="needBased">
+          <option value="false">Not needed</option>
+          <option value="true">Yes, needed</option>
+        </select>
+      </div>
+      <div class="button-group">
+        <button onclick="filterScholarships()">Filter Scholarships</button>
+        <button onclick="exportProfile()">Export Profile</button>
+      </div>
+    </div>
+
+    <div class="stats" id="stats" style="display: none;">
+      <div class="stat-box">
+        <div class="stat-value" id="totalCount">0</div>
+        <div class="stat-label">Total Scholarships</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-value" id="eligibleCount">0</div>
+        <div class="stat-label">Eligible</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-value" id="disqualifiedCount">0</div>
+        <div class="stat-label">Disqualified</div>
+      </div>
+    </div>
+
+    <div id="scholarships" class="scholarship-list">
+      <div class="loading">Loading scholarships...</div>
+    </div>
+  </div>
+
+  <script>
+    let allScholarships = [];
+
+    async function loadScholarships() {
+      try {
+        const response = await fetch('/api/scholarships');
+        allScholarships = await response.json();
+        filterScholarships();
+      } catch (error) {
+        console.error('Error loading scholarships:', error);
+        document.getElementById('scholarships').innerHTML = '<div class="loading">Error loading scholarships</div>';
+      }
+    }
+
+    function getStudentProfile() {
+      return {
+        major: document.getElementById('major').value,
+        gpa: parseFloat(document.getElementById('gpa').value) || 0,
+        needBased: document.getElementById('needBased').value === 'true'
+      };
+    }
+
+    function checkEligibility(scholarship, profile) {
+      const reasons = [];
+
+      if (scholarship.minGPA && profile.gpa < scholarship.minGPA) {
+        reasons.push(`GPA ${profile.gpa} is below required ${scholarship.minGPA}`);
+      }
+
+      if (scholarship.acceptedMajors && !scholarship.acceptedMajors.includes('Any')) {
+        if (!scholarship.acceptedMajors.includes(profile.major)) {
+          reasons.push(`Major "${profile.major}" not in accepted majors`);
+        }
+      }
+
+      if (scholarship.needBased && !profile.needBased) {
+        reasons.push('Scholarship requires financial need');
+      }
+
+      return {
+        eligible: reasons.length === 0,
+        reasons
+      };
+    }
+
+    function filterScholarships() {
+      const profile = getStudentProfile();
+      const scholarshipsDiv = document.getElementById('scholarships');
+      const statsDiv = document.getElementById('stats');
+
+      let eligibleCount = 0;
+      let disqualifiedCount = 0;
+
+      const html = allScholarships.map(scholarship => {
+        const { eligible, reasons } = checkEligibility(scholarship, profile);
+
+        if (eligible) eligibleCount++;
+        else disqualifiedCount++;
+
+        return `
+          <div class="scholarship-card ${eligible ? '' : 'disqualified'}">
+            <div class="scholarship-header">
+              <div class="scholarship-name">${scholarship.name}</div>
+              <div class="scholarship-amount">$${scholarship.amount.toLocaleString()}</div>
+            </div>
+            <div class="scholarship-university">${scholarship.university}</div>
+            <div class="scholarship-details">
+              <div><strong>Deadline:</strong> ${scholarship.deadline}</div>
+              <div><strong>Min GPA:</strong> ${scholarship.minGPA}</div>
+              <div><strong>Majors:</strong> ${scholarship.acceptedMajors.join(', ')}</div>
+              <div><strong>Need-Based:</strong> ${scholarship.needBased ? 'Yes' : 'No'}</div>
+              <div><strong>Essay Prompt:</strong> ${scholarship.essayPrompt}</div>
+            </div>
+            <div class="eligibility-status ${eligible ? 'eligible' : 'disqualified'}">
+              ${eligible ? '✓ You are eligible for this scholarship' : '✗ ' + reasons.join(' • ')}
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      scholarshipsDiv.innerHTML = html;
+
+      document.getElementById('totalCount').textContent = allScholarships.length;
+      document.getElementById('eligibleCount').textContent = eligibleCount;
+      document.getElementById('disqualifiedCount').textContent = disqualifiedCount;
+      statsDiv.style.display = 'grid';
+    }
+
+    function copyToClipboard(fieldId) {
+      const field = document.getElementById(fieldId);
+      navigator.clipboard.writeText(field.value).then(() => {
+        const btn = event.target;
+        const originalText = btn.textContent;
+        btn.textContent = 'Copied!';
+        setTimeout(() => {
+          btn.textContent = originalText;
+        }, 1500);
+      });
+    }
+
+    function exportProfile() {
+      const profile = getStudentProfile();
+      const data = JSON.stringify(profile, null, 2);
+      const blob = new Blob([data], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'scholarship-profile.json';
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    loadScholarships();
+  </script>
+</body>
+</html>

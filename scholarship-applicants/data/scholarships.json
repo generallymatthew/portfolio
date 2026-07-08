@@ -1,0 +1,167 @@
+[
+  {
+    "id": "sch_001",
+    "name": "Merit Excellence Award",
+    "university": "State University",
+    "amount": 5000,
+    "deadline": "2026-03-15",
+    "minGPA": 3.5,
+    "acceptedMajors": ["Computer Science", "Engineering", "Mathematics"],
+    "needBased": false,
+    "essayPrompt": "Describe your academic goals and how this scholarship will help you achieve them. (500 words)"
+  },
+  {
+    "id": "sch_002",
+    "name": "First-Generation Scholar Grant",
+    "university": "State University",
+    "amount": 3000,
+    "deadline": "2026-04-01",
+    "minGPA": 3.0,
+    "acceptedMajors": ["Any"],
+    "needBased": true,
+    "essayPrompt": "Tell us about your first-generation background and how it has shaped your educational journey. (400 words)"
+  },
+  {
+    "id": "sch_003",
+    "name": "STEM Innovation Scholarship",
+    "university": "Tech Institute",
+    "amount": 7500,
+    "deadline": "2026-02-28",
+    "minGPA": 3.7,
+    "acceptedMajors": ["Computer Science", "Engineering", "Physics", "Mathematics"],
+    "needBased": false,
+    "essayPrompt": "Describe an innovative STEM project you've worked on or would like to pursue. (600 words)"
+  },
+  {
+    "id": "sch_004",
+    "name": "Diversity & Inclusion Award",
+    "university": "State University",
+    "amount": 4000,
+    "deadline": "2026-03-30",
+    "minGPA": 2.8,
+    "acceptedMajors": ["Any"],
+    "needBased": false,
+    "essayPrompt": "How do you contribute to a diverse and inclusive community? (450 words)"
+  },
+  {
+    "id": "sch_005",
+    "name": "Financial Need Scholarship",
+    "university": "Tech Institute",
+    "amount": 6000,
+    "deadline": "2026-05-15",
+    "minGPA": 2.5,
+    "acceptedMajors": ["Any"],
+    "needBased": true,
+    "essayPrompt": "Explain your financial circumstances and how this scholarship would impact your education. (400 words)"
+  },
+  {
+    "id": "sch_006",
+    "name": "Business Leadership Award",
+    "university": "State University",
+    "amount": 5500,
+    "deadline": "2026-04-10",
+    "minGPA": 3.4,
+    "acceptedMajors": ["Business", "Economics", "Accounting"],
+    "needBased": false,
+    "essayPrompt": "Describe a leadership role you've held and what you learned from it. (500 words)"
+  },
+  {
+    "id": "sch_007",
+    "name": "Environmental Sustainability Grant",
+    "university": "Green College",
+    "amount": 4500,
+    "deadline": "2026-03-20",
+    "minGPA": 3.2,
+    "acceptedMajors": ["Environmental Science", "Engineering", "Biology", "Chemistry"],
+    "needBased": false,
+    "essayPrompt": "How do you plan to make a positive environmental impact in your career? (450 words)"
+  },
+  {
+    "id": "sch_008",
+    "name": "Community Service Scholarship",
+    "university": "State University",
+    "amount": 3500,
+    "deadline": "2026-04-05",
+    "minGPA": 3.0,
+    "acceptedMajors": ["Any"],
+    "needBased": false,
+    "essayPrompt": "Describe your community service work and its significance to you. (400 words)"
+  },
+  {
+    "id": "sch_009",
+    "name": "Women in STEM Award",
+    "university": "Tech Institute",
+    "amount": 5000,
+    "deadline": "2026-03-10",
+    "minGPA": 3.3,
+    "acceptedMajors": ["Computer Science", "Engineering", "Mathematics", "Physics"],
+    "needBased": false,
+    "essayPrompt": "Share your experiences and aspirations in STEM fields. (500 words)"
+  },
+  {
+    "id": "sch_010",
+    "name": "General Academic Excellence Scholarship",
+    "university": "Green College",
+    "amount": 4000,
+    "deadline": "2026-05-01",
+    "minGPA": 3.5,
+    "acceptedMajors": ["Any"],
+    "needBased": false,
+    "essayPrompt": "What does academic excellence mean to you? (350 words)"
+  },
+  {
+    "id": "sch_011",
+    "name": "Engineering Future Leaders",
+    "university": "Tech Institute",
+    "amount": 6500,
+    "deadline": "2026-04-20",
+    "minGPA": 3.6,
+    "acceptedMajors": ["Engineering"],
+    "needBased": false,
+    "essayPrompt": "Where do you see yourself as a leader in engineering 10 years from now? (550 words)"
+  },
+  {
+    "id": "sch_012",
+    "name": "Low-Income Access Fund",
+    "university": "State University",
+    "amount": 8000,
+    "deadline": "2026-06-15",
+    "minGPA": 2.7,
+    "acceptedMajors": ["Any"],
+    "needBased": true,
+    "essayPrompt": "How has financial constraint affected your educational path, and how will this scholarship help? (500 words)"
+  },
+  {
+    "id": "sch_013",
+    "name": "Transfer Student Excellence",
+    "university": "Green College",
+    "amount": 5000,
+    "deadline": "2026-05-30",
+    "minGPA": 3.4,
+    "acceptedMajors": ["Any"],
+    "needBased": false,
+    "essayPrompt": "Why are you transferring, and what are your goals at our institution? (450 words)"
+  },
+  {
+    "id": "sch_014",
+    "name": "Computer Science Innovators",
+    "university": "Tech Institute",
+    "amount": 7000,
+    "deadline": "2026-03-25",
+    "minGPA": 3.5,
+    "acceptedMajors": ["Computer Science"],
+    "needBased": false,
+    "essayPrompt": "Describe a software project or coding innovation that excites you. (500 words)"
+  },
+  {
+    "id": "sch_015",
+    "name": "Rural Student Opportunity Grant",
+    "university": "State University",
+    "amount": 4500,
+    "deadline": "2026-04-25",
+    "minGPA": 3.0,
+    "acceptedMajors": ["Any"],
+    "needBased": true,
+    "essayPrompt": "How has growing up in a rural community shaped your educational aspirations? (450 words)"
+  }
+]

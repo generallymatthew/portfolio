@@ -5,7 +5,8 @@
       "name": "scholarship-app",
       "runtimeExecutable": "bash",
       "runtimeArgs": ["-c", "ANTHROPIC_API_KEY=$ANTHROPIC_API_KEY npm start"],
-      "port": 3001
+      "port": 3001,
+      "autoPort": true
     }
   ]
 }

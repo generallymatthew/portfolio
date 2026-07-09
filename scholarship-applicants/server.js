@@ -7,7 +7,7 @@ const puppeteer = require('puppeteer');
 const cheerio = require('cheerio');
 
 const app = express();
-const PORT = 3001;
+const PORT = process.env.PORT || 3001;
 
 // Initialize Anthropic client
 const client = new Anthropic(

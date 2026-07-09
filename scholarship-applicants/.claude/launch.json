@@ -3,8 +3,8 @@
   "configurations": [
     {
       "name": "scholarship-app",
-      "runtimeExecutable": "npm",
-      "runtimeArgs": ["start"],
+      "runtimeExecutable": "bash",
+      "runtimeArgs": ["-c", "ANTHROPIC_API_KEY=$ANTHROPIC_API_KEY npm start"],
       "port": 3001
     }
   ]

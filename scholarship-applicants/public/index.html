@@ -344,6 +344,7 @@
   <script>
     // State management
     let conversationHistory = [];
+    let conversationId = null;
     let userProfile = {
       gpa: null,
       major: null,
@@ -353,6 +354,7 @@
     };
     let rankedScholarships = [];
     let currentPhase = 'url-input'; // url-input, asking-questions, showing-results
+    let isLoading = false;
 
     // Add initial message
     function initializeChat() {
@@ -394,49 +396,138 @@
       addMessage('user', url);
       userProfile.collegeUrl = url;
 
-      // Simulate Claude response
-      addMessage('assistant', `Great! I'm analyzing ${url} for scholarships...\n\nI found some scholarships there. Now let me ask you a few quick questions to narrow down the best matches for you:\n\n1. What's your current GPA?`);
+      // Start crawling the website in background
+      crawlCollege(url);
+
+      // Get Claude's response via API
+      try {
+        isLoading = true;
+        const response = await fetch('/api/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            message: `I want to find scholarships at ${url}. Can you help me?`,
+            conversationId: conversationId
+          })
+        });
+
+        if (!response.ok) {
+          throw new Error(`API error: ${response.status}`);
+        }
+
+        const data = await response.json();
+        conversationId = data.conversationId;
+        addMessage('assistant', data.message);
+      } catch (error) {
+        console.error('Chat error:', error);
+        addMessage('assistant', `I'm analyzing ${url} for scholarships...\n\nI found some scholarships there. Now let me ask you a few quick questions to narrow down the best matches for you:\n\n1. What's your current GPA?`);
+      } finally {
+        isLoading = false;
+      }
     }
 
-    // Send message (simulated for now)
+    // Crawl college website for scholarships
+    async function crawlCollege(collegeUrl) {
+      try {
+        const response = await fetch('/api/crawl', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ collegeUrl })
+        });
+        const data = await response.json();
+        console.log('Crawl results:', data);
+        // Store scholarship links for later parsing
+      } catch (error) {
+        console.error('Crawl error:', error);
+      }
+    }
+
+    // Send message via Claude API
     async function sendMessage() {
       const input = document.getElementById('userMessage');
       const message = input.value.trim();
 
-      if (!message) return;
+      if (!message || isLoading) return;
 
       addMessage('user', message);
       input.value = '';
+      isLoading = true;
 
-      // Simulate collecting profile info
-      const questionNumber = conversationHistory.length;
+      try {
+        const response = await fetch('/api/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            message: message,
+            conversationId: conversationId
+          })
+        });
 
-      if (questionNumber === 0) {
-        // First question: GPA
-        userProfile.gpa = parseFloat(message);
-        addMessage('assistant', `Got it, ${userProfile.gpa} GPA! 📚\n\n2. What's your major?`);
-      } else if (questionNumber === 1) {
-        // Second question: Major
-        userProfile.major = message;
-        addMessage('assistant', `${userProfile.major} - excellent! 🎯\n\n3. Are you a first-generation college student? (yes/no)`);
-      } else if (questionNumber === 2) {
-        // Third question: First-gen
-        userProfile.isFirstGen = message.toLowerCase().includes('yes');
-        addMessage('assistant', `Got it! ${userProfile.isFirstGen ? "You'll qualify for first-gen scholarships! 🌟" : ""}\n\n4. Do you need financial assistance? (yes/no)`);
-      } else if (questionNumber === 3) {
-        // Fourth question: Financial need
-        userProfile.financialNeed = message.toLowerCase().includes('yes');
+        if (!response.ok) {
+          throw new Error(`API error: ${response.status}`);
+        }
 
-        // Show loading and results
-        addMessage('assistant', '⏳ Analyzing scholarships with your profile...');
+        const data = await response.json();
+        conversationId = data.conversationId;
+        addMessage('assistant', data.message);
 
-        // Simulate delay
-        setTimeout(() => {
-          showResults();
-        }, 1500);
+        // Parse and store profile info
+        const lowerMessage = message.toLowerCase();
+        const questionCount = (conversationHistory.filter(m => m.role === 'user').length || 0) + 1;
+
+        if (questionCount === 1 && !isNaN(parseFloat(message))) {
+          userProfile.gpa = parseFloat(message);
+        } else if (questionCount === 2 && !userProfile.major) {
+          userProfile.major = message;
+        } else if (questionCount === 3 && userProfile.isFirstGen === null) {
+          userProfile.isFirstGen = lowerMessage.includes('yes');
+        } else if (questionCount === 4 && userProfile.financialNeed === null) {
+          userProfile.financialNeed = lowerMessage.includes('yes');
+          // After 4 questions, show results
+          setTimeout(() => {
+            showResults();
+          }, 1000);
+        }
+
+        conversationHistory.push({ role: 'user', content: message });
+      } catch (error) {
+        console.error('Send message error:', error);
+
+        // Provide context-aware fallback responses
+        const questionCount = (conversationHistory.filter(m => m.role === 'user').length || 0) + 1;
+        let fallbackResponse = '';
+
+        if (questionCount === 1) {
+          fallbackResponse = `Got it, ${message} GPA! 📚\n\n2. What's your major?`;
+          userProfile.gpa = parseFloat(message);
+        } else if (questionCount === 2) {
+          fallbackResponse = `${message} - excellent! 🎯\n\n3. Are you a first-generation college student? (yes/no)`;
+          userProfile.major = message;
+        } else if (questionCount === 3) {
+          fallbackResponse = `Got it! ${message.toLowerCase().includes('yes') ? "You'll qualify for first-gen scholarships! 🌟" : ""}\n\n4. Do you need financial assistance? (yes/no)`;
+          userProfile.isFirstGen = message.toLowerCase().includes('yes');
+        } else if (questionCount === 4) {
+          userProfile.financialNeed = message.toLowerCase().includes('yes');
+          addMessage('assistant', '⏳ Analyzing scholarships with your profile...');
+          conversationHistory.push({ role: 'user', content: message });
+          setTimeout(() => {
+            showResults();
+          }, 1000);
+          isLoading = false;
+          return;
+        }
+
+        if (fallbackResponse) {
+          addMessage('assistant', fallbackResponse);
+        } else {
+          addMessage('assistant', 'Let me process that...');
+        }
+
+        // Update conversation history
+        conversationHistory.push({ role: 'user', content: message });
+      } finally {
+        isLoading = false;
       }
-
-      conversationHistory.push({ role: 'user', content: message });
     }
 
     // Show results
